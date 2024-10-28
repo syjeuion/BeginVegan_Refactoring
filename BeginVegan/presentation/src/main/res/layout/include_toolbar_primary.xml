@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="notificationVisible"
+            type="Boolean" />
+
+        <variable
+            name="backButtonVisible"
+            type="Boolean" />
+
+        <variable
+            name="colorMode"
+            type="Boolean" />
+    </data>
+
+    <Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/global_toolbar_height"
+        android:background="@{colorMode ? @color/color_primary : @color/color_background}">
+
+        <ImageButton
+            android:id="@+id/ib_back_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_back"
+            android:backgroundTint="@{colorMode ? @color/color_background : @color/color_primary}"
+            android:visibility="@{backButtonVisible ? View.VISIBLE : View.INVISIBLE}" />
+
+        <TextView
+            style="@style/title_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{title}"
+            android:textColor="@{colorMode ? @color/color_background : @color/color_primary}" />
+
+        <ImageButton
+            android:id="@+id/ib_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:background="@drawable/ic_notification_stroke"
+            android:backgroundTint="@{colorMode ? @color/color_background : @color/color_primary}"
+            android:visibility="@{notificationVisible ? View.VISIBLE : View.INVISIBLE}" />
+    </Toolbar>
+</layout>

@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/included_toolbar"
+            layout="@layout/include_toolbar_main"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_headline"
+            android:layout_width="326dp"
+            android:layout_height="140dp"
+            android:padding="@dimen/global_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/included_toolbar">
+
+            <TextView
+                android:id="@+id/home_headline_hello"
+                style="@style/title_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_hello"
+                android:textColor="@color/color_text_01"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/home_headline_user_name"
+                style="@style/title_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_user_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/home_headline_hello" />
+
+            <ImageView
+                android:id="@+id/iv_illus_user_level"
+                android:layout_width="@dimen/item_22"
+                android:layout_height="@dimen/item_22"
+                app:layout_constraintBottom_toBottomOf="@id/home_headline_user_name"
+                app:layout_constraintStart_toEndOf="@id/home_headline_user_name"
+                app:layout_constraintTop_toTopOf="@id/home_headline_user_name" />
+
+            <TextView
+                android:id="@+id/home_headline_description"
+                style="@style/title_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_description"
+                android:textColor="@color/color_text_01"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/home_headline_user_name" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_restaurant_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/global_margin"
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_marginEnd="@dimen/global_margin"
+            android:layout_marginBottom="@dimen/margin_8"
+            app:layout_constraintBottom_toTopOf="@id/iv_banner_vegan_test"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_headline">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_restaurant_list_headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_recommend_title"
+                    style="@style/heading_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_restaurant_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_recommend_more"
+                    style="@style/caption_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:drawableEnd="@drawable/ic_arrow_more_home"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:text="@string/btn_more"
+                    android:textColor="@color/color_text_02"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_recommend_first"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_8"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/cl_recommend_second"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_restaurant_list_headline">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_restaurant_image_first"
+                    android:layout_width="@dimen/item_100"
+                    android:layout_height="@dimen/item_100"
+                    android:background="@android:color/transparent"
+                    app:cardCornerRadius="@dimen/radius_8"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/iv_item_restaurant_image_first"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/default_cafe_image" />
+
+                    <CheckBox
+                        android:id="@+id/iv_item_restaurant_heart_first"
+                        android:layout_width="16dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="end"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/selector_restaurant_checked"
+                        android:button="@null" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_restaurant_name_first"
+                    style="@style/caption_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="식당명"
+                    android:textSize="@dimen/text_12"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cv_restaurant_image_first" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_recommend_second"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_8"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/cl_recommend_third"
+                app:layout_constraintStart_toEndOf="@id/cl_recommend_first"
+                app:layout_constraintTop_toBottomOf="@id/cl_restaurant_list_headline">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_restaurant_image_second"
+                    android:layout_width="@dimen/item_100"
+                    android:layout_height="@dimen/item_100"
+                    android:background="@android:color/transparent"
+                    app:cardCornerRadius="@dimen/radius_8"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/iv_item_restaurant_image_second"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/default_cafe_image" />
+
+                    <CheckBox
+                        android:id="@+id/iv_item_restaurant_heart_second"
+                        android:layout_width="16dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="end"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/selector_restaurant_checked"
+                        android:button="@null" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_restaurant_name_second"
+                    style="@style/caption_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="식당명"
+                    android:textSize="@dimen/text_12"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cv_restaurant_image_second" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_recommend_third"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_8"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cl_recommend_second"
+                app:layout_constraintTop_toBottomOf="@id/cl_restaurant_list_headline">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_restaurant_image_third"
+                    android:layout_width="@dimen/item_100"
+                    android:layout_height="@dimen/item_100"
+                    android:background="@android:color/transparent"
+                    app:cardCornerRadius="@dimen/radius_8"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/iv_item_restaurant_image_third"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/default_cafe_image" />
+
+                    <CheckBox
+                        android:id="@+id/iv_item_restaurant_heart_third"
+                        android:layout_width="16dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="end"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/selector_restaurant_checked"
+                        android:button="@null" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_restaurant_name_third"
+                    style="@style/caption_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="식당명"
+                    android:textSize="@dimen/text_12"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cv_restaurant_image_third" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/iv_banner_vegan_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/banner_home_vegan_test"
+            app:layout_constraintBottom_toTopOf="@id/ll_tips"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_restaurant_list" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ll_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/global_margin"
+            android:layout_marginEnd="@dimen/global_margin"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/cl_snackbar_area"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_banner_vegan_test">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tl_tips"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tabBackground="@color/color_white"
+                app:tabIndicatorColor="@color/color_text_01"
+                app:tabIndicatorFullWidth="true"
+                app:tabIndicatorHeight="1dp"
+                app:tabSelectedTextAppearance="@style/heading_regular"
+                app:tabSelectedTextColor="@color/color_text_01"
+                app:tabTextAppearance="@style/heading_regular"
+                app:tabTextColor="@color/color_text_03">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/magazine" />
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recipe" />
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_tips_more"
+                style="@style/caption_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawableEnd="@drawable/ic_arrow_more_home"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="@string/btn_more"
+                android:textColor="@color/color_text_02"
+                app:layout_constraintBottom_toTopOf="@id/fl_tips_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--            <androidx.fragment.app.FragmentContainerView-->
+            <!--                android:id="@+id/fcw_tips"-->
+            <!--                android:name="androidx.navigation.fragment.NavHostFragment"-->
+            <!--                app:navGraph="@navigation/nav_tips_tab"-->
+            <!--                app:defaultNavHost="true"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/tl_tips"/>-->
+            <FrameLayout
+                android:id="@+id/fl_tips_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tl_tips" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_snackbar_area"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_64"
+            android:background="@color/color_transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_tips" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

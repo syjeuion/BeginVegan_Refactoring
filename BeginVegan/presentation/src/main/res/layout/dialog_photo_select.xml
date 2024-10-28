@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/dialog_width"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/photo_select_dialog_radius"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_24"
+                android:layout_marginBottom="@dimen/margin_12"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_dialog_photo_select_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:text="@string/dialog_select_img_title"
+                    android:textSize="18sp"
+                    android:textColor="@color/color_text_01"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_gallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:text="@string/dialog_select_img_gallery"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/color_text_01"
+                    android:textSize="14sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_camera"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:text="@string/dialog_select_img_camera"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/color_text_01"
+                    android:textSize="14sp" />
+
+<!--                이미 프로필 사진이 있는 경우 적용 / 프로필 사진이 기본 이미지 invisible -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_default"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:text="@string/dialog_select_img_default"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/color_text_01"
+                    android:visibility="gone"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

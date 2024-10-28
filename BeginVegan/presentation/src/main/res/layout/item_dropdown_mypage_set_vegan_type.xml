@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="?android:attr/spinnerDropDownItemStyle"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_mypage_dropdown_item"
+    android:layout_gravity="center"
+    android:paddingVertical="@dimen/margin_5"
+    android:paddingHorizontal="@dimen/margin_24"
+    android:gravity="center"
+    android:textAlignment="center"
+    android:textColor="@color/color_text_02"
+    android:textSize="@dimen/text_12"
+    android:fontFamily="@font/pretendard_regular"
+    android:text="234"/>

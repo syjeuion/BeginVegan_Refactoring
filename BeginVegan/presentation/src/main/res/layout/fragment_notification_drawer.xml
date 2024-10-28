@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_background"
+            android:clickable="true"/>
+        <LinearLayout
+            android:id="@+id/tb_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_56"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center">
+            <ImageButton
+                android:id="@+id/ib_back_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_back"
+                android:backgroundTint="@color/color_primary"
+                android:layout_marginEnd="@dimen/margin_4"
+                android:layout_marginStart="@dimen/margin_16"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/title_bold"
+                android:textColor="@color/color_primary"
+                android:text="@string/notification" />
+            <View
+                android:layout_width="@dimen/item_0"
+                android:layout_height="@dimen/item_0"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_notification_stroke"
+                android:backgroundTint="@color/color_primary"
+                android:layout_marginEnd="@dimen/margin_16"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_unread_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/heading_bold"
+            android:textColor="@color/color_text_01"
+            android:text="@string/notification_new"
+            app:layout_constraintTop_toBottomOf="@id/tb_toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginStart="@dimen/margin_24" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_unread_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_unread_title"
+            tools:listitem="@layout/item_notification" />
+
+        <View
+            android:id="@+id/v_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_5"
+            android:background="@color/color_gray_00"
+            app:layout_constraintTop_toBottomOf="@id/rv_unread_notification"
+            android:layout_marginTop="@dimen/margin_10" />
+
+        <TextView
+            android:id="@+id/tv_read_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/heading_bold"
+            android:textColor="@color/color_text_01"
+            android:text="@string/notification_old"
+            app:layout_constraintTop_toBottomOf="@id/v_divider"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_24" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_read_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_read_title"
+            tools:listitem="@layout/item_notification" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

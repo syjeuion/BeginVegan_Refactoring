@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_restaurant_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_12"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_restaurant_name"
+                style="@style/body_1_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/item_22"
+                android:layout_gravity="start"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="1"
+                android:textColor="@color/color_text_01" />
+
+            <TextView
+                android:id="@+id/tv_restaurant_type"
+                style="@style/body_2_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/item_22"
+                android:layout_gravity="start"
+                android:layout_marginStart="@dimen/margin_8"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:textColor="@color/color_text_03" />
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_restaurant_image"
+            android:layout_width="@dimen/item_70"
+            android:layout_height="@dimen/item_70"
+            android:layout_marginTop="@dimen/margin_4"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_12"
+            android:background="@android:color/transparent"
+            app:cardCornerRadius="@dimen/radius_8"
+            app:cardElevation="@dimen/global_zero"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_restaurant_title">
+
+            <ImageView
+                android:id="@+id/iv_restaurant_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/tv_how_far_title"
+            style="@style/body_2_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_4"
+            android:text="@string/map_how_far"
+            app:layout_constraintBottom_toTopOf="@id/iv_ic_rating"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_how_far"
+            style="@style/body_2_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/color_primary_variant_01"
+            app:layout_constraintBottom_toBottomOf="@id/tv_how_far_title"
+            app:layout_constraintStart_toEndOf="@id/tv_how_far_title"
+            app:layout_constraintTop_toTopOf="@id/tv_how_far_title" />
+
+
+        <TextView
+            android:id="@+id/tv_rating"
+            style="@style/body_2_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_4"
+            android:textColor="@color/color_text_01"
+            app:layout_constraintStart_toEndOf="@id/iv_ic_rating"
+            app:layout_constraintTop_toTopOf="@id/iv_ic_rating"
+            app:layout_constraintBottom_toBottomOf="@id/iv_ic_rating"/>
+
+        <ImageView
+            android:id="@+id/iv_ic_rating"
+            android:layout_width="@dimen/item_18"
+            android:layout_height="@dimen/item_18"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/global_margin"
+            android:background="@drawable/ic_star_fill"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/v_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_1"
+            android:layout_marginHorizontal="@dimen/margin_16"
+            android:background="@color/color_gray_00"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="title">
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="heading">
+        <item name="android:textSize">@dimen/text_heading</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="body_1">
+        <item name="android:textSize">@dimen/text_body_1</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="body_2">
+        <item name="android:textSize">@dimen/text_body_2</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="caption">
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="title_bold" parent="title">
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+    <style name="title_regular" parent="title">
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+    <style name="heading_bold" parent="heading">
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+    <style name="heading_regular" parent="heading">
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+    <style name="body_1_bold" parent="body_1">
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+    <style name="body_1_regular" parent="body_1">
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+    <style name="body_2_bold" parent="body_2">
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+    <style name="body_2_regular" parent="body_2">
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+    <style name="caption_bold" parent="caption">
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+    <style name="caption_regular" parent="caption">
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+</resources>

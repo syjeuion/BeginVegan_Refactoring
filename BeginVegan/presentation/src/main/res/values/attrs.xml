@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ToggleView">
+        <attr name="check" format="boolean" />
+        <attr name="text_checked" format="string" />
+        <attr name="text_unchecked" format="string" />
+        <attr name="icon_checked" format="reference" />
+        <attr name="icon_unchecked" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomCheckboxView">
+        <attr name="text" format="string" />
+        <attr name="isChecked" format="boolean" />
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,498 @@
+<resources>
+    <string name="app_name">beginvegan</string>
+    <string name="app_name_kr">비긴, 비건</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_string">empty</string>
+    <string name="empty_int">0</string>
+    <string name="empty_float">0.0</string>
+    <!-- ver.1 -->
+    <string name="vegan_test_description_before">비거너로 향한 여정에 오신 \n 비기너 여러분 환영합니다!
+        \n 저희 여정에 있어 “비긴, 비건”은 \n 비건이 단순한 ‘채식주의자’가 아닌,
+        자신의 성향에 맞는 비건 단계를 \n 안내하는 것으로 목표하고 있습니다.
+        \n 여정을 떠날 준비가 되셨나요?
+        \n 준비가 되셨다면 \n ‘시작하기’ 버튼을 눌러주세요!
+    </string>
+    <!--    btn text -->
+    <string name="btn_vegan_test_next">다음에 할게요</string>
+    <string name="btn_vegan_test_start">테스트 시작하기</string>
+    <string name="btn_vegan_test_again">다시하기</string>
+    <string name="btn_go_home">여정 시작하기</string>
+    <string name="btn_edit">수정하기</string>
+    <!--    <string name="btn_confirm">확인</string>-->
+    <!--    <string name="btn_cancel">취소</string>-->
+    <!--    <string name="btn_logout">로그아웃</string>-->
+    <!--    <string name="btn_back">돌아가기</string>-->
+
+    <!--    Vegan Test Questions -->
+    <string name="test_question_meat">1. 친구가 취뽀해서 소고기(혹은 돼지고기)를\n사준다고 한다.\n나는?</string>
+    <string name="test_question_chicken">2. 오늘은 축구 결승전!\n나는?</string>
+    <string name="test_question_fish">3. 하루종일 굶은 나, 식당이 열린 곳은 단 하나!\n메뉴가 생선구이밖에 있지 않다.\n나는?</string>
+    <string name="test_question_egg">4. 계란찜이 서비스로 나왔다!\n나는?</string>
+    <string name="test_question_milk">5. 마트에 왔다!\n식물성 우유는 기본 우유보다\n가격이 더 나간다.\n나는?</string>
+
+    <!--    Vegan Test Answers -->
+    <string name="test_answer_meat_a">너무 좋지!!</string>
+    <string name="test_answer_meat_b">다른 메뉴로 안될까?</string>
+    <string name="test_answer_chicken_a">축구에는 치킨이지!</string>
+    <string name="test_answer_chicken_b">치킨말고 다른 메뉴를 찾아볼래</string>
+    <string name="test_answer_fish_a">생선구이 하나 주세요!</string>
+    <string name="test_answer_fish_b">다른 곳을 찾으러 나간다.</string>
+    <string name="test_answer_egg_a">우와 감사합니다!</string>
+    <string name="test_answer_egg_b">감사합니다! (사실 안 먹는데 ㅠㅠ)</string>
+    <string name="test_answer_milk_a">그냥 우유로 구매할래!</string>
+    <string name="test_answer_milk_b">무조건 식물성 우유!</string>
+
+
+    <!--    Vegan Test Result -->
+    <string name="test_result_vegan">
+        순수 채식주의자를 뜻하며, 어떠한 종류의 육류도 섭취하지 않는다
+        \n\n육류와 생선은 물론이고 달걀, 유제품, 벌꿀 또는 젤라틴과 같은 동물 유래 성분을 포함한 가공식품도 섭취하지 않는다
+    </string>
+    <string name="test_result_lacto">
+    Lacto는 우유를 뜻하는 라틴어로부터 유래한 것으로,
+    우유와 같은 유제품은 섭취하되 다른 동물 제품(붉은 육류, 흰 육류, 생선, 조류 또는 달걀)을 전혀 섭취하지 않는다
+    \n\n비건의 허용품목에서 유제품(치즈, 우유, 요거트 등)만 더하면 락토가 된다
+    </string>
+    <string name="test_result_lacto_ovo">
+        유제품과 달걀을 모두 섭취하는 채식주의자로, 가장 일반적으로 알려진 채식주의자이다
+        \n\n붉은 육류, 흰육류, 생선 또는 조류를 섭취하지 않으며 즉, 육류만 거부한다
+    </string>
+    <string name="test_result_pescatarian">
+        "semi-vegetarian"또는 "flexitarian" 식단으로 간주하며, 기술적으로 채식주의자의 유형은 아니지만, 생선 및 해산물의 섭취를 허용한다
+        \n\n즉, 육류, 가금류를 제외한 모든 식품을 섭취한다
+        \n\n비건(vegan)의 허용 품목에서 우유, 계란 등의 알류, 어류와 해산물을 더하면 페스코가 된다
+    </string>
+    <string name="test_result_pollotarian">
+        "semi-vegetarian" 식단으로, 동물 가운데 가금류(닭이나 오리 등)만 허용한 채식주의이다
+        \n\n붉은 육류 또는 생선과 해산물을 섭취하지 않는다
+    </string>
+    <string name="test_result_flexitarian">
+        기본적으로 채식을 하며,\n허용된 기준 안에서만 육류 제품을 섭취하기도 한다
+    </string>
+
+    <!--    Recipe Filter -->
+    <string name="recipe_filter_all">전체보기</string>
+
+    <string name="recipe_filter_vegan_kr">비건</string>
+    <string name="recipe_filter_lacto_kr">락토</string>
+    <string name="recipe_filter_lacto_ovo_kr">락토-오보</string>
+    <string name="recipe_filter_pescatarian_kr">페스코테리언</string>
+    <string name="recipe_filter_pollo_kr">폴로</string>
+    <string name="recipe_filter_flexitarian_kr">플렉시테리언</string>
+    <string name="recipe_filter_vegan_en">VEGAN</string>
+    <string name="recipe_filter_lacto_en">LACTO_VEGETARIAN</string>
+    <string name="recipe_filter_lacto_ovo_en">LACTO_OVO_VEGETARIAN-오보</string>
+    <string name="recipe_filter_pescatarian_en">PASCATARIAN</string>
+    <string name="recipe_filter_pollo_en">POLLOTARIAN</string>
+    <string name="recipe_filter_flexitarian_en">FLEXITARIAN</string>
+    <!--    Vegan Type Korean -->
+    <string name="vegan_type_vegan_kr">비건</string>
+    <string name="vegan_type_lacto_kr">락토 베지테리언</string>
+    <string name="vegan_type_lacto_ovo_kr">락토-오보 베지테리언</string>
+    <string name="vegan_type_pescatarian_kr">페스코테리언</string>
+    <string name="vegan_type_pollotarian_kr">폴로테리언</string>
+    <string name="vegan_type_flexitarian_kr">플렉시테리언</string>
+    <string name="vegan_type_beginner_kr">비기너</string>
+
+    <!--    Vegan Type English -->
+    <string name="vegan_type_vegan_eng">Vegan</string>
+    <string name="vegan_type_lacto_eng">Lacto-vegetarian</string>
+    <string name="vegan_type_lacto_ovo_eng">Lacto-ovo-vegetarian</string>
+    <string name="vegan_type_pescatarian_eng">Pescatarian</string>
+    <string name="vegan_type_pollotarian_eng">Pollotarian</string>
+    <string name="vegan_type_flexitarian_eng">Flexitarian</string>
+
+    <!--    Main Home  -->
+    <string name="home_slogan_veganner">비거너</string>
+    <string name="home_slogan_description">의 여정으로 함께 떠나봐요</string>
+    <string name="home_semi_title">주변 식당에서 비건 여정을 시작해 보세요</string>
+    <string name="home_today_recipe">오늘의 추천 레시피 \uD83E\uDD57</string>
+    <string name="home_vegan_magazine">비건 매거진 \uD83D\uDCE8</string>
+    <string name="home_magazine_title_define">비건 = 채식주의자?\nNOPE</string>
+    <string name="home_magazine_title_types">비건 종류가 7가지인 사실에\n놀라움을 감출 수 없었다</string>
+    <string name="magazine_detail_title_define">비건 = 채식주의자\n1가지만 아니란 말이다!</string>
+    <string name="magazine_editor">By 에디터 로이드, 안</string>
+
+    <!--    Main Profile  -->
+    <string name="profile_go_vegan_test">테스트 바로가기</string>
+    <string name="profile_my_review">나의 리뷰</string>
+    <string name="profile_my_scrap">나의 스크랩</string>
+
+    <!--    logout  -->
+    <string name="logout_title">로그아웃 하시겠어요?</string>
+    <string name="logout_description">비거너로서의 여정을 멈추실 건가요?\n저희 함께해요!</string>
+
+    <!--    string-array  -->
+    <string-array name="vegan_type_array">
+        <item>비건</item>
+        <item>락토 베지테리언</item>
+        <item>오보 베지테리언</item>
+        <item>락토-오보 베지테리언</item>
+        <item>플로테리언</item>
+        <item>페스트코테리언</item>
+        <item>플렉시테리언</item>
+    </string-array>
+
+    <!-- ver.2 -->
+    <!-- Global -->
+    <string name="magazine">MAGAZINE</string>
+    <string name="recipe">RECIPE</string>
+
+    <!-- Bottom Navigation Label -->
+    <string name="bn_home">home</string>
+    <string name="bn_map">map</string>
+    <string name="bn_tips">tips</string>
+    <string name="bn_mypage">my</string>
+
+    <!-- User Level -->
+    <string name="user_level_1_seed">씨앗</string>
+    <string name="user_level_2_cotyledon">떡잎</string>
+    <string name="user_level_3_sprout">새싹</string>
+    <string name="user_level_4_stem">줄기</string>
+    <string name="user_level_5_leaf">잎사귀</string>
+    <string name="user_level_6_tree">나무</string>
+    <string name="user_level_7_flower">꽃</string>
+    <string name="user_level_8_fruit">열매</string>
+    <string-array name="user_levels_kr">
+        <item>씨앗</item>
+        <item>떡잎</item>
+        <item>새싹</item>
+        <item>줄기</item>
+        <item>잎사귀</item>
+        <item>나무</item>
+        <item>꽃</item>
+        <item>열매</item>
+    </string-array>
+    <string-array name="user_levels_eng">
+        <item>SEED</item>
+        <item>ROOT</item>
+        <item>SPROUT</item>
+        <item>STEM</item>
+        <item>LEAF</item>
+        <item>TREE</item>
+        <item>FLOWER</item>
+        <item>FRUIT</item>
+    </string-array>
+
+    <!-- Button -->
+    <string name="btn_close">닫기</string>
+    <string name="btn_cancel">취소</string>
+    <string name="btn_confirm">확인</string>
+    <string name="btn_save">저장</string>
+    <string name="btn_more">더보기</string>
+    <string name="btn_sign_up">가입하기</string>
+    <string name="btn_report">제보하기</string>
+    <string name="btn_back">돌아가기</string>
+    <string name="btn_write_review">등록하기</string>
+
+    <string name="btn_logout">로그아웃</string>
+    <string name="btn_delete_account">계정 삭제</string>
+    <string name="btn_error_refresh">새로고침</string>
+    <string name="btn_error_quit">종료하기</string>
+
+    <string name="btn_permission_re_request">권한재요청</string>
+    <string name="btn_toast_scrap">스크랩 모아보기</string>
+    <string name="btn_delete_all">전체 삭제</string>
+
+    <string name="btn_map_restaurant_menu_more">메뉴 더보기</string>
+    <string name="btn_map_restaurant_menu_close">메뉴 닫기</string>
+    <string name="btn_review_recommend">추천해요! &#40;%d&#41;</string>
+    <string name="btn_map_restaurant_review_more">리뷰 더보기</string>
+    <string name="btn_map_report_edit_restaurant">수정 제보하기</string>
+
+    <string name="btn_vegan_test_check_result">결과 확인하러 가기</string>
+    <string name="btn_vegan_test_recommend_recipe">나를 위한 레시피 추천받기</string>
+
+    <string name="btn_mypage_my_restaurant">식당 보러가기</string>
+    <string name="btn_mypage_my_magazine">매거진 보러가기</string>
+    <string name="btn_mypage_my_recipe">레시피 보러가기</string>
+
+
+    <!-- 권한 관련 -->
+    <string name="permission_description">비긴, 비건 서비스의 원활한 이용을 위해\n이용 중에 권한 접근을 요청받으면 허용해 주세요.</string>
+    <string name="permission_location">위치</string>
+    <string name="permission_location_description">주변 식당 탐색 및 식당 검색 시 사용해요.</string>
+    <string name="permission_camera">카메라</string>
+    <string name="permission_camera_description">포토 리뷰 등록, 프로필 사진 등록 시 사용해요.</string>
+    <string name="permission_storage">저장소</string>
+    <string name="permission_storage_description">포토 리뷰 등록, 프로필 사진 등록 시 사용해요.</string>
+    <string name="permission_notification">알림</string>
+    <string name="permission_notification_description">앱 내 서비스 관련 PUSH알림 발송 시 사용해요.</string>
+    <string name="permission_call">전화</string>
+    <string name="permission_call_description">비건 식당으로의 전화 연결 시에 사용해요.</string>
+
+    <string name="permission_re_request_title">권한 재요청 안내</string>
+    <string name="permission_re_reguest_description">해당 권한을 거부할 경우, 다음 기능의 사용이 불가능해요.</string>
+    <string name="permission_function_map_all">&#183; map 기능 전체</string>
+    <string name="permission_function_map_img">&#183; map 리뷰 작성 시, 이미지 등록</string>
+    <string name="permission_function_map_call">&#183; map 식당 전화 연결</string>
+    <string name="permission_function_mypage_img">&#183; mypage 프로필 이미지 등록</string>
+
+    <string name="permission_unusable_title">기능 사용 불가 안내</string>
+    <string name="permission_unusable_description">%1$s에 대한 권한 사용을 거부하셨어요. 기능 사용을 원하실 경우 [휴대폰 설정 > 애플리케이션 관리자]에서 해당 앱의 권한을 허용해 주세요.</string>
+    <string name="permission_unusable_location">위치 정보</string>
+    <string name="permission_unusable_camera">카메라 사용</string>
+    <string name="permission_unusable_storage">저장소 사용</string>
+    <string name="permission_unusable_call">전화</string>
+
+    <string name="permission_refuse_notification_title">광고성 정보 수신%1$s 처리 결과</string>
+    <string name="permission_refuse_notification_content">수신%1$s 처리 완료</string>
+    <string name="permission_refuse_notification_description">수신%1$s는 [mypage > 설정]에서 변경할 수 있어요.</string>
+    <string name="permission_refuse_sender">전송자</string>
+    <string name="permission_refuse_date">일시</string>
+    <string name="permission_refuse_content">내용</string>
+
+
+    <!-- Input Field -->
+    <string name="placeholder_nickname">한/영 2~12자 &#40;특수문자, 공백 불가&#41;</string>
+    <string name="helper_text_nickname_default">부적절한 닉네임은 관리자에 의해 변경될 수 있어요</string>
+    <string name="helper_text_nickname_check">한/영 2~12자로 입력해 주세요 &#40;특수문자, 공백 불가&#41;</string>
+
+    <string name="placeholder_map_search">지역, 메뉴명 입력</string>
+    <string name="placeholder_map_report_restaurant_name">제보하려는 식당 이름을 입력해 주세요.</string>
+    <string name="placeholder_map_report_restaurant_location">어디에 위치한 식당인가요?</string>
+    <string name="placeholder_map_report_restaurant_explanation">해당 식당에 대한 정보를 자유롭게 작성해 주세요.</string>
+
+    <string name="placeholder_map_report_edit_restaurant">해당 식당에 대해 수정이 필요한 정보를 자유롭게 입력해주세요.</string>
+    <string name="placeholder_map_report_review_etc">기타 신고 사유를 입력해 주세요.</string>
+    <string name="placeholder_map_write_review">자유롭게 리뷰를 작성해 주세요. (필수)\n\n올바른 리뷰 문화를 위해 리뷰를 함께 보는 비거너들과 식당 사장님들께 상처가 되는 욕설 등의 표현은 사용하지 말아주세요.</string>
+
+    <!-- Dialog -->
+    <string name="dialog_select_img_title">사진 선택</string>
+    <string name="dialog_select_img_gallery">갤러리에서 선택</string>
+    <string name="dialog_select_img_camera">카메라로 촬영</string>
+    <string name="dialog_select_img_default">기본 이미지로 변경</string>
+
+    <string name="dialog_nonexistent_post_title">존재하지 않는 게시글</string>
+    <string name="dialog_nonexistent_post_description">해당 게시글은 삭제 되었어요.</string>
+    <string name="dialog_nonexistent_review_title">존재하지 않는 리뷰</string>
+    <string name="dialog_nonexistent_review_description">해당 리뷰는 삭제 되었어요.</string>
+    <string name="dialog_nonexistent_report_title">신고가 접수된 리뷰</string>
+    <string name="dialog_nonexistent_report_description">해당 리뷰는 신고되어 관리자가 검토 중이에요.</string>
+
+    <string name="dialog_report_description">제보 내용은 검토 후 알림으로 안내드릴게요!</string>
+    <string name="dialog_report_review_description">제보 내용은 검토 후 조치할게요.</string>
+    <string name="dialog_report_warning">작성하신 내용은 저장되지 않아요.</string>
+
+    <string name="dialog_map_report_restaurant_title">식당 제보하기</string>
+    <string name="dialog_map_report_restaurant_name">식당 이름 <font color='#FF009861'>*</font>"</string>
+    <string name="dialog_map_report_restaurant_location">식당 위치 <font color='#FF009861'>*</font>"</string>
+    <string name="dialog_map_report_restaurant_explanation">식당 설명 <font color='#FF009861'>*</font>"</string>
+    <string name="dialog_map_search_history_delete">검색 기록을 삭제하시겠어요?</string>
+
+    <string name="dialog_map_edit_restaurant_title">식당 정보 수정하기</string>
+    <string name="dialog_map_edit_restaurant_subtitle">식당 정보 수정</string>
+
+    <string name="dialog_map_report_review_title">리뷰 신고하기</string>
+    <string name="dialog_map_report_review_btn">신고하기</string>
+    <string name="dialog_map_report_review_subtitle">신고 사유 선택</string>
+    <string name="dialog_map_report_review_spam">스팸 홍보/도배</string>
+    <string name="dialog_map_report_review_improper_img">관련없는 단어, 이미지 포함</string>
+    <string name="dialog_map_report_review_expression">불쾌한 표현 (욕설, 차별적 표현 등)</string>
+    <string name="dialog_map_report_review_etc">기타</string>
+
+    <string name="dialog_map_write_review_cancel_title">작성 중인 리뷰가 있어요.</string>
+    <string name="dialog_map_write_review_cancel_description">종료 시 리뷰가 저장되지 않아요. 작성을 그만두시겠어요?</string>
+
+    <string name="dialog_tips_recipe_for_me_title">나를 위한 레시피란?</string>
+    <string name="dialog_tips_recipe_for_me_description">해당 기능은 &lt;%1$s&gt;님의 성향뿐만 아니라 더 높은 채식 단계의 레시피도 함께 추천해 줘요.\n\n이 기능을 사용해 &lt;%1$s&gt;님에게 적합한 레시피만 확인할 수 있어요.</string>
+
+    <string name="dialog_user_level_up">관심도 기준을 충족하여\n나만의 식물이 다음 단계로 성장했습니다!</string>
+
+    <string name="dialog_user_level_explain_title">나만의 식물</string>
+    <string name="dialog_user_level_explain_description">앱 내 활동을 통해 관심도를 쌓으면서, 나만의 식물을 성장시켜요!</string>
+    <string name="dialog_user_level_explain_interest">관심도</string>
+    <string name="dialog_user_level_explain_interest_description">아래의 기준을 충족하여 관심도를 증가시킬 수 있어요.</string>
+    <string name="dialog_user_level_explain_condition">기준</string>
+    <string name="dialog_user_level_explain_get_interest">획득 관심도</string>
+    <string name="dialog_user_level_explain_condition_photo_review">검증된 포토 리뷰</string>
+    <string name="dialog_user_level_explain_condition_report_restaurant">식당 제보 반영</string>
+    <string name="dialog_user_level_explain_condition_recommended_review">리뷰 추천 받음</string>
+    <string name="dialog_user_level_explain_condition_vegan_test">채식 성향 테스트</string>
+    <string name="dialog_user_level_explain_condition_set_profile_img">프로필 사진 설정</string>
+    <string name="dialog_user_level_explain_get_interest_one">1 (최초 1회)</string>
+    <string name="dialog_user_level_explain_get_interest_two">2</string>
+    <string name="dialog_user_level_explain_get_interest_three">3</string>
+    <string name="dialog_user_level_explain_grow_condition">나만의 식물 성장 기준</string>
+    <string name="dialog_user_level_explain_grow_state">성장 상태</string>
+    <string name="dialog_user_level_explain_grow_condition_1_seed">최초 로그인 시</string>
+    <string name="dialog_user_level_explain_grow_condition_2_cotyledon">2 이상</string>
+    <string name="dialog_user_level_explain_grow_condition_3_sprout">5 이상</string>
+    <string name="dialog_user_level_explain_grow_condition_4_stem">10 이상</string>
+    <string name="dialog_user_level_explain_grow_condition_5_leaf">20 이상</string>
+    <string name="dialog_user_level_explain_grow_condition_6_tree">30 이상</string>
+    <string name="dialog_user_level_explain_grow_condition_7_flower">50 이상</string>
+    <string name="dialog_user_level_explain_grow_condition_8_fruit">100 이상</string>
+
+    <string name="dialog_mypage_setting_logout">로그아웃 하시겠어요?</string>
+    <string name="dialog_mypage_setting_delete_account_title">계정을 삭제하시겠어요?</string>
+    <string name="dialog_mypage_setting_delete_account_description">다음과 같은 정보들이 사라져요.\n&#183; 닉네임, 프로필 사진, 나만의 식물, 스크랩 목록</string>
+
+    <string name="dialog_edit_img_title">편집 중인 사진이 있어요.</string>
+    <string name="dialog_edit_img_description">종료 시 편집 내용이 저장되지 않아요.\n편집을 그만두시겠어요?</string>
+
+    <!-- Toast Message -->
+    <string name="toast_scrap_done">스크랩 되었어요!</string>
+    <string name="toast_scrap_undo">스크랩이 해제되었어요!</string>
+    <string name="toast_scrap_action">스크랩 모아보기</string>
+    <string name="toast_map_report_edit_restaurant">제보가 접수되었어요.</string>
+    <string name="toast_map_report_review">신고가 접수되었어요.</string>
+
+    <!-- Empty State -->
+    <string name="empty_map_search_history">최근 검색어가 없어요!\n지역명, 메뉴명 등 원하는 정보에 맞는\n비건 식당을 추천 받아 보세요.\n(ex. 파스타, 서울 비건)</string>
+    <string name="empty_map_search_result">입력하신 검색 조건과 부합하는\n식당이 존재하지 않아요.\n더 노력하는 비긴, 비건이 될게요!</string>
+    <string name="empty_map_restaurant_review">등록된 리뷰가 없어요.\n첫 리뷰를 작성해 주세요!</string>
+    <string name="empty_map_restaurant_review_deleted">해당 리뷰는 관리자에 의해 삭제되었어요.</string>
+    <string name="empty_mypage_my_review">작성한 리뷰가 없어요\n식당을 방문하고 리뷰를 작성해봐요.</string>
+    <string name="empty_mypage_my_restaurant">저장한 식당이 없어요.\n관심있는 식당을 스크랩해봐요.</string>
+    <string name="empty_mypage_my_magazine">스크랩한 매거진이 없어요.\n관심있는 매거진을 스크랩해봐요.</string>
+    <string name="empty_mypage_my_recipe">스크랩한 레시피가 없어요.\n관심있는 레시피를 스크랩해봐요.</string>
+
+    <!-- Vegan Type -->
+    <string name="vegan_type_unknown">알고 있지 않아요</string>
+    <string name="vegan_type_vegan">비건</string>
+    <string name="vegan_type_lacto">락토 베지테리언</string>
+    <string name="vegan_type_ovo">오보 베지테리언</string>
+    <string name="vegan_type_lacto_ovo">락토 오보 베지테리언</string>
+    <string name="vegan_type_pesco">페스코 베지테리언</string>
+    <string name="vegan_type_pollo">폴로 베지테리언</string>
+    <string name="vegan_type_flexitarian">플렉시테리언</string>
+
+    <string-array name="vegan_type">
+        <item>알고 있지 않아요</item>
+        <item>비건</item>
+        <item>락토 베지테리언</item>
+        <item>오보 베지테리언</item>
+        <item>락토 오보 베지테리언</item>
+        <item>페스코 베지테리언</item>
+        <item>폴로 베지테리언</item>
+        <item>플렉시테리언</item>
+    </string-array>
+    <string-array name="vegan_types_eng">
+        <item>UNKNOWN</item>
+        <item>VEGAN</item>
+        <item>LACTO_VEGETARIAN</item>
+        <item>OVO_VEGETARIAN</item>
+        <item>LACTO_OVO_VEGETARIAN</item>
+        <item>PASCATARIAN</item>
+        <item>POLLOTARIAN</item>
+        <item>FLEXITARIAN</item>
+    </string-array>
+
+    <!-- 온보딩 -->
+    <string name="onboarding_description">"<b>비긴, 비건</b>의 이용을 위해\n다음 정보를 입력해 주세요.</string>
+    <string name="onboarding_img">나를 소개할 이미지를 업로드해 주세요</string>
+    <string name="onboarding_question_nickname">"어떤 닉네임으로 활동하고 싶으신가요? <font color='#FF009861'>*</font>"</string>
+    <string name="onboarding_question_vegan_type">"채식 성향을 알고 계신가요? <font color='#FF009861'>*</font>"</string>
+    <string name="onboarding_question_vegan_type_default">-선택하기-</string>
+    <string name="tv01"></string>
+    <!-- Home -->
+    <string name="home_hello">안녕하세요,</string>
+    <string name="home_user_name">%1$s 님</string>
+    <string name="home_description">비거너의 여정으로 함께 떠나요!</string>
+    <string name="home_restaurant_title">%1$s 님을 위한 식당이에요</string>
+
+    <!-- 알림 -->
+    <string name="notification">알림</string>
+    <string name="notification_new">새로운 알림</string>
+    <string name="notification_old">지난 알림</string>
+    <!-- Badge -->
+    <string name="notification_badge_information">information</string>
+    <string name="notification_badge_map">map</string>
+    <string name="notification_badge_tips">tips</string>
+    <string name="notification_badge_mypage">mypage</string>
+
+    <!-- Map -->
+    <string name="map_search_hint">검색어 입력 (ex.강남, 한식)</string>
+    <string name="map_bottom_sheet_title_nearby">%1$s 님의 주변에 위치한 식당이에요.</string>
+    <!--    <string name="map_how_far">내 위치로부터 <font color="#FF005536">%1$s</font></string>-->
+    <string name="map_how_far">내 위치로부터</string>
+    <!--    <string name="map_how_far">내 위치로부터 &lt;font color="#FF005536">%1$s&lt;/font></string>-->
+    <string name="map_search_history">최근 검색 기록</string>
+    <string name="map_search_result_order_review">리뷰 많은 순</string>
+    <string name="map_search_result_order_scrap">스크랩 많은 순</string>
+    <string name="map_search_result_order_near">가까운 순</string>
+
+    <string name="map_restaurant_title_empty">식당명</string>
+    <string name="map_restaurant_navigate">길찾기</string>
+    <string name="map_restaurant_scrap">저장</string>
+    <string name="map_restaurant_call">전화</string>
+    <string name="map_restaurant_edit">수정</string>
+    <string name="map_restaurant_menu">메뉴</string>
+    <string name="map_restaurant_review">리뷰</string>
+    <string name="map_restaurant_review_order_latest">최신순</string>
+    <string name="map_restaurant_review_order_recommendation">추천순</string>
+    <string name="map_restaurant_review_filter_photo">포토 리뷰만 보기</string>
+    <string name="map_restaurant_review_write">리뷰 작성하기</string>
+
+    <string name="map_write_review">리뷰 작성</string>
+    <string name="map_write_review_rating">별점을 등록해 주세요. (필수)</string>
+    <string name="map_write_review_img">이미지를 추가해 주세요. (선택)</string>
+
+    <!-- Tips -->
+    <string name="tips_title">Tips</string>
+    <string name="tips_recipe_filter_for_me">나를 위한 레시피</string>
+    <string name="tips_recipe_detail_ingredient">요리재료:</string>
+    <string name="tips_recipe_detail_process">요리과정:</string>
+
+    <!-- Vegan Test -->
+    <string name="vegan_test_title">나의 채식 성향은?</string>
+    <string name="vegan_test_description">비거너로의 여정을 떠나기 전,\n나는 어떤 채식 성향을 가지고 있는지 알아봐요!</string>
+    <string-array name="vegan_test_descriptions">
+        <item>동물로부터 나오는 모든 것을 선호하지 않아요.</item>
+        <item>채식을 지향하지만, 유제품도 선호해요.</item>
+        <item>고기, 유제품은 선호하지 않지만, 달걀 섭취는 부담없어요.</item>
+        <item>동물로부터 나온 우유나 달걀 섭취까지도 부담없어요.</item>
+        <item>육류는 전혀 먹고싶지 않아요.</item>
+        <item>돼지고기, 소고기같은 빨간 고기는 선호하지 않아요.</item>
+        <item>채식도 좋아하지만, 다양한 음식을 즐기는 것을 좋아해요.</item>
+    </string-array>
+
+    <string name="vegan_test_result_title">나는 어떤 비거너?</string>
+    <string name="vegan_test_result_description">"<font color='#FF009861'>%1$s</font> 님은\n이런 채식 성향을 가지고 있어요!"</string>
+    <string name="vegan_test_result_my_type">나의 채식 성향은</string>
+    <string-array name="vegan_test_result_descriptions">
+        <item>Beginning + Vegetarian</item>
+        <item>Lacto(우유) + Vegetarian</item>
+        <item>Ovo(알) + Vegetarian</item>
+        <item>Lacto(우유) + Ovo(알) + Vegetarian</item>
+        <item>Pesco(생선) + Vegetarian</item>
+        <item>Pollo(닭고기) + Vegetarian</item>
+        <item>Flexible(유연한) + Vegetarian</item>
+    </string-array>
+    <string-array name="vegan_test_result_explanations">
+        <item>모든 동물성 식품을 섭취하지 않고, 식품 외에도 동물의 희생이 담긴 제품도 반대하는 등 완전한 비건이자 채식주의자예요!</item>
+        <item>고기, 생선, 달걀을 포함한 모든 동물성 식품을 섭취하지 않지만 우유, 꿀, 버터, 치즈, 요구르트 등의 유제품은 즐기기도 하는 채식주의자예요!</item>
+        <item>고기, 생선, 유제품을 포함한 모든 동물성 식품을 섭취하지 않지만, 달걀과 같은 동물의 알은 섭취하기도 하는 채식주의자예요!</item>
+        <item>모든 육류와 해산물을 섭취하지 않지만,\n달걀이나 꿀, 우유처럼 동물에게서 자연스럽게\n얻을 수 있는 식품까지는 즐기기도 하는\n채식주의자예요!</item>
+        <item>가급적 육류를 피하지만,\n유제품, 달걀, 해산물 등의 약간의 동물성 식품을 \n즐기기도 하는 채식주의자예요!</item>
+        <item>채식을 중심으로 한 식생활을 즐기고,\n 돼지고기, 소고기와 같은 붉은 고기는 섭취하지 않지만 유제품, 생선, 닭고기는 섭취하는 비교적 자유로운 채식주의자예요!</item>
+        <item>평소에는 채식을 하지만,\n상황에 따라 유동적으로 육식을 겸하기도 하는\n자유로운 채식주의자예요!</item>
+    </string-array>
+    <string name="vegan_test_result_recommend_recipe">"<font color='#FF009861'>%1$s</font> 님께 딱 맞는 레시피로\n비거너에 한 발짝 다가가 보세요!"</string>
+
+    <!-- MyPage -->
+    <string name="mypage_title">My page</string>
+    <string name="mypage_user_level">%1$s 레벨</string>
+    <string name="mypage_user_level_explain">나만의 식물이란?</string>
+    <string name="mypage_edit_profile">프로필 수정</string>
+    <string name="mypage_edit_profile_nickname">"닉네임 <font color='#FF009861'>*</font>"</string>
+
+    <string name="mypage_my_review">나의 리뷰</string>
+    <string name="mypage_scrap">스크랩</string>
+    <string name="mypage_my_restaurant">나의 식당</string>
+    <string name="mypage_my_magazine">나의 매거진</string>
+    <string name="mypage_my_recipe">나의 레시피</string>
+    <string name="mypage_setting">설정</string>
+
+    <string name="mypage_setting_push">Push 알림 설정</string>
+
+    <!-- Error -->
+    <string name="error_quit">비긴, 비건 앱을 종료하시겠어요?</string>
+    <string name="error_network">네트워크 연결이 불안정해요.\n인터넷 상태를 확인 후 다시 접속해 주세요.</string>
+    <string name="error_service">일시적인 오류로 비긴, 비건 서비스를 이용할 수 없어요.\n잠시 후 다시 시도해 주세요.\n더 노력하는 비긴, 비건이 될게요!</string>
+    <string name="dialog_permission_headline">비긴, 비건 서비스의 원활한 이용을 위해\n이용 중에 권한 접근을 요청받으면 허용해 주세요.</string>
+
+    <!--    Gallery-->
+    <string name="gallery_all_photo">모든 사진</string>
+</resources>

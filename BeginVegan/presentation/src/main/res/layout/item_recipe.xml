@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/margin_16">
+        <TextView
+            android:id="@+id/tv_recipe_name"
+            android:layout_width="@dimen/item_0"
+            android:layout_height="wrap_content"
+            style="@style/body_1_bold"
+            android:textColor="@color/color_text_01"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_8"
+            app:layout_constraintEnd_toStartOf="@id/tb_interest"
+            android:layout_marginEnd="@dimen/margin_8" />
+
+        <ToggleButton
+            android:id="@+id/tb_interest"
+            android:layout_width="@dimen/item_32"
+            android:layout_height="@dimen/item_32"
+            android:background="@drawable/selector_ic_heart"
+            android:backgroundTint="@color/color_primary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/margin_16"
+            android:textColor="@color/color_transparent" />
+
+        <TextView
+            android:id="@+id/tv_vegan_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/body_2_regular"
+            android:textColor="@color/color_primary_variant_01"
+            android:text="@string/vegan_type_vegan"
+            app:layout_constraintTop_toBottomOf="@id/tv_recipe_name"
+            app:layout_constraintBottom_toTopOf="@id/ll_vegan_type"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginTop="@dimen/margin_12"
+            android:layout_marginBottom="@dimen/margin_4" />
+
+        <LinearLayout
+            android:id="@+id/ll_vegan_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginBottom="@dimen/margin_16"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_vegan_level_selad"
+                android:layout_width="@dimen/item_24"
+                android:layout_height="@dimen/item_24"
+                android:background="@drawable/ic_vegan_level_salad_filled"
+                android:clickable="false"
+                android:textColor="@color/color_transparent" />
+
+            <ToggleButton
+                android:id="@+id/tb_vegan_level_milk"
+                android:layout_width="@dimen/item_24"
+                android:layout_height="@dimen/item_24"
+                android:background="@drawable/selector_ic_vegan_level_milk"
+                android:clickable="false"
+                android:textColor="@color/color_transparent"
+                android:layout_marginStart="@dimen/margin_2" />
+
+            <ToggleButton
+                android:id="@+id/tb_vegan_level_egg"
+                android:layout_width="@dimen/item_24"
+                android:layout_height="@dimen/item_24"
+                android:background="@drawable/selector_ic_vegan_level_egg"
+                android:clickable="false"
+                android:textColor="@color/color_transparent"
+                android:layout_marginStart="@dimen/margin_2" />
+
+            <ToggleButton
+                android:id="@+id/tb_vegan_level_fish"
+                android:layout_width="@dimen/item_24"
+                android:layout_height="@dimen/item_24"
+                android:background="@drawable/selector_ic_vegan_level_fish"
+                android:clickable="false"
+                android:textColor="@color/color_transparent"
+                android:layout_marginStart="@dimen/margin_2" />
+
+            <ToggleButton
+                android:id="@+id/tb_vegan_level_chicken"
+                android:layout_width="@dimen/item_24"
+                android:layout_height="@dimen/item_24"
+                android:background="@drawable/selector_ic_vegan_level_chicken"
+                android:clickable="false"
+                android:textColor="@color/color_transparent"
+                android:layout_marginStart="@dimen/margin_2" />
+
+            <ToggleButton
+                android:id="@+id/tb_vegan_level_meat"
+                android:layout_width="@dimen/item_24"
+                android:layout_height="@dimen/item_24"
+                android:background="@drawable/selector_ic_vegan_level_meat"
+                android:clickable="false"
+                android:textColor="@color/color_transparent"
+                android:layout_marginStart="@dimen/margin_2" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/v_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/color_gray_00" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

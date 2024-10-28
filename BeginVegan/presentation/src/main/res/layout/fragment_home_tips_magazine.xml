@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_tips_magazine"
+            android:layout_width="match_parent"
+            android:layout_height="118dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/ci_tips_tab"/>
+
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/ci_tips_tab"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            app:ci_height="@dimen/item_8"
+            app:ci_width="@dimen/item_8"
+            app:ci_margin="@dimen/margin_10"
+            app:ci_drawable="@drawable/shape_circle_home_indicator_active"
+            app:ci_drawable_unselected="@drawable/shape_circle_home_indicator_inactive"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="18dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

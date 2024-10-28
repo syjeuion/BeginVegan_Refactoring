@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main_graph"
+    app:startDestination="@id/mainHomeFragment">
+
+    <fragment
+        android:id="@+id/mypageEditProfileFragment"
+        android:name="com.beginvegan.presentation.view.mypage.view.MypageEditProfileFragment"
+        android:label="MypageEditProfileFragment" />
+    <fragment
+        android:id="@+id/veganTestFragment"
+        android:name="com.beginvegan.presentation.view.home.veganTest.view.VeganTestFragment"
+        android:label="VeganTestFragment">
+        <action
+            android:id="@+id/action_veganTestFragment_to_veganTestResultFragment"
+            app:destination="@id/veganTestResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/veganTestResultFragment"
+        android:name="com.beginvegan.presentation.view.home.veganTest.view.VeganTestResultFragment"
+        android:label="VeganTestResultFragment">
+        <action
+            android:id="@+id/action_veganTestResultFragment_to_tipsFragment"
+            app:destination="@id/mainTipsFragment"
+            app:popUpTo="@id/mainHomeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mypageSettingFragment"
+        android:name="com.beginvegan.presentation.view.mypage.view.MypageSettingFragment"
+        android:label="MypageSettingFragment" />
+
+
+    <fragment
+        android:id="@+id/mypageMyReviewFragment"
+        android:name="com.beginvegan.presentation.view.mypage.view.MypageMyReviewFragment"
+        android:label="MypageMyReviewFragment">
+
+        <action
+            android:id="@+id/action_mypageMyReviewFragment_to_nav_map_graph"
+            app:destination="@id/nav_map_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/mypageMyRestaurantFragment"
+        android:name="com.beginvegan.presentation.view.mypage.view.MypageMyRestaurantFragment"
+        android:label="MypageMyRestaurantFragment">
+
+        <action
+            android:id="@+id/action_mypageMyRestaurantFragment_to_nav_map_graph"
+            app:destination="@id/nav_map_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/mypageMyMagazineFragment"
+        android:name="com.beginvegan.presentation.view.mypage.view.MypageMyMagazineFragment"
+        android:label="MypageMyMagazineFragment">
+        <action
+            android:id="@+id/action_mypageMyMagazineFragment_to_tipsMagazineDetailFragment"
+            app:destination="@id/tipsMagazineDetailFragment" />
+        <action
+            android:id="@+id/action_mypageMyMagazineFragment_to_tipsFragment"
+            app:destination="@id/mainTipsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mypageMyRecipeFragment"
+        android:name="com.beginvegan.presentation.view.mypage.view.MypageMyRecipeFragment"
+        android:label="MypageMyRecipeFragment">
+        <action
+            android:id="@+id/action_mypageMyRecipeFragment_to_tipsFragment"
+            app:destination="@id/mainTipsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tipsMagazineDetailFragment"
+        android:name="com.beginvegan.presentation.view.tips.view.TipsMagazineDetailFragment"
+        android:label="TipsMagazineDetailFragment">
+        <action
+            android:id="@+id/action_tipsMagazineDetailFragment_to_mypageMyMagazineFragment"
+            app:destination="@id/mypageMyMagazineFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainHomeFragment"
+        android:name="com.beginvegan.presentation.view.home.view.HomeFragment"
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_veganTestFragment"
+            app:destination="@id/veganTestFragment" />
+        <action
+            android:id="@+id/action_mainHomeFragment_to_tipsMagazineDetailFragment"
+            app:destination="@id/tipsMagazineDetailFragment" />
+        <action
+            android:id="@+id/action_mainHomeFragment_to_mypageMyMagazineFragment"
+            app:destination="@id/mypageMyMagazineFragment" />
+        <action
+            android:id="@+id/action_mainHomeFragment_to_mypageMyRecipeFragment"
+            app:destination="@id/mypageMyRecipeFragment" />
+        <action
+            android:id="@+id/action_mainHomeFragment_to_restaurantDetailFragment"
+            app:destination="@id/nav_restaurant_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainTipsFragment"
+        android:name="com.beginvegan.presentation.view.tips.view.TipsFragment"
+        android:label="TipsFragment">
+        <action
+            android:id="@+id/action_tipsFragment_to_tipsMagazineDetailFragment"
+            app:destination="@id/tipsMagazineDetailFragment" />
+        <action
+            android:id="@+id/action_mainTipsFragment_to_mypageMyMagazineFragment"
+            app:destination="@id/mypageMyMagazineFragment" />
+        <action
+            android:id="@+id/action_mainTipsFragment_to_mypageMyRecipeFragment"
+            app:destination="@id/mypageMyRecipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainMypageFragment"
+        android:name="com.beginvegan.presentation.view.mypage.view.MainMypageFragment"
+        android:label="fragment_main_mypage"
+        tools:layout="@layout/fragment_main_mypage">
+        <action
+            android:id="@+id/action_mainMypageFragment_to_mypageSettingFragment"
+            app:destination="@id/mypageSettingFragment" />
+        <action
+            android:id="@+id/action_mainMypageFragment_to_mypageEditProfileFragment"
+            app:destination="@id/mypageEditProfileFragment" />
+        <action
+            android:id="@+id/action_mainMypageFragment_to_mypageMyReviewFragment"
+            app:destination="@id/mypageMyReviewFragment" />
+        <action
+            android:id="@+id/action_mainMypageFragment_to_mypageMyRestaurantFragment"
+            app:destination="@id/mypageMyRestaurantFragment" />
+        <action
+            android:id="@+id/action_mainMypageFragment_to_mypageMyRecipeFragment"
+            app:destination="@id/mypageMyRecipeFragment" />
+        <action
+            android:id="@+id/action_mainMypageFragment_to_mypageMyMagazineFragment"
+            app:destination="@id/mypageMyMagazineFragment" />
+    </fragment>
+    <navigation
+        android:id="@+id/nav_restaurant_graph"
+        app:startDestination="@id/restaurantDetailFragment">
+        <argument
+            android:name="restaurantId"
+            app:argType="long" />
+        <argument
+            android:name="latitude"
+            app:argType="string" />
+        <argument
+            android:name="longitude"
+            app:argType="string" />
+        <argument
+            android:name="imgUrl"
+            app:argType="string" />
+        <fragment
+            android:id="@+id/restaurantDetailFragment"
+            android:name="com.beginvegan.presentation.view.restaurant.view.RestaurantDetailFragment"
+            android:label="RestaurantDetailFragment">
+            <action
+                android:id="@+id/action_restaurantDetailFragment_to_restaurantReviewFragment"
+                app:destination="@id/restaurantReviewFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/restaurantReviewFragment"
+            android:name="com.beginvegan.presentation.view.restaurant.view.RestaurantReviewFragment"
+            android:label="RestaurantReviewFragment">
+            <argument
+                android:name="id"
+                android:defaultValue="-1L"
+                app:argType="long" />
+            <argument
+                android:name="name"
+                app:argType="string" />
+            <argument
+                android:name="type"
+                app:argType="string" />
+            <argument
+                android:name="province"
+                app:argType="string" />
+            <argument
+                android:name="city"
+                app:argType="string" />
+            <argument
+                android:name="roadName"
+                app:argType="string" />
+            <argument
+                android:name="detailAddress"
+                app:argType="string" />
+        </fragment>
+    </navigation>
+    <navigation
+        android:id="@+id/nav_map_graph"
+        app:startDestination="@id/veganMapFragment">
+        <fragment
+            android:id="@+id/veganMapFragment"
+            android:name="com.beginvegan.presentation.view.map.view.VeganMapFragment"
+            android:label="VeganMapFragment">
+            <argument
+                android:name="restaurantId"
+                app:argType="long" />
+            <action
+                android:id="@+id/action_veganMapFragment_to_veganMapSearchFragment"
+                app:destination="@id/veganMapSearchFragment" />
+            <action
+                android:id="@+id/action_veganMapFragment_to_restaurantDetailFragment"
+                app:destination="@id/nav_restaurant_graph" />
+        </fragment>
+        <fragment
+            android:id="@+id/veganMapSearchFragment"
+            android:name="com.beginvegan.presentation.view.map.view.VeganMapSearchFragment"
+            android:label="VeganMapSearchFragment">
+
+            <action
+                android:id="@+id/action_veganMapSearchFragment_to_veganMapResultFragment"
+                app:destination="@id/veganMapResultFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/veganMapResultFragment"
+            android:name="com.beginvegan.presentation.view.map.view.VeganMapResultFragment"
+            android:label="VeganMapResultFragment" >
+            <argument
+                android:name="searchWord"
+                app:argType="string" />
+            <action
+                android:id="@+id/action_veganMapResultFragment_to_restaurantDetailFragment"
+                app:destination="@id/nav_restaurant_graph" />
+        </fragment>
+    </navigation>
+
+
+</navigation>

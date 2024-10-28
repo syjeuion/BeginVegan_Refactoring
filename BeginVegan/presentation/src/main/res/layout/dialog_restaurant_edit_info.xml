@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="312dp"
+            android:layout_height="424dp"
+            app:cardCornerRadius="@dimen/global_dialog_radius"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_restaurant_edit_title"
+                    style="@style/heading_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_20"
+                    android:text="@string/dialog_map_edit_restaurant_title"
+                    android:textColor="@color/color_text_01"
+                    android:textSize="@dimen/text_18"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btn_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_20"
+                    android:background="@color/color_transparent"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_restaurant_edit_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_restaurant_edit_title" />
+
+                <TextView
+                    android:id="@+id/tv_edit_title"
+                    style="@style/body_2_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/global_margin"
+                    android:layout_marginTop="@dimen/margin_28"
+                    android:text="@string/dialog_map_edit_restaurant_subtitle"
+                    android:textColor="@color/color_text_01"
+                    android:textSize="@dimen/text_14"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_restaurant_edit_title" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_modify"
+                    android:layout_width="272dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/margin_4"
+                    android:layout_marginEnd="@dimen/global_margin"
+                    android:layout_marginBottom="@dimen/global_margin"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="1000"
+                    app:counterTextColor="@color/color_primary"
+                    app:hintEnabled="false"
+                    app:layout_constraintBottom_toTopOf="@id/tv_sub_title"
+                    app:layout_constraintStart_toStartOf="@id/tv_edit_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_edit_title">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tiet_modify"
+                        style="@style/body_2_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="188dp"
+                        android:background="@drawable/shape_dialog_input_stroke_background"
+                        android:gravity="top"
+                        android:maxLength="1000"
+                        android:imeOptions="actionDone"
+                        android:hint="@string/placeholder_map_report_edit_restaurant"
+                        android:textColorHint="@color/color_text_02"
+                        android:theme="@style/ModifyTextInputEditText" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/tv_sub_title"
+                    style="@style/caption_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/dialog_report_description"
+                    android:textSize="@dimen/text_12"
+                    app:layout_constraintBottom_toTopOf="@id/btn_submit_modify"
+                    app:layout_constraintStart_toStartOf="@id/btn_submit_modify" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_submit_modify"
+                    style="@style/body_1_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btn_48"
+                    android:layout_marginStart="@dimen/global_margin"
+                    android:layout_marginEnd="@dimen/global_margin"
+                    android:layout_marginBottom="@dimen/margin_20"
+                    android:background="@drawable/shape_default_button_background"
+                    android:backgroundTint="@drawable/selector_onboarding_btn"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:text="@string/btn_map_report_edit_restaurant"
+                    android:textColor="@color/color_white"
+                    android:textSize="16sp"
+                    app:cornerRadius="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:gravity="center"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

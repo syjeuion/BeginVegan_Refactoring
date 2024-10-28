@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.beginvegan.presentation">
+
+    <application>
+        <activity
+            android:name="com.beginvegan.presentation.view.main.view.MainActivity"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+<!--                비즈니스 신청으로 인한 사용 불가 - 원본 앱-->
+<!--                <data-->
+<!--                    android:host="oauth"-->
+<!--                    android:scheme="" />-->
+<!--                비즈니스 신청으로 인한 테스트 앱 키 -->
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao${KAKAO_API_KEY_TEST}"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.beginvegan.presentation.view.main.view.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.beginvegan.presentation.view.login.view.LoginActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name="com.beginvegan.presentation.view.login.view.OnboardingActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
+
+        <activity
+            android:name="com.beginvegan.presentation.view.image.gallery.view.GalleryActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name="com.beginvegan.presentation.view.image.camera.view.CameraActivity"
+            android:exported="true"/>
+    </application>
+
+</manifest>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Version.01 -->
+    <color name="color_black">#FF000000</color>
+    <color name="color_white">#FFFFFFFF</color>
+    <color name="color_primary1">#FFE9EFE8</color>
+    <color name="color_primary2">#FFB5C9B1</color>
+    <color name="color_primary3">#FF6A9363</color>
+    <color name="color_primary4">#FF8DA189</color>
+<!--    <color name="color_secondary">#FFFA875A</color>-->
+    <color name="color_text_32">#FF323232</color>
+    <color name="color_text_89">#FF898989</color>
+    <color name="color_gray_f2">#FFf2f2f2</color>
+    <color name="color_gray_e9">#FFe9e9e9</color>
+    <color name="color_gray_d4">#FFd4d4d4</color>
+    <color name="color_gray_95">#FF959595</color>
+    <color name="color_transparent">#00000000</color>
+    <color name="color_dim_50">#88000000</color>
+    <!-- Version.02 -->
+    <color name="color_primary">#FF009861</color>
+    <color name="color_primary_variant_01">#FF005536</color>
+    <color name="color_primary_variant_02">#FFE4F1EB</color>
+
+    <color name="colorUserName1">#FFFDD23B</color>
+    <color name="colorUserName2">#FF009861</color>
+
+    <color name="color_secondary">#FFFDD23B</color>
+    <color name="color_secondary_variant_01">#FFFEA90B</color>
+    <color name="color_secondary_variant_02">#FFFFF4D8</color>
+
+    <color name="color_text_01">#FF212121</color>
+    <color name="color_text_02">#FF757575</color>
+    <color name="color_text_03">#FF9E9E9E</color>
+    <color name="color_text_04">#FFFFFFFF</color>
+
+    <color name="color_background">#FFFFFFFF</color>
+
+    <color name="color_gray_00">#FFE8E8E8</color>
+    <color name="color_gray_01">#FFC9CACA</color>
+    <color name="color_gray_02">#FF9D9F9F</color>
+    <color name="color_gray_03">#FF787A7A</color>
+    <color name="color_gray_04">#FF5E5F5F</color>
+    <color name="color_gray_05">#FF424343</color>
+    <color name="color_gray_06">#FF212121</color>
+
+    <color name="color_table_head">#FFEEEEEE</color>
+    <color name="color_table_body">#FFF5F5F5</color>
+
+    <color name="color_progress_bar">#FFA2D33F</color>
+
+    <color name="kakao_map_red_dot">#EC422D</color>
+
+    <drawable name="onboarding_color">@drawable/selector_outline_box_color</drawable>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_tips_tab"
+    app:startDestination="@id/homeTipsMagazineFragment">
+
+    <fragment
+        android:id="@+id/homeTipsMagazineFragment"
+        android:name="com.beginvegan.presentation.view.home.view.HomeTipsMagazineFragment"
+        android:label="HomeTipsMagazineFragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/homeTipsRecipeFragment"
+        android:name="com.beginvegan.presentation.view.home.view.HomeTipsRecipeFragment"
+        android:label="HomeTipsRecipeFragment" >
+    </fragment>
+</navigation>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.mypage.view.MypageMyRestaurantFragment">
+
+        <include
+            android:id="@+id/included_toolbar"
+            layout="@layout/include_toolbar_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:backButtonVisible="@{true}"
+            app:colorMode="@{true}"
+            app:title="@{@string/mypage_my_restaurant}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_my_restaurant"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_0"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/included_toolbar"
+            tools:listitem="@layout/item_restaurant" />
+
+        <ImageButton
+            android:id="@+id/ib_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_32"
+            android:background="@drawable/shape_circle"
+            android:backgroundTint="@color/color_primary"
+            android:elevation="@dimen/dim_3"
+            android:padding="@dimen/margin_10"
+            android:rotation="90"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <!--    empty state    -->
+        <LinearLayout
+            android:id="@+id/ll_empty_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_44"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_my_restaurant_empty"
+                style="@style/body_1_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/empty_mypage_my_restaurant"
+                android:textColor="@color/color_text_03" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_move_to_map"
+                style="@style/body_1_bold"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_56"
+                android:layout_marginTop="@dimen/margin_24"
+                android:text="@string/btn_mypage_my_restaurant"
+                android:textColor="@color/color_text_04"
+                app:backgroundTint="@color/color_primary"
+                app:cornerRadius="@dimen/radius_8" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_drawer_graph"
+    app:startDestination="@id/notificationDrawerFragment">
+
+    <fragment
+        android:id="@+id/notificationDrawerFragment"
+        android:name="com.beginvegan.presentation.view.notification.view.NotificationDrawerFragment"
+        android:label="NotificationDrawerFragment" />
+</navigation>

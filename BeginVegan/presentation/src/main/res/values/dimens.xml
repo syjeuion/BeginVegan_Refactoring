@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--    Splash(dp)-->
+    <dimen name="splash_logo_width">104dp</dimen>
+    <dimen name="splash_logo_height">104dp</dimen>
+    <dimen name="side_margin">16dp</dimen>
+    <!--  Global Margin(dp) (새로추가)-->
+    <dimen name="global_margin">16dp</dimen>
+    <dimen name="global_dialog_radius">5dp</dimen>
+    <dimen name="global_toolbar_height">56dp</dimen>
+    <dimen name="global_button_size">48dp</dimen>
+    <dimen name="global_zero">0dp</dimen>
+    <!--  Margin(dp)-->
+    <!-- 사용 예정 -->
+    <dimen name="margin_stroke">0.5dp</dimen>
+    <dimen name="margin_1">1dp</dimen>
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_5">5dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_28">28dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="margin_36">36dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
+    <dimen name="margin_44">44dp</dimen>
+    <dimen name="margin_48">48dp</dimen>
+    <dimen name="margin_52">52dp</dimen>
+    <dimen name="margin_56">56dp</dimen>
+    <dimen name="margin_60">60dp</dimen>
+    <dimen name="margin_72">72dp</dimen>
+    <!-- 삭제 예정 -->
+    <dimen name="margin_6">6dp</dimen>
+    <dimen name="margin_14">14dp</dimen>
+    <dimen name="margin_34">34dp</dimen>
+    <dimen name="margin_64">64dp</dimen>
+    <dimen name="margin_68">68dp</dimen>
+    <dimen name="margin_76">76dp</dimen>
+    <dimen name="margin_80">80dp</dimen>
+    <dimen name="margin_100">100dp</dimen>
+    <dimen name="margin_168">168dp</dimen>
+
+    <!--    Text Size(sp)-->
+    <dimen name="text_caption">12sp</dimen>
+    <dimen name="text_body_2">14sp</dimen>
+    <dimen name="text_body_1">16sp</dimen>
+    <dimen name="text_heading">18sp</dimen>
+    <dimen name="text_title">20sp</dimen>
+    <dimen name="text_test_result">30sp</dimen>
+    <!-- 삭제 예정 -->
+    <dimen name="text_1">1sp</dimen>
+    <dimen name="text_4">4sp</dimen>
+    <dimen name="text_8">8sp</dimen>
+    <dimen name="text_10">10sp</dimen>
+    <dimen name="text_12">12sp</dimen>
+    <dimen name="text_14">14sp</dimen>
+    <dimen name="text_16">16sp</dimen>
+    <dimen name="text_18">18sp</dimen>
+    <dimen name="text_20">20sp</dimen>
+    <dimen name="text_24">24sp</dimen>
+    <dimen name="text_28">28sp</dimen>
+    <dimen name="text_40">40sp</dimen>
+    <dimen name="text_44">44sp</dimen>
+    <dimen name="text_48">48sp</dimen>
+    <!--    Button Size(dp)-->
+    <dimen name="btn_24">24dp</dimen>
+    <dimen name="btn_32">32dp</dimen>
+    <dimen name="btn_40">40dp</dimen>
+    <dimen name="btn_48">48dp</dimen>
+    <dimen name="btn_148">148dp</dimen>
+    <dimen name="btn_164">164dp</dimen>
+    <!-- 새로 추가 -->
+    <dimen name="btn_height">48dp</dimen>
+
+    <!--    Item Size(dp)-->
+    <!-- 사용된 size -->
+    <dimen name="item_0">0dp</dimen>
+    <dimen name="item_1">1dp</dimen>
+    <dimen name="item_2">2dp</dimen>
+    <dimen name="item_5">5dp</dimen>
+    <dimen name="item_8">8dp</dimen>
+    <dimen name="item_12">12dp</dimen>
+    <dimen name="item_18">18dp</dimen>
+    <dimen name="item_22">22dp</dimen>
+    <dimen name="item_24">24dp</dimen>
+    <dimen name="item_28">28dp</dimen>
+    <dimen name="item_30">30dp</dimen>
+    <dimen name="item_32">32dp</dimen>
+    <dimen name="item_40">40dp</dimen>
+    <dimen name="item_48">48dp</dimen>
+    <dimen name="item_56">56dp</dimen>
+    <dimen name="item_60">60dp</dimen>
+    <dimen name="item_64">64dp</dimen>
+    <dimen name="item_70">70dp</dimen>
+    <dimen name="item_80">80dp</dimen>
+    <dimen name="item_86">86dp</dimen>
+    <dimen name="item_120">120dp</dimen>
+    <dimen name="item_160">160dp</dimen>
+    <dimen name="item_240">240dp</dimen>
+    <dimen name="item_264">264dp</dimen>
+    <!-- 삭제 예정 -->
+    <dimen name="item_36">36dp</dimen>
+    <dimen name="item_52">52dp</dimen>
+    <dimen name="item_76">76dp</dimen>
+    <dimen name="item_88">88dp</dimen>
+    <dimen name="item_95">95dp</dimen>
+    <dimen name="item_100">100dp</dimen>
+    <dimen name="item_108">108dp</dimen>
+    <dimen name="item_114">114dp</dimen>
+    <dimen name="item_134">134dp</dimen>
+    <dimen name="item_128">128dp</dimen>
+    <dimen name="item_168">168dp</dimen>
+    <dimen name="item_186">186dp</dimen>
+    <dimen name="item_200">200dp</dimen>
+    <dimen name="item_210">210dp</dimen>
+    <dimen name="item_248">248dp</dimen>
+    <dimen name="item_276">276dp</dimen>
+
+    <!--    Corner Radius(dp)-->
+    <!-- 새로 추가 -->
+    <dimen name="radius_4">4dp</dimen>
+    <!-- 기존 -->
+    <dimen name="radius_8">8dp</dimen>
+    <!-- 4, 8 이외 radius는 삭제 예정 -->
+    <dimen name="radius_12">12dp</dimen>
+    <dimen name="radius_16">16dp</dimen>
+    <dimen name="radius_25">25dp</dimen>
+    <dimen name="radius_28">28dp</dimen>
+
+    <!--    Line Width(dp)-->
+    <dimen name="line_1">1dp</dimen>
+    <dimen name="line_4">4dp</dimen>
+    <dimen name="line_8">8dp</dimen>
+
+    <!--    Dim(dp)-->
+    <dimen name="dim_3">3dp</dimen>
+    <dimen name="dim_10">10dp</dimen>
+
+    <dimen name="drag_handle_width">32dp</dimen>
+    <dimen name="drag_handle_height">4dp</dimen>
+    <dimen name="drag_handle_peek_height">19dp</dimen>
+
+    <!--    indicator(dp)-->
+    <dimen name="indicator_height">48dp</dimen>
+    <dimen name="indicator_dot_height">8dp</dimen>
+    <dimen name="indicator_dot_width">8dp</dimen>
+    <dimen name="dialog_permission_logo_width">127dp</dimen>
+    <dimen name="dialog_permission_logo_height">58dp</dimen>
+
+    <!--    Vegan Map Bottom Sheet-->
+    <dimen name="bottomSheet_handle_height">24dp</dimen>
+
+    <!--    User Info-->
+    <dimen name="user_profile_size">88dp</dimen>
+    <dimen name="mtrl_exposed_dropdown_menu_popup_vertical_padding" tools:override="true">0dp
+    </dimen>
+
+    <!--    Photo Select-->
+    <dimen name="dialog_width">280dp</dimen>
+    //dialog 공통으로 사용돼서 이름 변경했습니다.
+    <dimen name="dialog_width_big">312dp</dimen>
+    <dimen name="dialog_height">506dp</dimen>
+    <dimen name="photo_select_dialog_radius">8dp</dimen>
+    <dimen name="restaurant_image_height">180dp</dimen>
+
+    <!--    VeganMap & Restaurant -->
+    <dimen name="history_search_item_size">40dp</dimen>
+</resources>
