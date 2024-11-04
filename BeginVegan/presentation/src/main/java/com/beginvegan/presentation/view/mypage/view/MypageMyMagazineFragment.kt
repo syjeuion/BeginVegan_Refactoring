@@ -25,6 +25,7 @@ import com.beginvegan.presentation.view.tips.viewModel.MagazineViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -119,7 +120,7 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(R
         })
 
         collectJob = lifecycleScope.launch {
-            myMagazineViewModel.myMagazineState.collect{state->
+            myMagazineViewModel.myMagazineState.collectLatest{state->
                 when(state){
                     is NetworkResult.Loading -> {}
                     is NetworkResult.Success -> {

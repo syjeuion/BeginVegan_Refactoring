@@ -1,6 +1,7 @@
 package com.beginvegan.presentation.view.tips.view
 
 import android.graphics.Typeface
+import android.os.Bundle
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
@@ -20,9 +21,15 @@ import com.beginvegan.presentation.view.tips.viewModel.RecipeViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Tips - Recipe Tab Fragment
+ * RecyclerView
+ *
+ */
 @AndroidEntryPoint
 class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(R.layout.fragment_tips_recipe) {
     @Inject
@@ -37,12 +44,10 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(R.layout.frag
     private var totalCount = 0
 
     private var typeface:Typeface? = null
-    private var job: Job? = null
 
     override fun init() {
         binding.lifecycleOwner = this
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
-        job?.cancel()
 
         reset()
         setToggleRecipeForMe()
@@ -70,31 +75,40 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(R.layout.frag
     }
     //RecyclerView Adapter 설정
     private fun setAdapter(){
-        recipeRvAdapter = TipsRecipeRvAdapter(requireContext())
+        recipeRvAdapter = TipsRecipeRvAdapter(
+            requireContext(),
+            openDialogRecipeDetail,
+            changeBookmark
+        )
         binding.rvRecipe.adapter = recipeRvAdapter
         binding.rvRecipe.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         recipeRvAdapter.submitList(mutableListOf())
+    }
 
-        recipeRvAdapter.setOnItemClickListener(object : TipsRecipeRvAdapter.OnItemClickListener {
-            override fun onItemClick(item: TipsRecipeListItem, position: Int) {
-                openDialogRecipeDetail(item, position)
-            }
-
-            override fun changeBookmark(isBookmarked: Boolean, data: TipsRecipeListItem, position: Int) {
-                updateBookmark(isBookmarked, data, position)
-                lifecycleScope.launch {
-                    if(isBookmarked){
-                        if(bookmarkController.postBookmark(data.id, "RECIPE")){
-                            setSnackBar(getString(R.string.toast_scrap_done))
-                        }
-                    }else{
-                        if(bookmarkController.deleteBookmark(data.id, "RECIPE")){
-                            setSnackBar(getString(R.string.toast_scrap_undo))
-                        }
-                    }
+    /**
+     * RecyclerView Click Listener Lambda
+     * openDialogRecipeDetail: Item 클릭 시 Dialog 노출
+     * changeBookmark: 북마크 처리
+     */
+    private val openDialogRecipeDetail = { item: TipsRecipeListItem, position: Int ->
+        recipeViewModel.getRecipeDetail(item.id)
+        recipeViewModel.setNowFragment("RECIPE")
+        recipeViewModel.setRecipeDetailPosition(RecipeDetailPosition(position, item))
+        TipsRecipeDetailDialog().show(childFragmentManager, "TipsRecipeDetail")
+    }
+    private val changeBookmark = {isBookmarked:Boolean, data: TipsRecipeListItem, position:Int ->
+        updateBookmark(isBookmarked, data, position)
+        viewLifecycleOwner.lifecycleScope.launch {
+            if(isBookmarked){
+                if(bookmarkController.postBookmark(data.id, "RECIPE")){
+                    setSnackBar(getString(R.string.toast_scrap_done))
                 }
-             }
-        })
+            }else{
+                if(bookmarkController.deleteBookmark(data.id, "RECIPE")){
+                    setSnackBar(getString(R.string.toast_scrap_undo))
+                }
+            }
+        }
     }
     private fun setListener(){
         //RecyclerView 페이징 처리
@@ -115,7 +129,7 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(R.layout.frag
 
         //api result 받으면 setRecipeList 실행
         lifecycleScope.launch {
-            recipeViewModel.recipeListState.collect{state->
+            recipeViewModel.recipeListState.collectLatest{state->
                 when(state){
                     is NetworkResult.Loading -> {}
                     is NetworkResult.Success -> {
@@ -159,12 +173,6 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(R.layout.frag
     }
 
     //Dialog
-    private fun openDialogRecipeDetail(item: TipsRecipeListItem, position: Int){
-        recipeViewModel.getRecipeDetail(item.id)
-        recipeViewModel.setNowFragment("RECIPE")
-        recipeViewModel.setRecipeDetailPosition(RecipeDetailPosition(position, item))
-        TipsRecipeDetailDialog().show(childFragmentManager, "TipsRecipeDetail")
-    }
     private fun openDialogRecipeForMe(){
         binding.ibTooltipRecipeForMe.setOnClickListener {
             TipsRecipeForMeDialog().show(childFragmentManager, "TipsRecipeForMe")
@@ -196,4 +204,5 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(R.layout.frag
 
         recipeViewModel.setRecipeList(oldList)
     }
+
 }

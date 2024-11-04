@@ -32,6 +32,7 @@ import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.camera.CameraUpdateFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -127,7 +128,7 @@ class MypageMyRestaurantFragment :
         })
 
         collectJob = lifecycleScope.launch {
-            myRestaurantViewModel.myRestaurantState.collect { state ->
+            myRestaurantViewModel.myRestaurantState.collectLatest { state ->
                 when (state) {
                     is NetworkResult.Loading -> {}
                     is NetworkResult.Success -> {

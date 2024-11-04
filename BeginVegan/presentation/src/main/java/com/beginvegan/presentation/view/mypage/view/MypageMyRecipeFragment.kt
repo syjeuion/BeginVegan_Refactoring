@@ -26,6 +26,7 @@ import com.beginvegan.presentation.view.tips.viewModel.RecipeViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -109,7 +110,7 @@ class MypageMyRecipeFragment : BaseFragment<FragmentMypageMyRecipeBinding>(R.lay
         })
 
         collectJob = lifecycleScope.launch {
-            myRecipeViewModel.myRecipesState.collect{state->
+            myRecipeViewModel.myRecipesState.collectLatest{state->
                 when(state){
                     is NetworkResult.Loading -> {}
                     is NetworkResult.Success -> {

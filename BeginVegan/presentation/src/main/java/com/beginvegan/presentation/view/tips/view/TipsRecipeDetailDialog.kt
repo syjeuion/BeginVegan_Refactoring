@@ -93,17 +93,11 @@ class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(R.lay
                     recipeViewModel.setRecipeDetail(detailData!!)
 
                     val currentData = recipeViewModel.recipeDetailPosition.value
-                    val oldItem = currentData?.item!!
-                    val newData = TipsRecipeListItem(
-                        id = oldItem.id,
-                        name = oldItem.name,
-                        veganType = oldItem.veganType,
+
+                    val newData = currentData?.item!!.copy(
                         isBookmarked = isChecked
                     )
-                    val oldList = recipeViewModel.recipeListState.value.data?.response
-                    oldList!![currentData.position] = newData
-
-                    recipeViewModel.setRecipeList(oldList)
+                    recipeViewModel.updateRecipeListItem(currentData.position, newData)
                 }
                 "MYPAGE" -> {
                     val currentData = recipeViewModel.recipeDetailPosition.value
@@ -114,10 +108,7 @@ class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(R.lay
                         veganType = oldItem.veganType,
                         isBookmarked = isChecked
                     )
-                    val oldList = myRecipeViewModel.myRecipesState.value.data?.response
-                    oldList!![currentData.position] = newData
-
-                    myRecipeViewModel.setMyRecipeList(oldList)
+                    myRecipeViewModel.updateRecipeListItem(currentData.position, newData)
                 }
             }
             lifecycleScope.launch {

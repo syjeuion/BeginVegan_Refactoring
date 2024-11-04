@@ -14,6 +14,7 @@ import com.beginvegan.presentation.view.notification.adapter.NotificationReadRvA
 import com.beginvegan.presentation.view.notification.adapter.NotificationUnreadRvAdapter
 import com.beginvegan.presentation.view.notification.viewModel.NotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,7 +34,7 @@ class NotificationDrawerFragment:BaseFragment<FragmentNotificationDrawerBinding>
         }
 
         lifecycleScope.launch {
-            notificationViewModel.alarmLists.collect{state->
+            notificationViewModel.alarmLists.collectLatest{state->
                 when(state){
                     is NetworkResult.Loading ->{
 

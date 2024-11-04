@@ -17,6 +17,7 @@ import com.beginvegan.presentation.view.mypage.adapter.MyReviewRvAdapter
 import com.beginvegan.presentation.view.mypage.viewModel.MyReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -87,7 +88,7 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(R.lay
         })
 
         collectJob = lifecycleScope.launch {
-            myReviewViewModel.myReviewState.collect{state->
+            myReviewViewModel.myReviewState.collectLatest{state->
                 when(state){
                     is NetworkResult.Loading -> {}
                     is NetworkResult.Success -> {

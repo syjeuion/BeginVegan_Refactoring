@@ -8,6 +8,7 @@ import com.beginvegan.domain.model.tips.TipsRecipeListItem
 import com.beginvegan.domain.useCase.mypage.MypageMyScrapUseCase
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.view.mypage.viewModel.state.MyRecipeState
+import com.beginvegan.presentation.view.tips.viewModel.state.RecipeListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -43,7 +44,14 @@ class MyRecipeViewModel @Inject constructor(
             MyRecipeState(response = newList, isLoading = false)
         )
     }
-
+    fun updateRecipeListItem(position:Int, item: TipsRecipeListItem){
+        _myRecipesState.value.data?.response!![position] = item
+        _myRecipesState.value = NetworkResult.Success(
+            MyRecipeState(
+                _myRecipesState.value.data?.response!!, false
+            )
+        )
+    }
     private val _isContinueGetList = MutableLiveData(true)
     val isContinueGetList: LiveData<Boolean> = _isContinueGetList
 

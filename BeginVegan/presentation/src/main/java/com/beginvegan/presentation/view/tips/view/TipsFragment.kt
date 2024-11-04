@@ -13,6 +13,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+/**
+ * Tips
+ * Tab - Magazine / Recipe
+ */
 @AndroidEntryPoint
 class TipsFragment : BaseFragment<FragmentMainTipsBinding>(R.layout.fragment_main_tips) {
     @Inject

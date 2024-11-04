@@ -72,8 +72,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     R.id.mainHomeFragment -> bnvMain.menu.findItem(R.id.item_home).isChecked = true
                     R.id.veganMapFragment -> bnvMain.menu.findItem(R.id.item_map).isChecked = true
                     R.id.mainTipsFragment -> bnvMain.menu.findItem(R.id.item_tips).isChecked = true
-                    R.id.mainMypageFragment -> bnvMain.menu.findItem(R.id.item_profile).isChecked =
-                        true
+                    R.id.mainMypageFragment -> bnvMain.menu.findItem(R.id.item_profile).isChecked = true
                 }
             }
 

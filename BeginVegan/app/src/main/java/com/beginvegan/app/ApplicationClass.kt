@@ -24,6 +24,7 @@ class ApplicationClass : Application() {
         KakaoSdk.init(this, BuildConfig.KAKAO_API_KEY_TEST)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
+        applicationClass = this
         // Firebase 초기화
         FirebaseApp.initializeApp(this)
 
@@ -45,6 +46,11 @@ class ApplicationClass : Application() {
          */
         var keyHash = Utility.getKeyHash(this)
         Log.i("GlobalApplication", "$keyHash")
+    }
+
+    companion object{
+        private lateinit var applicationClass: ApplicationClass
+        fun getBeginVeganContext() = applicationClass
     }
 
     //    override fun onCreate() {

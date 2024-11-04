@@ -15,6 +15,7 @@ import com.beginvegan.presentation.databinding.FragmentWriteReviewBinding
 import com.beginvegan.presentation.util.UiState
 import com.beginvegan.presentation.view.restaurant.viewModel.RestaurantReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -29,8 +30,8 @@ class RestaurantReviewFragment :
     override fun init() {
 
         // 리뷰 작성 상태 관찰
-        lifecycleScope.launch {
-            viewModel.writeReviewState.collect { state ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.writeReviewState.collectLatest { state ->
                 when (state) {
                     is UiState.Loading -> {
                         // 로딩 상태 처리 (예: 로딩 스피너 표시)

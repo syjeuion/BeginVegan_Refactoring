@@ -20,6 +20,7 @@ import com.beginvegan.presentation.view.tips.viewModel.MagazineViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +33,6 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(R.layout.
     private val magazineViewModel : MagazineViewModel by activityViewModels()
 
     private lateinit var magazineRvAdapter: TipsMagazineRvAdapter
-    private var collectJob: Job? = null
 
     private var recipeList = mutableListOf<TipsMagazineItem>()
     private var currentPage = 0
@@ -50,7 +50,6 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(R.layout.
         setTabBtn()
     }
     private fun reset(){
-        collectJob?.cancel()
         recipeList = mutableListOf()
         magazineViewModel.resetViewModel()
         currentPage = 0
@@ -58,54 +57,48 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(R.layout.
     }
 
     private fun setRvAdapter(){
-        magazineRvAdapter = TipsMagazineRvAdapter(requireContext(), recipeList)
+        magazineRvAdapter = TipsMagazineRvAdapter(requireContext(), onItemClick, changeBookmark)
         binding.rvMagazine.adapter = magazineRvAdapter
         binding.rvMagazine.layoutManager = LinearLayoutManager(this.context)
 
-        magazineRvAdapter.setOnItemClickListener(object :
-            TipsMagazineRvAdapter.OnItemClickListener {
-            override fun onItemClick(magazineId:Int) {
-                mainNavigationHandler.navigateTipsToMagazineDetail()
-                magazineViewModel.setMagazineDetail(null)
-                magazineViewModel.getMagazineDetail(magazineId)
-            }
-
-            override fun changeBookmark(
-                toggleButton: CompoundButton,
-                isBookmarked: Boolean,
-                data: TipsMagazineItem
-            ) { lifecycleScope.launch{
-                    when(isBookmarked){
-                        true -> {
-                            if(bookmarkController.postBookmark(data.id, "MAGAZINE")){
-                                val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_done), Snackbar.LENGTH_SHORT)
-                                    .setAction(getString(R.string.toast_scrap_action)){
-                                        mainNavigationHandler.navigateTipsMagazineToMyMagazine()
-                                    }
-                                    .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-                                snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                                snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-                                snackbar.show()
-                            }
-                        }
-                        false -> {
-                            if(bookmarkController.deleteBookmark(data.id, "MAGAZINE")){
-                                val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_undo), Snackbar.LENGTH_SHORT)
-                                    .setAction(getString(R.string.toast_scrap_action)){
-                                        mainNavigationHandler.navigateTipsMagazineDetailToMyMagazine()
-                                    }
-                                    .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-                                snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                                snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-                                snackbar.show()
-                            }
-                        }
-                    }
-            } }
-        })
-
         getMagazineList(currentPage)
     }
+    private val onItemClick = {magazineId:Int ->
+        mainNavigationHandler.navigateTipsToMagazineDetail()
+        magazineViewModel.setMagazineDetail(null)
+        magazineViewModel.getMagazineDetail(magazineId)
+    }
+    private val changeBookmark = {toggleButton: CompoundButton,isBookmarked: Boolean,data: TipsMagazineItem->
+        viewLifecycleOwner.lifecycleScope.launch{
+            when(isBookmarked){
+                true -> {
+                    if(bookmarkController.postBookmark(data.id, "MAGAZINE")){
+                        val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_done), Snackbar.LENGTH_SHORT)
+                            .setAction(getString(R.string.toast_scrap_action)){
+                                mainNavigationHandler.navigateTipsMagazineToMyMagazine()
+                            }
+                            .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
+                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
+                        snackbar.show()
+                    }
+                }
+                false -> {
+                    if(bookmarkController.deleteBookmark(data.id, "MAGAZINE")){
+                        val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_undo), Snackbar.LENGTH_SHORT)
+                            .setAction(getString(R.string.toast_scrap_action)){
+                                mainNavigationHandler.navigateTipsMagazineDetailToMyMagazine()
+                            }
+                            .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
+                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
+                        snackbar.show()
+                    }
+                }
+            }
+        }
+    }
+
     private fun getMagazineList(page:Int){
         magazineViewModel.getMagazineList(page)
         currentPage++
@@ -124,13 +117,13 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(R.layout.
         })
 
         //api result 받으면 setRecipeList 실행
-        collectJob = lifecycleScope.launch {
-            magazineViewModel.magazineListState.collect{state->
+        viewLifecycleOwner.lifecycleScope.launch {
+            magazineViewModel.magazineListState.collectLatest{state->
                 when(state){
                     is NetworkResult.Loading -> {}
                     is NetworkResult.Success -> {
-                        recipeList.addAll(state.data?.response!!)
-                        magazineRvAdapter.notifyItemRangeInserted(totalCount,state.data.response.size)
+                        val newList = state.data?.response?.map { it.copy() }
+                        magazineRvAdapter.submitList(newList)
                     }
                     is NetworkResult.Error -> {}
                 }

@@ -37,6 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.beginvegan.presentation.view.mypage.view.MypagePushAlertDialog
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -148,7 +149,7 @@ class HomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment_mai
 
     private fun setRecommendRestaurant() {
         viewLifecycleOwner.lifecycleScope.launch {
-            mainViewModel.recommendRestaurantList.collect { restaurantList ->
+            mainViewModel.recommendRestaurantList.collectLatest { restaurantList ->
                 if (restaurantList.isNotEmpty()) {
                     logMessage("viewLifecycleOwner collect restaurantList $restaurantList")
                     binding.tvRestaurantNameFirst.text = restaurantList[0].name
@@ -260,7 +261,7 @@ class HomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment_mai
 
     private fun setUserInfo() {
         viewLifecycleOwner.lifecycleScope.launch {
-            mainViewModel.nickName.collect { userName ->
+            mainViewModel.nickName.collectLatest { userName ->
                 logMessage("viewModel userName ${userName}")
                 val headlineText = getString(R.string.home_user_name, userName)
                 val headlineSpannable = SpannableString(headlineText)

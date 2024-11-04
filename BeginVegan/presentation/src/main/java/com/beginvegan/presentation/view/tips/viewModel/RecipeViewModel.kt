@@ -22,7 +22,6 @@ import javax.inject.Inject
 class RecipeViewModel @Inject constructor(
     private val recipeUseCase: TipsRecipeUseCase
 ) : ViewModel() {
-
     //RecyclerView List
     private val _recipeListState =
         MutableStateFlow<NetworkResult<RecipeListState>>(NetworkResult.Loading())
@@ -40,6 +39,14 @@ class RecipeViewModel @Inject constructor(
         val newList = nowList.map { it.copy() }
         _recipeListState.value = NetworkResult.Success(
             RecipeListState(response = newList.toMutableList(), isLoading = false)
+        )
+    }
+    fun updateRecipeListItem(position:Int, item: TipsRecipeListItem){
+        _recipeListState.value.data?.response!![position] = item
+        _recipeListState.value = NetworkResult.Success(
+            RecipeListState(
+                _recipeListState.value.data?.response!!, false
+            )
         )
     }
 

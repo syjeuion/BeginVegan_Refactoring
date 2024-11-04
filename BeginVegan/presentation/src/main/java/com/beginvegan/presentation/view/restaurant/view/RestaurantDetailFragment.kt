@@ -36,6 +36,7 @@ import com.google.android.gms.location.Priority
 import com.google.android.material.tabs.TabLayout
 import com.kakao.vectormap.LatLng
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.launch
 
@@ -221,7 +222,7 @@ class RestaurantDetailFragment :
 
     private fun collectDeleteUiState() {
         lifecycleScope.launch {
-            viewModel.deleteState.collect { state ->
+            viewModel.deleteState.collectLatest { state ->
                 when (state) {
                     is UiState.Loading -> {
                         // 로딩 상태 처리 (예: 로딩 스피너 표시)
