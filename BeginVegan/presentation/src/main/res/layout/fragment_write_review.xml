@@ -1,214 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <data>
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_submit_review"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btn_submit_review"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="0dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+            <Toolbar
+                android:id="@+id/tb_title"
                 android:layout_width="match_parent"
-                android:layout_height="0dp">
+                android:layout_height="@dimen/global_toolbar_height"
+                android:background="@color/color_white"
+                android:contentInsetStart="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-
-                <Toolbar
-                    android:id="@+id/tb_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/global_toolbar_height"
+                <ImageButton
+                    android:id="@+id/ib_back_up"
+                    android:layout_width="@dimen/global_button_size"
+                    android:layout_height="match_parent"
                     android:background="@color/color_white"
-                    android:contentInsetStart="0dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:src="@drawable/ic_arrow"
+                    app:tint="@color/color_primary" />
 
-                    <ImageButton
-                        android:id="@+id/ib_back_up"
-                        android:layout_width="@dimen/global_button_size"
-                        android:layout_height="match_parent"
-                        android:background="@color/color_white"
-                        android:src="@drawable/ic_arrow"
-                        android:tint="@color/color_primary" />
+                <TextView
+                    android:id="@+id/tv_title_restaurant_name"
+                    style="@style/title_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/map_write_review"
+                    android:textColor="@color/color_primary"
+                    android:textSize="@dimen/text_20" />
+            </Toolbar>
+
+            <TextView
+                android:id="@+id/tv_restaurant_name"
+                style="@style/heading_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/global_margin"
+                android:layout_marginTop="@dimen/margin_20"
+                android:text="@string/empty_string"
+                android:textColor="@color/color_text_01"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tb_title" />
+
+            <TextView
+                android:id="@+id/tv_restaurant_type"
+                style="@style/body_2_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/global_margin"
+                android:layout_marginTop="4dp"
+                android:text="@string/empty_string"
+                android:textColor="@color/color_text_03"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_restaurant_name" />
+
+            <TextView
+                android:id="@+id/tv_restaurant_address"
+                style="@style/body_2_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/global_margin"
+                android:layout_marginTop="@dimen/margin_4"
+                android:text="@string/empty_string"
+                android:textColor="@color/color_text_02"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_restaurant_type" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_rating_area"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginHorizontal="@dimen/global_margin"
+                android:layout_marginTop="@dimen/margin_32"
+                android:backgroundTint="@color/color_primary_variant_02"
+                app:cardCornerRadius="@dimen/radius_12"
+                app:cardElevation="@dimen/global_zero"
+                app:layout_constraintTop_toBottomOf="@id/tv_restaurant_address">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_rating_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/tv_title_restaurant_name"
-                        style="@style/title_bold"
+                        android:id="@+id/tv_rating_headline"
+                        style="@style/body_1_regular"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/map_write_review"
-                        android:textColor="@color/color_primary"
-                        android:textSize="@dimen/text_20" />
-                </Toolbar>
+                        android:layout_height="wrap_content"
+                        android:text="@string/map_write_review_rating"
+                        android:textColor="@color/color_text_01"
+                        android:textSize="@dimen/text_16"
+                        app:layout_constraintBottom_toTopOf="@id/rb_rating"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_restaurant_name"
-                    style="@style/heading_bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/global_margin"
-                    android:layout_marginTop="@dimen/margin_20"
-                    android:text="@string/empty_string"
-                    android:textColor="@color/color_text_01"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tb_title" />
+                    <RatingBar
+                        android:id="@+id/rb_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:progressBackgroundTint="@color/color_gray_02"
+                        android:progressTint="@color/color_primary"
+                        android:secondaryProgressTint="@color/color_transparent"
+                        android:stepSize="0.5"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_rating_headline" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/tv_restaurant_type"
-                    style="@style/body_2_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/global_margin"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/empty_string"
-                    android:textColor="@color/color_text_03"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_restaurant_name" />
-
-                <TextView
-                    android:id="@+id/tv_restaurant_address"
-                    style="@style/body_2_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/global_margin"
-                    android:layout_marginTop="@dimen/margin_4"
-                    android:text="@string/empty_string"
-                    android:textColor="@color/color_text_02"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_restaurant_type" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_rating_area"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_marginHorizontal="@dimen/global_margin"
-                    android:layout_marginTop="@dimen/margin_32"
-                    android:backgroundTint="@color/color_primary_variant_02"
-                    app:cardCornerRadius="@dimen/radius_12"
-                    app:cardElevation="@dimen/global_zero"
-                    app:layout_constraintTop_toBottomOf="@id/tv_restaurant_address">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/cl_rating_area"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/tv_rating_headline"
-                            style="@style/body_1_regular"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/map_write_review_rating"
-                            android:textColor="@color/color_text_01"
-                            android:textSize="@dimen/text_16"
-                            app:layout_constraintBottom_toTopOf="@id/rb_rating"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <RatingBar
-                            android:id="@+id/rb_rating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:numStars="5"
-                            android:progressBackgroundTint="@color/color_gray_02"
-                            android:progressTint="@color/color_primary"
-                            android:secondaryProgressTint="@color/color_transparent"
-                            android:stepSize="0.5"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_rating_headline" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:id="@+id/ll_add_img_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/global_margin"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@id/cv_rating_area">
 
                 <LinearLayout
-                    android:id="@+id/ll_add_img_area"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/global_margin"
-                    android:layout_marginTop="32dp"
-                    app:layout_constraintTop_toBottomOf="@id/cv_rating_area">
+                    android:layout_height="150dp"
+                    android:background="@drawable/shape_dialog_input_stroke_background">
 
-                    <LinearLayout
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_add_img"
+                        style="@style/body_1_regular"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:background="@drawable/shape_dialog_input_stroke_background">
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_add_img"
-                            style="@style/body_1_regular"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/color_transparent"
-                            android:backgroundTint="@color/color_white"
-                            android:drawableBottom="@drawable/ic_add_review_img_big"
-                            android:gravity="center"
-                            android:padding="30dp"
-                            android:text="@string/map_write_review_img" />
-                    </LinearLayout>
-
+                        android:layout_height="match_parent"
+                        android:background="@color/color_transparent"
+                        android:backgroundTint="@color/color_white"
+                        android:drawableBottom="@drawable/ic_add_review_img_big"
+                        android:gravity="center"
+                        android:padding="30dp"
+                        android:text="@string/map_write_review_img" />
                 </LinearLayout>
 
+            </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_input_review"
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_input_review"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="@dimen/global_margin"
+                android:layout_marginTop="@dimen/margin_20"
+                android:layout_marginEnd="@dimen/global_margin"
+                android:layout_marginBottom="@dimen/margin_20"
+                app:counterEnabled="true"
+                app:counterMaxLength="500"
+                app:counterTextColor="@color/color_primary"
+                app:hintEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/ll_add_img_area">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tiet_input_review"
+                    style="@style/body_2_regular"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginStart="@dimen/global_margin"
-                    android:layout_marginTop="@dimen/margin_20"
-                    android:layout_marginEnd="@dimen/global_margin"
-                    android:layout_marginBottom="@dimen/margin_20"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="500"
-                    app:counterTextColor="@color/color_primary"
-                    app:hintEnabled="false"
-                    app:layout_constraintTop_toBottomOf="@id/ll_add_img_area">
+                    android:layout_height="160dp"
+                    android:background="@drawable/shape_dialog_input_stroke_background"
+                    android:gravity="top"
+                    android:hint="@string/placeholder_map_write_review"
+                    android:imeOptions="actionDone"
+                    android:maxLength="500"
+                    android:textColorHint="@color/color_text_02"
+                    android:theme="@style/ModifyTextInputEditText" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tiet_input_review"
-                        style="@style/body_2_regular"
-                        android:layout_width="match_parent"
-                        android:layout_height="160dp"
-                        android:background="@drawable/shape_dialog_input_stroke_background"
-                        android:gravity="top"
-                        android:imeOptions="actionDone"
-                        android:hint="@string/placeholder_map_write_review"
-                        android:maxLength="500"
-                        android:textColorHint="@color/color_text_02"
-                        android:theme="@style/ModifyTextInputEditText" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_submit_review"
+        style="@style/body_1_bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_btn_background"
+        android:enabled="false"
+        android:text="@string/btn_write_review"
+        android:textAlignment="center"
+        android:textColor="@color/color_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_submit_review"
-            style="@style/body_1_bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/selector_btn_background"
-            android:enabled="false"
-            android:text="@string/btn_write_review"
-            android:textAlignment="center"
-            android:textColor="@color/color_white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

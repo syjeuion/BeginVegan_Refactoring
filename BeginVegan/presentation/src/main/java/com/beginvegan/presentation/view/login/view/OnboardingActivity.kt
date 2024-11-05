@@ -2,6 +2,7 @@ package com.beginvegan.presentation.view.login.view
 
 import android.content.Intent
 import android.os.Build
+import android.view.LayoutInflater
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -19,7 +20,7 @@ import com.beginvegan.presentation.view.main.view.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
+class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>() {
     private lateinit var photoSelectDialog: PhotoSelectDialog
 
     private lateinit var emptyErrorText: String
@@ -30,11 +31,8 @@ class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>(R.layout.acti
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var cameraResultLauncher: ActivityResultLauncher<Intent>
 
-
-    override fun initViewModel() {
-        binding.vm = viewModel
-        binding.lifecycleOwner = this
-    }
+    override fun inflateBinding(layoutInflater: LayoutInflater) = ActivityOnboardingBinding.inflate(layoutInflater)
+    override fun initViewModel() {}
 
     override fun init() {
         setGalleryResultLauncher()
@@ -73,6 +71,7 @@ class OnboardingActivity : BaseActivity<ActivityOnboardingBinding>(R.layout.acti
             logMessage("${viewModel.veganLevel}")
         }
     }
+
 
     private fun setErrorText() {
         emptyErrorText = getString(R.string.helper_text_nickname_default)

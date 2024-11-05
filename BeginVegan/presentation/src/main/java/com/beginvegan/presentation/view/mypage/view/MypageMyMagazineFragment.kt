@@ -18,6 +18,7 @@ import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentMypageMyMagazineBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.BookmarkController
+import com.beginvegan.presentation.util.setContentToolbar
 import com.beginvegan.presentation.view.main.viewModel.MainViewModel
 import com.beginvegan.presentation.view.mypage.adapter.MyMagazineRvAdapter
 import com.beginvegan.presentation.view.mypage.viewModel.MyMagazineViewModel
@@ -30,7 +31,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(R.layout.fragment_mypage_my_magazine) {
+class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(FragmentMypageMyMagazineBinding::inflate) {
     @Inject
     lateinit var mainNavigationHandler: MainNavigationHandler
     @Inject
@@ -49,14 +50,20 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(R
     private var typeface: Typeface?=null
 
     override fun init() {
-        binding.lifecycleOwner = this
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
-
+        setToolbar()
         setBackUp()
         setFabButton()
 
         reset()
         setRvAdapter()
+    }
+    private fun setToolbar(){
+        setContentToolbar(
+            requireContext(),
+            binding.includedToolbar,
+            getString(R.string.mypage_my_magazine)
+        )
     }
     private fun reset(){
         collectJob?.cancel()

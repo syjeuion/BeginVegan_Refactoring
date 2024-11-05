@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.LayoutRes
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.beginvegan.presentation.util.OnThrottleClickListener
 import timber.log.Timber
 
-abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutResId: Int) :
-    Fragment() {
-    private var _binding: T? = null
+typealias FragmentInflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
+abstract class BaseFragment<VB : ViewBinding>(
+    private val inflate: FragmentInflate<VB>
+) : Fragment() {
+    private var _binding: VB? = null
     val binding get() = _binding ?: error("Base Fragment binding Error")
     private val tag = "${this::class.java.simpleName}"
     override fun onCreateView(
@@ -22,8 +22,7 @@ abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutRe
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
+        _binding = inflate.invoke(inflater, container, false)
         logMessage("onCreateView")
         return binding.root
     }
@@ -48,8 +47,6 @@ abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes private val layoutRe
     protected fun logMessage(message: String) {
         Timber.tag(tag).d(message)
     }
-
-
 
     protected fun View.onThrottleClick(action: (v: View) -> Unit) {
         val listener = View.OnClickListener { action(it) }

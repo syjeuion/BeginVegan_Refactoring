@@ -1,130 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-    </data>
+    android:layout_width="312dp"
+    android:layout_height="680dp"
+    android:layout_gravity="center"
+    app:cardCornerRadius="@dimen/global_dialog_radius"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="312dp"
-            android:layout_height="680dp"
-            app:cardCornerRadius="@dimen/global_dialog_radius"
-            app:cardElevation="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <ImageView
+            android:id="@+id/iv_dialog_permission_logo"
+            android:layout_width="122dp"
+            android:layout_height="64dp"
+            android:src="@drawable/logo_typo_color"
+            app:layout_constraintBottom_toTopOf="@id/tv_dialog_permission_headline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/tv_dialog_permission_headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_regular"
+            android:text="@string/dialog_permission_headline"
+            android:textAlignment="center"
+            android:textColor="@color/color_text_01"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@id/ll_dialog_permission_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_dialog_permission_logo" />
+
+        <LinearLayout
+            android:id="@+id/ll_dialog_permission_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_40"
+            android:orientation="vertical"
+            android:weightSum="5"
+            app:layout_constraintBottom_toTopOf="@id/btn_permission_dialog_ok"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_dialog_permission_headline">
+
+            <include
+                android:id="@+id/included_location"
+                layout="@layout/include_dialog_permission"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-                <ImageView
-                    android:id="@+id/iv_dialog_permission_logo"
-                    android:layout_width="122dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/logo_typo_color"
-                    app:layout_constraintBottom_toTopOf="@id/tv_dialog_permission_headline"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <include
+                android:id="@+id/included_camera"
+                layout="@layout/include_dialog_permission"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-                <TextView
-                    android:id="@+id/tv_dialog_permission_headline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/notosanskr_regular"
-                    android:text="@string/dialog_permission_headline"
-                    android:textAlignment="center"
-                    android:textColor="@color/color_text_01"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toTopOf="@id/ll_dialog_permission_list"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_dialog_permission_logo" />
+            <include
+                android:id="@+id/included_storage"
+                layout="@layout/include_dialog_permission"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-                <LinearLayout
-                    android:id="@+id/ll_dialog_permission_list"
-                    android:layout_width="229dp"
-                    android:layout_height="374dp"
-                    android:layout_marginStart="41dp"
-                    android:layout_marginEnd="41dp"
-                    android:orientation="vertical"
-                    android:weightSum="5"
-                    app:layout_constraintBottom_toTopOf="@id/btn_permission_dialog_ok"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_dialog_permission_headline">
+            <include
+                android:id="@+id/included_notification"
+                layout="@layout/include_dialog_permission"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-                    <include
-                        layout="@layout/include_dialog_permission"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        app:description="@{`주변 식당 탐색 및 식당 검색 시 사용해요.`}"
-                        app:icon="@{@drawable/ic_pin_stroke}"
-                        app:name="@{`위치`}" />
+            <include
+                android:id="@+id/included_call"
+                layout="@layout/include_dialog_permission"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
 
-                    <include
-                        layout="@layout/include_dialog_permission"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        app:description="@{`포토 리뷰 등록, 프로필 사진 등록 시 사용해요.`}"
-                        app:icon="@{@drawable/ic_camera}"
-                        app:name="@{`카메라`}" />
+        </LinearLayout>
 
-                    <include
-                        layout="@layout/include_dialog_permission"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        app:description="@{`포토 리뷰 등록, 프로필 사진 등록 시 사용해요.`}"
-                        app:icon="@{@drawable/ic_folder}"
-                        app:name="@{`저장소`}" />
-
-                    <include
-                        layout="@layout/include_dialog_permission"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        app:description="@{`앱 내 서비스 관련 PUSH알림 발송 시 사용해요.`}"
-                        app:icon="@{@drawable/ic_notification_stroke}"
-                        app:name="@{`알림`}" />
-
-                    <include
-                        layout="@layout/include_dialog_permission"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        app:description="@{`비건 식당으로의 전화 연결 시에 사용해요.`}"
-                        app:icon="@{@drawable/ic_call_empty}"
-                        app:name="@{`전화`}" />
-
-                </LinearLayout>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_permission_dialog_ok"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/color_primary"
-                    style="@style/body_1_bold"
-                    android:text="확인"
-                    android:textAlignment="center"
-                    android:textColor="@color/color_white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_permission_dialog_ok"
+            style="@style/body_1_bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_primary"
+            android:text="@string/btn_confirm"
+            android:gravity="center"
+            android:paddingVertical="@dimen/margin_20"
+            android:textAlignment="center"
+            android:textColor="@color/color_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.cardview.widget.CardView>

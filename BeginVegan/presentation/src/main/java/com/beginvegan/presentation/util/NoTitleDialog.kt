@@ -14,7 +14,7 @@ class NoTitleDialog private constructor(
     private val positiveButtonListener: (() -> Unit)?,
     private val negativeButtonListener: (() -> Unit)?,
     private val onDismissListener: (() -> Unit)?
-) : BaseDialogFragment<DialogNoTitleBinding>(R.layout.dialog_no_title) {
+) : BaseDialogFragment<DialogNoTitleBinding>(DialogNoTitleBinding::inflate) {
 
 
     private fun setPositiveButton(text: String, listener: () -> Unit) {

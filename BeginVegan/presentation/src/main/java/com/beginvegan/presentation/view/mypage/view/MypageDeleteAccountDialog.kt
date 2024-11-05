@@ -5,31 +5,25 @@ import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseDialogFragment
 import com.beginvegan.presentation.databinding.DialogWithTitleBinding
 
-class MypageDeleteAccountDialog:BaseDialogFragment<DialogWithTitleBinding>(R.layout.dialog_with_title) {
-    private var listener: OnBtnClickListener? = null
+class MypageDeleteAccountDialog(
+    private val onConfirm: () -> Unit
+) : BaseDialogFragment<DialogWithTitleBinding>(DialogWithTitleBinding::inflate) {
 
     override fun init() {
-//        isCancelable =false
+        with(binding) {
+            tvTitle.text = getString(R.string.dialog_mypage_setting_delete_account_title)
+            tvContent.text = getString(R.string.dialog_mypage_setting_delete_account_description)
+            tvSubContent.isVisible = false
+            btnCancel.text = getString(R.string.btn_cancel)
+            btnConfirm.text = getString(R.string.btn_delete_account)
 
-        binding.title = getString(R.string.dialog_mypage_setting_delete_account_title)
-        binding.content = getString(R.string.dialog_mypage_setting_delete_account_description)
-        binding.tvSubContent.isVisible = false
-        binding.btnCancel.text = getString(R.string.btn_cancel)
-        binding.btnConfirm.text = getString(R.string.btn_delete_account)
+            btnCancel.setOnClickListener {
+                dismiss()
+            }
 
-        binding.btnCancel.setOnClickListener {
-            dismiss()
+            btnConfirm.setOnClickListener {
+                onConfirm()
+            }
         }
-
-        binding.btnConfirm.setOnClickListener {
-            listener?.onConfirm()
-        }
-    }
-
-    interface OnBtnClickListener{
-        fun onConfirm()
-    }
-    fun setOnConfirm(listener: OnBtnClickListener){
-        this.listener = listener
     }
 }

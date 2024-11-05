@@ -15,7 +15,7 @@ class DefaultDialog private constructor(
     private val positiveButtonListener: (() -> Unit)?,
     private val negativeButtonListener: (() -> Unit)?,
     private val onDismissListener: (() -> Unit)?
-) : BaseDialogFragment<DialogDefaultBinding>(R.layout.dialog_default) {
+) : BaseDialogFragment<DialogDefaultBinding>(DialogDefaultBinding::inflate) {
 
 
     private fun setPositiveButton(text: String, listener: () -> Unit) {

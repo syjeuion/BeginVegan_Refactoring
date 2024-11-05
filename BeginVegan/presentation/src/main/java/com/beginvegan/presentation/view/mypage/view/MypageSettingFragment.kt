@@ -10,23 +10,21 @@ import androidx.navigation.fragment.findNavController
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseFragment
 import com.beginvegan.presentation.databinding.FragmentMypageSettingBinding
+import com.beginvegan.presentation.util.setToolbar
 import com.beginvegan.presentation.view.mypage.viewModel.MypagePushViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MypageSettingFragment : BaseFragment<FragmentMypageSettingBinding>(R.layout.fragment_mypage_setting) {
+class MypageSettingFragment : BaseFragment<FragmentMypageSettingBinding>(FragmentMypageSettingBinding::inflate) {
     private val mypagePushViewModel: MypagePushViewModel by viewModels()
 
     override fun init() {
-        binding.lifecycleOwner = this
-
         setBackUp()
         setPushToggle()
         setLogOut()
         setDeleteAccount()
     }
-
     //Push 알림 설정
     private fun setPushToggle(){
         mypagePushViewModel.getPushState()
@@ -95,15 +93,14 @@ class MypageSettingFragment : BaseFragment<FragmentMypageSettingBinding>(R.layou
         }
     }
     private fun openDialogDeleteAccount(){
-        MypageDeleteAccountDialog().show(childFragmentManager, "DeleteAccountDialog")
-        MypageDeleteAccountDialog().setOnConfirm(object :
-            MypageDeleteAccountDialog.OnBtnClickListener {
-            override fun onConfirm() {
-                //계정 삭제
-            }
-
-        })
+        MypageDeleteAccountDialog {
+            onConfirm
+        }.show(childFragmentManager, "DeleteAccountDialog")
     }
+    private val onConfirm = {
+        logMessage("계정삭제")
+    }
+
 
     //backStack
     private fun setBackUp(){

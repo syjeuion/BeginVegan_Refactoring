@@ -16,7 +16,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 class SelectImageFragment :
-    BaseFragment<FragmentGallerySelectImageBinding>(R.layout.fragment_gallery_select_image) {
+    BaseFragment<FragmentGallerySelectImageBinding>(FragmentGallerySelectImageBinding::inflate) {
 
     private val viewModel: GalleryViewModel by activityViewModels()
     override fun init() {

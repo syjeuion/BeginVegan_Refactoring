@@ -13,15 +13,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RestaurantModifyInformationDialog(private val restaurantId: Long) :
-    BaseDialogFragment<DialogRestaurantEditInfoBinding>(R.layout.dialog_restaurant_edit_info) {
+class RestaurantModifyInformationDialog(
+    private val restaurantId: Long
+) : BaseDialogFragment<DialogRestaurantEditInfoBinding>(DialogRestaurantEditInfoBinding::inflate) {
 
     private val viewModel: RestaurantModifyViewModel by viewModels()
 
     override fun init() {
-
-
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.modifyState.collect { state ->
                 when (state) {
                     is UiState.Loading -> {
@@ -64,7 +63,7 @@ class RestaurantModifyInformationDialog(private val restaurantId: Long) :
             this.dismiss()
         }
         binding.btnSubmitModify.setOnClickListener {
-            viewModel.modifyRestaurant(restaurantId,binding.tietModify.text.toString())
+            viewModel.modifyRestaurant(restaurantId, binding.tietModify.text.toString())
         }
     }
 }

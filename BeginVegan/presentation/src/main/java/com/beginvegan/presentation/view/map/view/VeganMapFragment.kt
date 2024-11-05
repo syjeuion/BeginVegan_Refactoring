@@ -55,7 +55,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class VeganMapFragment : BaseFragment<FragmentMainMapBinding>(R.layout.fragment_main_map) {
+class VeganMapFragment : BaseFragment<FragmentMainMapBinding>(FragmentMainMapBinding::inflate) {
     private lateinit var mapView: MapView
 
     private val viewModel: VeganMapViewModel by viewModels()

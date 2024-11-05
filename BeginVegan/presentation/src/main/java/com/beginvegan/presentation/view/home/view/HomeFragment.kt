@@ -43,7 +43,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment_main_home) {
+class HomeFragment : BaseFragment<FragmentMainHomeBinding>(FragmentMainHomeBinding::inflate) {
 
     private val mainViewModel: MainViewModel by hiltNavGraphViewModels(R.id.nav_main_graph)
 
@@ -120,8 +120,6 @@ class HomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment_mai
 
 
     override fun init() {
-        binding.lifecycleOwner = this
-
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
         mainViewModel.getRecommendRestaurant()
         mainViewModel.getUserInfo()

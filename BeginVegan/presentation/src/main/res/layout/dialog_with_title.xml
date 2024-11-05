@@ -1,83 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    app:cardCornerRadius="@dimen/radius_8">
 
-    <data>
-        <variable
-            name="title"
-            type="String" />
-        <variable
-            name="content"
-            type="String" />
-        <variable
-            name="sub_content"
-            type="String" />
-    </data>
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="@dimen/dialog_width"
-        android:layout_height="match_parent"
-        android:background="@color/color_background"
-        app:cardCornerRadius="@dimen/radius_8">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="@dimen/dialog_width"
-            android:layout_height="wrap_content">
+        android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/heading_bold"
-                android:textColor="@color/color_text_01"
-                android:text="@{title}"
-                android:layout_marginHorizontal="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_24"
-                app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:id="@+id/tv_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/body_2_regular"
-                android:textColor="@color/color_text_02"
-                android:text="@{content}"
-                app:layout_constraintTop_toBottomOf="@id/tv_title"
-                android:layout_marginTop="@dimen/margin_8"
-                android:layout_marginHorizontal="@dimen/margin_24"/>
-            <TextView
-                android:id="@+id/tv_sub_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/body_2_regular"
-                android:textColor="@color/color_text_02"
-                android:text="@{sub_content}"
-                app:layout_constraintTop_toBottomOf="@id/tv_content"
-                android:layout_marginHorizontal="@dimen/margin_24"/>
-            <Button
-                android:id="@+id/btn_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/body_1_bold"
-                android:textColor="@color/color_text_02"
-                android:backgroundTint="@color/color_background"
-                app:layout_constraintTop_toBottomOf="@id/tv_sub_content"
-                app:layout_constraintEnd_toStartOf="@id/btn_confirm"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginEnd="@dimen/margin_8"
-                android:layout_marginBottom="@dimen/margin_8"
-                android:layout_marginTop="@dimen/margin_36" />
-            <Button
-                android:id="@+id/btn_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/body_1_bold"
-                android:textColor="@color/color_primary"
-                android:backgroundTint="@color/color_background"
-                app:layout_constraintTop_toBottomOf="@id/tv_sub_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginEnd="@dimen/margin_8"
-                android:layout_marginBottom="@dimen/margin_8"
-                android:layout_marginTop="@dimen/margin_36" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/heading_bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:layout_marginTop="@dimen/margin_24"
+            android:textColor="@color/color_text_01"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</layout>
+        <TextView
+            android:id="@+id/tv_content"
+            style="@style/body_2_regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:layout_marginTop="@dimen/margin_8"
+            android:textColor="@color/color_text_02"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+        <TextView
+            android:id="@+id/tv_sub_content"
+            style="@style/body_2_regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:textColor="@color/color_text_02"
+            app:layout_constraintTop_toBottomOf="@id/tv_content" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/body_1_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_36"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:layout_marginBottom="@dimen/margin_8"
+            android:backgroundTint="@color/color_background"
+            android:textColor="@color/color_text_02"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_confirm"
+            app:layout_constraintTop_toBottomOf="@id/tv_sub_content" />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            style="@style/body_1_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_36"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:layout_marginBottom="@dimen/margin_8"
+            android:backgroundTint="@color/color_background"
+            android:textColor="@color/color_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_sub_content" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

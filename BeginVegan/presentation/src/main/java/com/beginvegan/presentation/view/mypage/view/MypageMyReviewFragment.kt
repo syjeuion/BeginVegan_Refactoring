@@ -13,6 +13,7 @@ import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentMypageMyReviewBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.ReviewRecommendController
+import com.beginvegan.presentation.util.setContentToolbar
 import com.beginvegan.presentation.view.mypage.adapter.MyReviewRvAdapter
 import com.beginvegan.presentation.view.mypage.viewModel.MyReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +23,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(R.layout.fragment_mypage_my_review) {
+class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(FragmentMypageMyReviewBinding::inflate) {
     @Inject
     lateinit var mainNavigationHandler: MainNavigationHandler
     @Inject
@@ -35,12 +36,18 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(R.lay
     private var totalCount = 0
     private var collectJob: Job? = null
     override fun init() {
-        binding.lifecycleOwner = this
         setBackUp()
         setFabButton()
-
+        setToolbar()
         reset()
         setRvAdapter()
+    }
+    private fun setToolbar(){
+        setContentToolbar(
+            requireContext(),
+            binding.includedToolbar,
+            getString(R.string.mypage_my_review)
+        )
     }
     private fun reset(){
         collectJob?.cancel()

@@ -1,104 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/cl_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    tools:context=".view.tips.view.TipsMagazineDetailFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_layout"
+    <include
+        android:id="@+id/included_toolbar"
+        layout="@layout/include_toolbar_primary"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.tips.view.TipsMagazineDetailFragment"
-        android:background="@color/color_background">
-        <include
-            android:id="@+id/included_toolbar"
-            layout="@layout/include_toolbar_primary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="@{@string/magazine}"
-            app:backButtonVisible="@{true}"
-            app:notificationVisible="@{false}"
-            app:colorMode="@{false}"/>
-        <TextView
-            android:id="@+id/tv_magazine_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/heading_bold"
-            android:textColor="@color/color_text_01"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/included_toolbar"
-            android:layout_marginTop="@dimen/margin_24"
-            android:layout_marginHorizontal="@dimen/margin_16"/>
-        <TextView
-            android:id="@+id/tv_writer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/body_1_bold"
-            android:textColor="@color/color_text_03"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/tv_magazine_title"
-            android:layout_marginHorizontal="@dimen/margin_16"
-            android:layout_marginTop="@dimen/margin_12"/>
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/body_2_regular"
-            android:textColor="@color/color_text_03"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/tv_writer"
-            android:layout_marginHorizontal="@dimen/margin_16"/>
-        <ToggleButton
-            android:id="@+id/tb_interest"
-            android:layout_width="@dimen/item_32"
-            android:layout_height="@dimen/item_32"
-            android:background="@drawable/selector_ic_heart"
-            android:backgroundTint="@color/color_primary"
-            android:textColor="@color/color_transparent"
-            app:layout_constraintTop_toBottomOf="@id/tv_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/margin_4"
-            android:layout_marginEnd="@dimen/margin_24"/>
-        <View
-            android:id="@+id/v_divider"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_1"
-            android:background="@color/color_gray_00"
-            app:layout_constraintTop_toBottomOf="@id/tb_interest"
-            android:layout_marginTop="@dimen/margin_16"
-            android:layout_marginHorizontal="@dimen/margin_16"/>
-        <ScrollView
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_magazine_title"
+        style="@style/heading_bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_24"
+        android:gravity="center"
+        android:textColor="@color/color_text_01"
+        app:layout_constraintTop_toBottomOf="@id/included_toolbar" />
+
+    <TextView
+        android:id="@+id/tv_writer"
+        style="@style/body_1_bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_12"
+        android:gravity="center"
+        android:textColor="@color/color_text_03"
+        app:layout_constraintTop_toBottomOf="@id/tv_magazine_title" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        style="@style/body_2_regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:gravity="center"
+        android:textColor="@color/color_text_03"
+        app:layout_constraintTop_toBottomOf="@id/tv_writer" />
+
+    <ToggleButton
+        android:id="@+id/tb_interest"
+        android:layout_width="@dimen/item_32"
+        android:layout_height="@dimen/item_32"
+        android:layout_marginTop="@dimen/margin_4"
+        android:layout_marginEnd="@dimen/margin_24"
+        android:background="@drawable/selector_ic_heart"
+        android:backgroundTint="@color/color_primary"
+        android:textColor="@color/color_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_date" />
+
+    <View
+        android:id="@+id/v_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_1"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@color/color_gray_00"
+        app:layout_constraintTop_toBottomOf="@id/tb_interest" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_0"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_divider">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_0"
-            app:layout_constraintTop_toBottomOf="@id/v_divider"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:scrollbars="none">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/item_0"
-                android:paddingBottom="@dimen/margin_40">
-                <ImageView
-                    android:id="@+id/iv_thumbnail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginHorizontal="@dimen/margin_16"
-                    android:layout_marginTop="@dimen/margin_32"
-                    android:layout_marginBottom="@dimen/margin_20"/>
-                <LinearLayout
-                    android:id="@+id/ll_magazine_contents"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/iv_thumbnail"
-                    android:layout_marginHorizontal="@dimen/margin_20"
-                    android:layout_marginTop="@dimen/margin_20"
-                    android:orientation="vertical"
-                    android:gravity="center"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+            android:paddingBottom="@dimen/margin_40">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+            <ImageView
+                android:id="@+id/iv_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_32"
+                android:layout_marginBottom="@dimen/margin_20"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/ll_magazine_contents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_20"
+                android:layout_marginTop="@dimen/margin_20"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/iv_thumbnail" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

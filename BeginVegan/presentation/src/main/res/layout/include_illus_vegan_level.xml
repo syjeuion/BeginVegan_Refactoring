@@ -1,99 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-        <import type="android.view.View"/>
-        <variable
-            name="milk"
-            type="Boolean" />
-        <variable
-            name="egg"
-            type="Boolean" />
-        <variable
-            name="fish"
-            type="Boolean" />
-        <variable
-            name="chicken"
-            type="Boolean" />
-        <variable
-            name="meat"
-            type="Boolean" />
-        <variable
-            name="description"
-            type="String" />
-    </data>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:background="@drawable/illus_vegan_level_salad_filled" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/illus_vegan_level_salad_filled" />
+        <ToggleButton
+            android:id="@+id/tb_milk"
+            android:layout_width="@dimen/item_40"
+            android:layout_height="@dimen/item_40"
+            android:layout_marginStart="@dimen/margin_4"
+            android:background="@drawable/selector_illus_vegan_level_milk"
+            android:clickable="false"
+            android:textColor="@color/color_transparent" />
 
-            <ToggleButton
-                android:layout_width="@dimen/item_40"
-                android:layout_height="@dimen/item_40"
-                android:clickable="false"
-                android:checked="@{milk}"
-                android:textColor="@color/color_transparent"
-                android:background="@drawable/selector_illus_vegan_level_milk"
-                android:layout_marginStart="@dimen/margin_4" />
+        <ToggleButton
+            android:id="@+id/tb_egg"
+            android:layout_width="43dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="@dimen/margin_4"
+            android:background="@drawable/selector_illus_vegan_level_egg"
+            android:clickable="false"
+            android:textColor="@color/color_transparent" />
 
-            <ToggleButton
-                android:layout_width="43dp"
-                android:layout_height="38dp"
-                android:clickable="false"
-                android:checked="@{egg}"
-                android:textColor="@color/color_transparent"
-                android:background="@drawable/selector_illus_vegan_level_egg"
-                android:layout_marginStart="@dimen/margin_4" />
+        <ToggleButton
+            android:id="@+id/tb_fish"
+            android:layout_width="40dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="@dimen/margin_4"
+            android:background="@drawable/selector_illus_vegan_level_fish"
+            android:clickable="false"
+            android:textColor="@color/color_transparent" />
 
-            <ToggleButton
-                android:layout_width="40dp"
-                android:layout_height="42dp"
-                android:clickable="false"
-                android:checked="@{fish}"
-                android:textColor="@color/color_transparent"
-                android:background="@drawable/selector_illus_vegan_level_fish"
-                android:layout_marginStart="@dimen/margin_4" />
+        <ToggleButton
+            android:id="@+id/tb_chicken"
+            android:layout_width="46dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="@dimen/margin_4"
+            android:background="@drawable/selector_illus_vegan_level_chicken"
+            android:clickable="false"
+            android:textColor="@color/color_transparent" />
 
-            <ToggleButton
-                android:layout_width="46dp"
-                android:layout_height="26dp"
-                android:clickable="false"
-                android:checked="@{chicken}"
-                android:textColor="@color/color_transparent"
-                android:background="@drawable/selector_illus_vegan_level_chicken"
-                android:layout_marginStart="@dimen/margin_4" />
-
-            <ToggleButton
-                android:layout_width="38dp"
-                android:layout_height="29dp"
-                android:clickable="false"
-                android:checked="@{meat}"
-                android:textColor="@color/color_transparent"
-                android:background="@drawable/selector_illus_vegan_level_meat"
-                android:layout_marginStart="@dimen/margin_4" />
-        </LinearLayout>
-        <TextView
-            android:id="@+id/tv_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/caption_regular"
-            android:textSize="12dp"
-            android:textColor="@color/color_text_01"
-            android:text="@{description}"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/margin_4"/>
+        <ToggleButton
+            android:id="@+id/tb_meat"
+            android:layout_width="38dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="@dimen/margin_4"
+            android:background="@drawable/selector_illus_vegan_level_meat"
+            android:clickable="false"
+            android:textColor="@color/color_transparent" />
     </LinearLayout>
 
-</layout>
+    <TextView
+        android:id="@+id/tv_description"
+        style="@style/caption_regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_4"
+        android:textColor="@color/color_text_01"
+        android:textSize="12dp"
+        android:visibility="gone" />
+</LinearLayout>

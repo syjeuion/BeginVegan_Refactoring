@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RestaurantDetailFragment :
-    BaseFragment<FragmentRestaurantDetailBinding>(R.layout.fragment_restaurant_detail) {
+    BaseFragment<FragmentRestaurantDetailBinding>(FragmentRestaurantDetailBinding::inflate) {
     private val args: NavRestaurantGraphArgs by navArgs()
 
     private lateinit var restaurantMenuAdapter: MenuRVAdapter

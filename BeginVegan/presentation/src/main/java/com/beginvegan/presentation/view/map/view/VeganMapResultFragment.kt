@@ -60,7 +60,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class VeganMapResultFragment :
-    BaseFragment<FragmentMapResultBinding>(R.layout.fragment_map_result) {
+    BaseFragment<FragmentMapResultBinding>(FragmentMapResultBinding::inflate) {
     private val args: VeganMapResultFragmentArgs by navArgs()
 
     private lateinit var mapView: MapView

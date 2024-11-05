@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RestaurantInformDialog :
-    BaseDialogFragment<DialogRestaurantInformBinding>(R.layout.dialog_restaurant_inform) {
+    BaseDialogFragment<DialogRestaurantInformBinding>(DialogRestaurantInformBinding::inflate) {
 
     private val viewModel: RestaurantInformViewModel by viewModels()
 
