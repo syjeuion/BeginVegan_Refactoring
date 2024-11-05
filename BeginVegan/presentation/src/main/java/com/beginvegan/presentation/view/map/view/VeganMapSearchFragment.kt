@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class VeganMapSearchFragment :
-    BaseFragment<FragmentMapSearchBinding>(R.layout.fragment_map_search) {
+    BaseFragment<FragmentMapSearchBinding>(FragmentMapSearchBinding::inflate) {
 
     private val viewModel: VeganMapSearchViewModel by viewModels()
     private lateinit var veganMapSearchRVAdapter: VeganMapSearchRVAdapter

@@ -1,11 +1,13 @@
 package com.beginvegan.presentation.view.tips.view
 
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseFragment
 import com.beginvegan.presentation.databinding.FragmentMainTipsBinding
 import com.beginvegan.presentation.util.DrawerController
+import com.beginvegan.presentation.util.setToolbar
 import com.beginvegan.presentation.view.main.viewModel.MainViewModel
 import com.beginvegan.presentation.view.tips.adapter.TipsVpAdapter
 import com.beginvegan.presentation.view.tips.viewModel.RecipeViewModel
@@ -18,17 +20,26 @@ import javax.inject.Inject
  * Tab - Magazine / Recipe
  */
 @AndroidEntryPoint
-class TipsFragment : BaseFragment<FragmentMainTipsBinding>(R.layout.fragment_main_tips) {
+class TipsFragment : BaseFragment<FragmentMainTipsBinding>(FragmentMainTipsBinding::inflate) {
     @Inject
     lateinit var drawerController: DrawerController
     private val recipeViewModel: RecipeViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by hiltNavGraphViewModels(R.id.nav_main_graph)
     override fun init() {
-        binding.lifecycleOwner = this
-
         setTipsTab()
+        setTipsToolbar()
         //fcm 테스트
         //mainViewModel.postFcmPush()
+    }
+    private fun setTipsToolbar(){
+        setToolbar(
+            view = binding.includedToolbar,
+            title = getString(R.string.tips_title),
+            backColor = ContextCompat.getColor(requireContext(), R.color.color_primary),
+            contentColor = ContextCompat.getColor(requireContext(), R.color.color_white),
+            isBackIcon = false,
+            isNotiIcon = true
+        )
     }
 
     private fun setTipsTab() {

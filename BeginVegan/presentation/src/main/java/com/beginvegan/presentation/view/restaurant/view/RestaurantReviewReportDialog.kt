@@ -11,10 +11,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RestaurantReviewReportDialog :
-    BaseDialogFragment<DialogReviewReportBinding>(R.layout.dialog_review_report) {
+    BaseDialogFragment<DialogReviewReportBinding>(DialogReviewReportBinding::inflate) {
 
     private val viewModel: RestaurantReviewReportViewModel by viewModels()
-
     override fun init() {
 
         binding.rgReportReason.setOnCheckedChangeListener { _, checkedId ->

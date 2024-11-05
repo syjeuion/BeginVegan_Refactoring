@@ -11,6 +11,8 @@ import com.beginvegan.presentation.base.BaseFragment
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentVeganTestBinding
 import com.beginvegan.presentation.databinding.IncludeIllusVeganLevelBinding
+import com.beginvegan.presentation.util.setContentToolbar
+import com.beginvegan.presentation.util.setMagazineDetailToolbar
 import com.beginvegan.presentation.view.home.veganTest.viewModel.VeganTestViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -19,7 +21,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class VeganTestFragment : BaseFragment<FragmentVeganTestBinding>(R.layout.fragment_vegan_test) {
+class VeganTestFragment : BaseFragment<FragmentVeganTestBinding>(FragmentVeganTestBinding::inflate) {
     private val PATCH_TYPE = "TEST"
 
     private var latestRadioButton:View? = null
@@ -37,7 +39,6 @@ class VeganTestFragment : BaseFragment<FragmentVeganTestBinding>(R.layout.fragme
     private var patchJob:Job? = null
 
     override fun init() {
-        binding.lifecycleOwner = this
         patchJob?.cancel()
 
         veganTestDescriptions = resources.getStringArray(R.array.vegan_test_descriptions)
@@ -45,9 +46,16 @@ class VeganTestFragment : BaseFragment<FragmentVeganTestBinding>(R.layout.fragme
 
         setDescription(binding.includedVegan,null,binding.acrbLacto,0 )
         controlRadioButton()
-
+        setToolbar()
         goBackUp()
         goResult()
+    }
+    private fun setToolbar(){
+        setContentToolbar(
+            requireContext(),
+            binding.includedToolbar,
+            getString(R.string.vegan_test_title)
+        )
     }
     private fun controlRadioButton(){
         binding.rgVeganTest.setOnCheckedChangeListener { _, checkedId ->
@@ -85,7 +93,7 @@ class VeganTestFragment : BaseFragment<FragmentVeganTestBinding>(R.layout.fragme
         setMargin(latestUnderRadioButton, 26)
         latestIncludedView?.tvDescription?.isVisible = false
 
-        selectedView.description = veganTestDescriptions[veganTypeNum]
+        selectedView.tvDescription.text = veganTestDescriptions[veganTypeNum]
         selectedView.tvDescription.isVisible = true
 
         if(underRadioView==null) setMargin(selectedRadioView, 39)

@@ -18,6 +18,7 @@ import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentMypageMyRestaurantBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.DefaultDialog
+import com.beginvegan.presentation.util.setContentToolbar
 import com.beginvegan.presentation.view.map.view.VeganMapFragment
 import com.beginvegan.presentation.view.mypage.adapter.MyRestaurantRvAdapter
 import com.beginvegan.presentation.view.mypage.viewModel.MyRestaurantViewModel
@@ -38,7 +39,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MypageMyRestaurantFragment :
-    BaseFragment<FragmentMypageMyRestaurantBinding>(R.layout.fragment_mypage_my_restaurant) {
+    BaseFragment<FragmentMypageMyRestaurantBinding>(FragmentMypageMyRestaurantBinding::inflate) {
     @Inject
     lateinit var mainNavigationHandler: MainNavigationHandler
     private val myRestaurantViewModel: MyRestaurantViewModel by viewModels()
@@ -53,11 +54,18 @@ class MypageMyRestaurantFragment :
     private var collectJob: Job? = null
     override fun init() {
         checkAndRequestPermissions()
+        setToolbar()
         setBackUp()
         setFabButton()
         reset()
     }
-
+    private fun setToolbar(){
+        setContentToolbar(
+            requireContext(),
+            binding.includedToolbar,
+            getString(R.string.mypage_my_restaurant)
+        )
+    }
     private fun reset() {
         collectJob?.cancel()
         myRestaurantList = mutableListOf()

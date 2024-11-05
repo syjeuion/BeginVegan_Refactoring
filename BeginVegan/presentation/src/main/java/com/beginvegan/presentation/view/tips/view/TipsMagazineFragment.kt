@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(R.layout.fragment_tips_magazine) {
+class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(FragmentTipsMagazineBinding::inflate) {
     @Inject
     lateinit var mainNavigationHandler: MainNavigationHandler
     @Inject
@@ -41,7 +41,6 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(R.layout.
     private var typeface: Typeface? = null
 
     override fun init() {
-        binding.lifecycleOwner = this
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
 
         reset()
@@ -63,6 +62,11 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(R.layout.
 
         getMagazineList(currentPage)
     }
+
+    /**
+     * magazine rv adapter
+     * click listener
+     */
     private val onItemClick = {magazineId:Int ->
         mainNavigationHandler.navigateTipsToMagazineDetail()
         magazineViewModel.setMagazineDetail(null)

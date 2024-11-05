@@ -17,6 +17,8 @@ import com.beginvegan.presentation.base.BaseFragment
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentTipsMagazineDetailBinding
 import com.beginvegan.presentation.util.BookmarkController
+import com.beginvegan.presentation.util.setContentToolbar
+import com.beginvegan.presentation.util.setMagazineDetailToolbar
 import com.beginvegan.presentation.view.main.viewModel.MainViewModel
 import com.beginvegan.presentation.view.tips.viewModel.MagazineViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -27,7 +29,7 @@ import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TipsMagazineDetailFragment : BaseFragment<FragmentTipsMagazineDetailBinding>(R.layout.fragment_tips_magazine_detail) {
+class TipsMagazineDetailFragment : BaseFragment<FragmentTipsMagazineDetailBinding>(FragmentTipsMagazineDetailBinding::inflate) {
     @Inject
     lateinit var mainNavigationHandler: MainNavigationHandler
     @Inject
@@ -38,15 +40,21 @@ class TipsMagazineDetailFragment : BaseFragment<FragmentTipsMagazineDetailBindin
     private var typeface: Typeface? = null
 
     override fun init() {
-        binding.lifecycleOwner = this
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
 
         magazineViewModel.magazineDetail.observe(this){
             if(it != null) setView(it)
         }
+        setToolbar()
         goBackUp()
     }
-
+    private fun setToolbar(){
+        setMagazineDetailToolbar(
+            requireContext(),
+            binding.includedToolbar,
+            getString(R.string.magazine)
+        )
+    }
     private fun goBackUp(){
         binding.includedToolbar.ibBackUp.setOnClickListener {
             findNavController().popBackStack()

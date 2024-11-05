@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeTipsRecipeFragment: BaseFragment<FragmentHomeTipsRecipeBinding>(R.layout.fragment_home_tips_recipe){
+class HomeTipsRecipeFragment: BaseFragment<FragmentHomeTipsRecipeBinding>(FragmentHomeTipsRecipeBinding::inflate){
     private lateinit var vpAdapter: HomeRecipeVpAdapter
     @Inject
     lateinit var bookmarkController: BookmarkController
@@ -36,7 +36,6 @@ class HomeTipsRecipeFragment: BaseFragment<FragmentHomeTipsRecipeBinding>(R.layo
     private var typeface:Typeface? = null
 
     override fun init() {
-        binding.lifecycleOwner = this
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
 
         viewModel.getHomeRecipeList()

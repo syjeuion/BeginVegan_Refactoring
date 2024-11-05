@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class GalleryListFragment :
-    BaseFragment<FragmentGalleryListBinding>(R.layout.fragment_gallery_list) {
+    BaseFragment<FragmentGalleryListBinding>(FragmentGalleryListBinding::inflate) {
     private val imageList = arrayListOf<Uri>()
 
     private val viewModel: GalleryViewModel by activityViewModels()

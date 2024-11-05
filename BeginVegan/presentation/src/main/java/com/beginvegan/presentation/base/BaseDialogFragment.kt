@@ -9,16 +9,18 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
 import androidx.annotation.LayoutRes
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.beginvegan.presentation.util.OnThrottleClickListener
 import timber.log.Timber
 
-abstract class BaseDialogFragment<T : ViewDataBinding>(@LayoutRes private val layoutResId: Int) :
+abstract class BaseDialogFragment<VB : ViewBinding>(
+    private val inflate:FragmentInflate<VB>
+) :
     DialogFragment() {
-    private var _binding: T? = null
-    protected val binding: T
+    private var _binding: VB? = null
+    protected val binding: VB
         get() = _binding ?: error("BaseDialogFragment binding error")
 
     private val tag = "${this::class.java.simpleName}"
@@ -27,12 +29,11 @@ abstract class BaseDialogFragment<T : ViewDataBinding>(@LayoutRes private val la
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
+        _binding = inflate(inflater, container, false)
 
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         dialog?.window?.setDimAmount(0.7f)
-        binding.lifecycleOwner = viewLifecycleOwner
         logMessage("onCreateView")
         return binding.root
     }

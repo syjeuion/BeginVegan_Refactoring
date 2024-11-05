@@ -1,147 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/ll_user_profile_area"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_12"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/ll_user_profile_area"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginHorizontal="@dimen/margin_16"
-            android:layout_marginTop="@dimen/margin_12"
-            android:gravity="center_vertical">
+        <ImageView
+            android:id="@+id/iv_user_profile_img"
+            android:layout_width="@dimen/item_30"
+            android:layout_height="@dimen/item_30"
+            android:background="@drawable/illus_user_profile_default" />
 
-            <ImageView
-                android:id="@+id/iv_user_profile_img"
-                android:layout_width="@dimen/item_30"
-                android:layout_height="@dimen/item_30"
-                android:background="@drawable/illus_user_profile_default" />
-
-            <TextView
-                android:id="@+id/tv_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/body_2_regular"
-                android:textColor="@color/color_text_01"
-                android:layout_marginStart="@dimen/margin_12" />
-
-            <ImageView
-                android:id="@+id/iv_user_level_ic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_user_level_1_seed"
-                android:layout_marginStart="@dimen/margin_4" />
-
-            <View
-                android:layout_width="@dimen/item_0"
-                android:layout_height="@dimen/item_0"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/body_2_regular"
-                android:textColor="@color/color_text_02" />
-
-            <ImageButton
-                android:id="@+id/ib_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_menu_kebab"
-                android:layout_gravity="end" />
-        </LinearLayout>
-
-        <com.willy.ratingbar.BaseRatingBar
-            android:id="@+id/brb_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srb_rating="2.5"
-            app:srb_starWidth="@dimen/item_18"
-            app:srb_starHeight="@dimen/item_18"
-            app:srb_starPadding="@dimen/margin_2"
-            app:srb_stepSize="0.5"
-            app:srb_isIndicator="false"
-            app:srb_clickable="false"
-            app:srb_scrollable="false"
-            app:srb_drawableEmpty="@drawable/ic_star_empty"
-            app:srb_drawableFilled="@drawable/ic_star_fill"
-            app:layout_constraintTop_toBottomOf="@id/ll_user_profile_area"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/margin_10"
-            android:layout_marginStart="@dimen/margin_16" />
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/rv_imgs"-->
-<!--            android:layout_width="@dimen/item_0"-->
-<!--            android:layout_height="@dimen/item_80"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/brb_rating"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            android:orientation="horizontal" />-->
-        <ScrollView
-            android:id="@+id/sv_images"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/brb_rating"
-            app:layout_constraintBottom_toTopOf="@id/tv_review_content"
-            android:layout_marginVertical="@dimen/margin_16">
-            <LinearLayout
-                android:id="@+id/ll_images"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/margin_16"/>
-        </ScrollView>
         <TextView
-            android:id="@+id/tv_review_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/caption_regular"
-            android:textColor="@color/color_text_02"
-            android:background="@drawable/shape_rectangle_radius_4"
-            app:layout_constraintTop_toBottomOf="@id/sv_images"
-            android:layout_marginHorizontal="@dimen/margin_16"
-            android:layout_marginTop="@dimen/margin_16"
-            android:padding="@dimen/margin_12" />
-
-        <LinearLayout
-            android:id="@+id/ll_recommend"
+            android:id="@+id/tv_user_name"
+            style="@style/body_2_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_review_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginVertical="@dimen/margin_12"
-            android:layout_marginEnd="@dimen/margin_16"
-            android:background="@drawable/shape_rectangle_radius_4"
-            android:backgroundTint="@color/color_secondary_variant_02"
-            android:paddingVertical="@dimen/margin_4"
-            android:paddingHorizontal="@dimen/margin_8"
-            android:gravity="center">
-            <ToggleButton
-                android:id="@+id/tb_recommend"
-                android:layout_width="@dimen/item_18"
-                android:layout_height="@dimen/item_18"
-                android:background="@drawable/selector_review_recommend"
-                android:textColor="@color/color_transparent" />
-            <TextView
-                android:id="@+id/tv_recommend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/caption_regular"
-                android:text="@string/btn_review_recommend"
-                android:textColor="@color/color_secondary_variant_01"
-                android:layout_marginStart="@dimen/margin_4" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+            android:layout_marginStart="@dimen/margin_12"
+            android:textColor="@color/color_text_01" />
+
+        <ImageView
+            android:id="@+id/iv_user_level_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_4"
+            android:background="@drawable/ic_user_level_1_seed" />
+
+        <View
+            android:layout_width="@dimen/item_0"
+            android:layout_height="@dimen/item_0"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/body_2_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_text_02" />
+
+        <ImageButton
+            android:id="@+id/ib_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@drawable/ic_menu_kebab" />
+    </LinearLayout>
+
+    <com.willy.ratingbar.BaseRatingBar
+        android:id="@+id/brb_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_user_profile_area"
+        app:srb_clickable="false"
+        app:srb_drawableEmpty="@drawable/ic_star_empty"
+        app:srb_drawableFilled="@drawable/ic_star_fill"
+        app:srb_isIndicator="false"
+        app:srb_rating="2.5"
+        app:srb_scrollable="false"
+        app:srb_starHeight="@dimen/item_18"
+        app:srb_starPadding="@dimen/margin_2"
+        app:srb_starWidth="@dimen/item_18"
+        app:srb_stepSize="0.5" />
+
+    <!--        <androidx.recyclerview.widget.RecyclerView-->
+    <!--            android:id="@+id/rv_imgs"-->
+    <!--            android:layout_width="@dimen/item_0"-->
+    <!--            android:layout_height="@dimen/item_80"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/brb_rating"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            android:orientation="horizontal" />-->
+    <ScrollView
+        android:id="@+id/sv_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_16"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/tv_review_content"
+        app:layout_constraintTop_toBottomOf="@id/brb_rating">
+
+        <LinearLayout
+            android:id="@+id/ll_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/margin_16" />
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_review_content"
+        style="@style/caption_regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
+        android:background="@drawable/shape_rectangle_radius_4"
+        android:padding="@dimen/margin_12"
+        android:textColor="@color/color_text_02"
+        app:layout_constraintTop_toBottomOf="@id/sv_images" />
+
+    <LinearLayout
+        android:id="@+id/ll_recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_12"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:background="@drawable/shape_rectangle_radius_4"
+        android:backgroundTint="@color/color_secondary_variant_02"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/margin_8"
+        android:paddingVertical="@dimen/margin_4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_review_content">
+
+        <ToggleButton
+            android:id="@+id/tb_recommend"
+            android:layout_width="@dimen/item_18"
+            android:layout_height="@dimen/item_18"
+            android:background="@drawable/selector_review_recommend"
+            android:textColor="@color/color_transparent" />
+
+        <TextView
+            android:id="@+id/tv_recommend"
+            style="@style/caption_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_4"
+            android:text="@string/btn_review_recommend"
+            android:textColor="@color/color_secondary_variant_01" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

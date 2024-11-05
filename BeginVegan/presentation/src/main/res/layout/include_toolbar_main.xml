@@ -1,28 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
+<Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/global_toolbar_height"
+    android:background="@color/color_primary">
 
-    </data>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/logo_typo_white" />
 
-    <Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/global_toolbar_height"
-        android:background="@color/color_primary">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_typo_white"
-            android:layout_gravity="center" />
-
-        <ImageButton
-            android:id="@+id/ib_notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_notification_stroke"
-            android:backgroundTint="@color/color_background"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/global_margin" />
-    </Toolbar>
-</layout>
+    <ImageButton
+        android:id="@+id/ib_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/global_margin"
+        android:background="@drawable/ic_notification_stroke"
+        android:backgroundTint="@color/color_background" />
+</Toolbar>

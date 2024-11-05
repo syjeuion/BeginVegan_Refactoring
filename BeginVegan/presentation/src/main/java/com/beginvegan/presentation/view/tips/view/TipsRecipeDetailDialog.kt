@@ -28,7 +28,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(R.layout.dialog_recipe_detail) {
+class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(DialogRecipeDetailBinding::inflate) {
     @Inject
     lateinit var bookmarkController: BookmarkController
     @Inject
@@ -45,7 +45,6 @@ class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(R.lay
 
     override fun init() {
         isCancelable = false
-        binding.lifecycleOwner = this
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
         nowFragmet = recipeViewModel.nowFragment.value!!
 
@@ -111,7 +110,7 @@ class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(R.lay
                     myRecipeViewModel.updateRecipeListItem(currentData.position, newData)
                 }
             }
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 if(isChecked){
                     if(bookmarkController.postBookmark(data.id, "RECIPE")){
                         setSnackBar(getString(R.string.toast_scrap_done))

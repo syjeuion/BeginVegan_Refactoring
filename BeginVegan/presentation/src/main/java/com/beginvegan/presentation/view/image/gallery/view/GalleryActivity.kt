@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseActivity
 import android.os.Build
+import android.view.LayoutInflater
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -15,9 +16,10 @@ import com.beginvegan.presentation.view.image.gallery.viewModel.GalleryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GalleryActivity : BaseActivity<ActivityGalleryBinding>(R.layout.activity_gallery) {
+class GalleryActivity : BaseActivity<ActivityGalleryBinding>() {
 
     private val viewModel: GalleryViewModel by viewModels()
+    override fun inflateBinding(layoutInflater: LayoutInflater) = ActivityGalleryBinding.inflate(layoutInflater)
 
     override fun initViewModel() {
         viewModel.resultImage.observe(this) {

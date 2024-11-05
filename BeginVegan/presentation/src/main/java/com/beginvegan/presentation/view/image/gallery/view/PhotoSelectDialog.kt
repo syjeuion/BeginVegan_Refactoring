@@ -5,11 +5,12 @@ import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseDialogFragment
 import com.beginvegan.presentation.databinding.DialogPhotoSelectBinding
 
-class PhotoSelectDialog(private val isProfileImage: Boolean): BaseDialogFragment<DialogPhotoSelectBinding>(R.layout.dialog_photo_select) {
+class PhotoSelectDialog(
+    private val isProfileImage: Boolean
+): BaseDialogFragment<DialogPhotoSelectBinding>(DialogPhotoSelectBinding::inflate) {
     interface DialogPhotoSelectClickListener{
         fun onClickCamera()
         fun onClickGallery()
-
         fun onClickDefault()
     }
 

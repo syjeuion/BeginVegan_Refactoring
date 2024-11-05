@@ -2,6 +2,7 @@ package com.beginvegan.presentation.view.main.view
 
 import android.content.Context
 import android.content.Intent
+import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
@@ -19,12 +20,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
     lateinit var mainNavigationHandler: MainNavigationHandler
     lateinit var navController: NavController
-
-    override fun initViewModel() {
-    }
+    override fun inflateBinding(layoutInflater: LayoutInflater) = ActivityMainBinding.inflate(layoutInflater)
+    override fun initViewModel() {}
 
     override fun init() {
         binding.dlDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)

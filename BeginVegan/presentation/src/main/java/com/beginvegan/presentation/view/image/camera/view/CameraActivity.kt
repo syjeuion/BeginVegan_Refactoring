@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -30,10 +31,11 @@ import java.util.Date
 import java.util.Locale
 import kotlin.jvm.Throws
 
-class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_camera) {
+class CameraActivity : BaseActivity<ActivityCameraBinding>() {
+    override fun inflateBinding(layoutInflater: LayoutInflater) = ActivityCameraBinding.inflate(layoutInflater)
+    override fun initViewModel() {}
 
     private val viewModel: CameraViewModel by viewModels()
-
     private val cameraPermission = Manifest.permission.CAMERA
 
     private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
@@ -72,9 +74,6 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>(R.layout.activity_cam
 //                showPermissionRationaleDialog(this)
             }
         }
-
-    override fun initViewModel() {
-    }
 
     override fun init() {
         cameraLauncher = registerForActivityResult(

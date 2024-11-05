@@ -19,7 +19,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class NotificationDrawerFragment:BaseFragment<FragmentNotificationDrawerBinding>(R.layout.fragment_notification_drawer) {
+class NotificationDrawerFragment :
+    BaseFragment<FragmentNotificationDrawerBinding>(FragmentNotificationDrawerBinding::inflate) {
     @Inject
     lateinit var drawerController: DrawerController
     private val notificationViewModel: NotificationViewModel by viewModels()
@@ -28,24 +29,26 @@ class NotificationDrawerFragment:BaseFragment<FragmentNotificationDrawerBinding>
         setDrawerRv()
     }
 
-    private fun setDrawerRv(){
+    private fun setDrawerRv() {
         binding.ibBackUp.setOnClickListener {
             drawerController.closeDrawer()
         }
 
         lifecycleScope.launch {
-            notificationViewModel.alarmLists.collectLatest{state->
-                when(state){
-                    is NetworkResult.Loading ->{
+            notificationViewModel.alarmLists.collectLatest { state ->
+                when (state) {
+                    is NetworkResult.Loading -> {
 
                     }
-                    is NetworkResult.Success ->{
+
+                    is NetworkResult.Success -> {
                         val unreadList = state.data!!.response!!.unreadAlarmList
                         setUnreadAlarmList(unreadList)
                         val readlist = state.data!!.response!!.readAlarmList
                         setReadAlarmList(readlist)
                     }
-                    is NetworkResult.Error ->{
+
+                    is NetworkResult.Error -> {
 
                     }
                 }
@@ -53,20 +56,22 @@ class NotificationDrawerFragment:BaseFragment<FragmentNotificationDrawerBinding>
         }
 
     }
-    private fun setUnreadAlarmList(list:List<Alarm>){
+
+    private fun setUnreadAlarmList(list: List<Alarm>) {
         val unreadRecyclerView = binding.rvUnreadNotification
 
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             binding.tvUnreadTitle.isVisible = false
             unreadRecyclerView.isVisible = false
             binding.vDivider.isVisible = false
-        }else{
-            val newRvAdapter = NotificationUnreadRvAdapter(list,requireContext())
+        } else {
+            val newRvAdapter = NotificationUnreadRvAdapter(list, requireContext())
             unreadRecyclerView.adapter = newRvAdapter
             unreadRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         }
     }
-    private fun setReadAlarmList(list:List<Alarm>){
+
+    private fun setReadAlarmList(list: List<Alarm>) {
         val readRecyclerView = binding.rvReadNotification
 
         val oldRvAdapter = NotificationReadRvAdapter(list, requireContext())

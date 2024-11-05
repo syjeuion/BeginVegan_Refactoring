@@ -7,7 +7,8 @@ import com.beginvegan.presentation.databinding.FragmentMypageEditProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MypageEditProfileFragment : BaseFragment<FragmentMypageEditProfileBinding>(R.layout.fragment_mypage_edit_profile) {
+class MypageEditProfileFragment :
+    BaseFragment<FragmentMypageEditProfileBinding>(FragmentMypageEditProfileBinding::inflate) {
     override fun init() {
 
         binding.ibBackUp.setOnClickListener {

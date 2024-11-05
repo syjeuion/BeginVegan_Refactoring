@@ -20,15 +20,12 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RestaurantReviewFragment :
-    BaseFragment<FragmentWriteReviewBinding>(R.layout.fragment_write_review) {
+    BaseFragment<FragmentWriteReviewBinding>(FragmentWriteReviewBinding::inflate) {
 
     private val args: RestaurantReviewFragmentArgs by navArgs()
-
     private val viewModel: RestaurantReviewViewModel by viewModels()
 
-
     override fun init() {
-
         // 리뷰 작성 상태 관찰
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.writeReviewState.collectLatest { state ->

@@ -7,21 +7,26 @@ import com.beginvegan.presentation.databinding.DialogPermissionRefuseNotificatio
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class MypagePushAlertDialog(private val permit:Boolean, private val mypage:Boolean):BaseDialogFragment<DialogPermissionRefuseNotificationBinding>(R.layout.dialog_permission_refuse_notification) {
+class MypagePushAlertDialog(
+    private val permit: Boolean, private val mypage: Boolean
+) : BaseDialogFragment<DialogPermissionRefuseNotificationBinding>(DialogPermissionRefuseNotificationBinding::inflate) {
     override fun init() {
-        if(permit) setBinding("동의", "거부")
+        if (permit) setBinding("동의", "거부")
         else setBinding("거부", "동의")
 
         binding.btnConfirm.setOnClickListener {
             dismiss()
         }
     }
-    private fun setBinding(type: String, noType:String){
-        binding.tvTitle.text = getString(R.string.permission_refuse_notification_title, type)
-        binding.tvContentContent.text = getString(R.string.permission_refuse_notification_content, type)
 
-        if(mypage) binding.tvSubContent.visibility = View.GONE
-        else binding.tvSubContent.text = getString(R.string.permission_refuse_notification_description, noType)
+    private fun setBinding(type: String, noType: String) {
+        binding.tvTitle.text = getString(R.string.permission_refuse_notification_title, type)
+        binding.tvContentContent.text =
+            getString(R.string.permission_refuse_notification_content, type)
+
+        if (mypage) binding.tvSubContent.visibility = View.GONE
+        else binding.tvSubContent.text =
+            getString(R.string.permission_refuse_notification_description, noType)
 
         val currentDate = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")

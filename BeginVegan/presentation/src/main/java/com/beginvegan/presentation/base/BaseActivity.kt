@@ -1,27 +1,29 @@
 package com.beginvegan.presentation.base
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import androidx.viewbinding.ViewBinding
 import com.beginvegan.presentation.util.OnThrottleClickListener
 import timber.log.Timber
 
-abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes private val layoutResId: Int) :
-    AppCompatActivity() {
-    lateinit var binding: T
+abstract class BaseActivity<VB : ViewBinding>() : AppCompatActivity() {
+    private var _binding: VB? = null
+    protected val binding get() = _binding!!
 
     private val tag = "${this::class.java.simpleName}"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         logMessage("onCreate")
-        binding = DataBindingUtil.setContentView(this, layoutResId)
+        _binding = inflateBinding(layoutInflater)
+        setContentView(binding.root)
+
         init()
         initViewModel()
     }
+    abstract fun inflateBinding(layoutInflater: LayoutInflater): VB
 
     protected abstract fun initViewModel()
     protected abstract fun init()

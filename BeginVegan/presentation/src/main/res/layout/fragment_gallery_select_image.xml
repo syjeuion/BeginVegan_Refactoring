@@ -1,54 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <Toolbar
+        android:id="@+id/tb_gallery"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:contentInsetStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <Toolbar
-            android:id="@+id/tb_gallery"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:contentInsetStart="0dp">
-            <ImageButton
-                android:id="@+id/ib_back_up"
-                android:layout_width="@dimen/global_button_size"
-                android:layout_height="@dimen/global_button_size"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_arrow"/>
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/ib_done"
-                android:layout_width="@dimen/global_button_size"
-                android:layout_height="@dimen/global_button_size"
-                android:layout_gravity="end"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_check"
-                android:scaleType="centerInside"
-                android:tint="@color/color_primary"
-                android:padding="0dp" />
-        </Toolbar>
+        <ImageButton
+            android:id="@+id/ib_back_up"
+            android:layout_width="@dimen/global_button_size"
+            android:layout_height="@dimen/global_button_size"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_arrow" />
 
-        <com.takusemba.cropme.CropLayout
-            android:id="@+id/cl_cropper"
-            app:cropme_background_alpha="80%"
-            app:cropme_frame_height_percent="50%"
-            app:cropme_frame_width_percent="90%"
-            app:cropme_max_scale="4.0"
-            app:cropme_overlay_shape="circle"
-            app:cropme_with_border="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tb_gallery"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_done"
+            android:layout_width="@dimen/global_button_size"
+            android:layout_height="@dimen/global_button_size"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:padding="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_check"
+            android:tint="@color/color_primary" />
+    </Toolbar>
+
+    <com.takusemba.cropme.CropLayout
+        android:id="@+id/cl_cropper"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:cropme_background_alpha="80%"
+        app:cropme_frame_height_percent="50%"
+        app:cropme_frame_width_percent="90%"
+        app:cropme_max_scale="4.0"
+        app:cropme_overlay_shape="circle"
+        app:cropme_with_border="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tb_gallery" />
+</androidx.constraintlayout.widget.ConstraintLayout>

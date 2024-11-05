@@ -31,7 +31,7 @@ import javax.inject.Inject
  *
  */
 @AndroidEntryPoint
-class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(R.layout.fragment_tips_recipe) {
+class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsRecipeBinding::inflate) {
     @Inject
     lateinit var bookmarkController:BookmarkController
     @Inject
@@ -46,7 +46,6 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(R.layout.frag
     private var typeface:Typeface? = null
 
     override fun init() {
-        binding.lifecycleOwner = this
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
 
         reset()
