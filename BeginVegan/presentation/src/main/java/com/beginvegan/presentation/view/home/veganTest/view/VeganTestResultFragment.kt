@@ -36,9 +36,9 @@ class VeganTestResultFragment : BaseFragment<FragmentVeganTestResultBinding>(Fra
     private var typeNum = 0
 
     override fun init() {
-        veganTypes = resources.getStringArray(R.array.vegan_type)
-        resultDescriptions = resources.getStringArray(R.array.vegan_test_result_descriptions)
-        resultExplanations = resources.getStringArray(R.array.vegan_test_result_explanations)
+        veganTypes = requireNotNull(resources.getStringArray(R.array.vegan_type))
+        resultDescriptions = requireNotNull(resources.getStringArray(R.array.vegan_test_result_descriptions))
+        resultExplanations = requireNotNull(resources.getStringArray(R.array.vegan_test_result_explanations))
 
         setUI()
 

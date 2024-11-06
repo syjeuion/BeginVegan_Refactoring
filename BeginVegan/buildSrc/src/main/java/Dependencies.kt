@@ -73,4 +73,14 @@ object Dependencies {
     const val CIRCLE_IMAGEVIEW ="de.hdodenhof:circleimageview:${Versions.CIRCLE_IMAGEVIEW}"
 
     const val KOTLINX_COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.KOTLINX_COROUTINES}"
+
+    //Compose
+    const val COMPOSE_UI = "androidx.compose.ui:ui:${Versions.COMPOSE}"
+    const val COMPOSE_MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE}"
+    const val COMPOSE_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
+    const val COMPOSE_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE}"
+    const val COMPOSE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:1.8.0"
+    const val COMPOSE_BOM = "androidx.compose:compose-bom:2024.10.01"
+    const val COMPOSE_ACTIVITY = "androidx.activity:activity-compose:1.8.0"
+    const val COMPOSE_MANIFEST = "androidx.compose.ui:ui-test-manifest"
 }
