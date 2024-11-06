@@ -39,4 +39,5 @@ object Versions {
     const val CIRCLE_IMAGEVIEW ="3.1.0"
     const val KOTLINX_COROUTINES ="1.3.9"
     const val GOOGLE_SERVICE = "4.4.2"
+    const val COMPOSE = "1.5.14"
 }

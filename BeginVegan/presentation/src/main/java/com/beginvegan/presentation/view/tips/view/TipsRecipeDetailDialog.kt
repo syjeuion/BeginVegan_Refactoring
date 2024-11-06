@@ -63,8 +63,8 @@ class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(Dialo
     }
 
     private fun setVeganType(type:String):String{
-        veganTypesKr = resources.getStringArray(R.array.vegan_type)
-        veganTypesEng = resources.getStringArray(R.array.vegan_types_eng)
+        veganTypesKr = requireNotNull(resources.getStringArray(R.array.vegan_type))
+        veganTypesEng = requireNotNull(resources.getStringArray(R.array.vegan_types_eng))
 
         val index = veganTypesEng.indexOf(type)
         return veganTypesKr[index]

@@ -26,146 +26,154 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/included_toolbar" />
 
-    <RadioGroup
-        android:id="@+id/rg_vegan_test"
-        android:layout_width="wrap_content"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:theme="@style/SwitchTheme"
-        app:layout_constraintBottom_toBottomOf="@id/linearLayout"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/tv_description"
+        app:layout_constraintBottom_toTopOf="@id/tv_go_result"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/linearLayout">
+        app:layout_constraintEnd_toEndOf="parent"/>
+<!--    <RadioGroup-->
+<!--        android:id="@+id/rg_vegan_test"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:theme="@style/SwitchTheme"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/linearLayout"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/linearLayout"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintHorizontal_chainStyle="packed"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@id/linearLayout">-->
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/acrb_vegan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_12"
-            android:background="@drawable/selector_radio_button"
-            android:buttonTint="@color/color_transparent"
-            android:checked="true" />
+<!--        <androidx.appcompat.widget.AppCompatRadioButton-->
+<!--            android:id="@+id/acrb_vegan"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="@dimen/margin_12"-->
+<!--            android:background="@drawable/selector_radio_button"-->
+<!--            android:buttonTint="@color/color_transparent"-->
+<!--            android:checked="true" />-->
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/acrb_lacto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:layout_marginEnd="@dimen/margin_12"
-            android:background="@drawable/selector_radio_button"
-            android:buttonTint="@color/color_transparent" />
+<!--        <androidx.appcompat.widget.AppCompatRadioButton-->
+<!--            android:id="@+id/acrb_lacto"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="26dp"-->
+<!--            android:layout_marginEnd="@dimen/margin_12"-->
+<!--            android:background="@drawable/selector_radio_button"-->
+<!--            android:buttonTint="@color/color_transparent" />-->
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/acrb_ovo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:layout_marginEnd="@dimen/margin_12"
-            android:background="@drawable/selector_radio_button"
-            android:buttonTint="@color/color_transparent" />
+<!--        <androidx.appcompat.widget.AppCompatRadioButton-->
+<!--            android:id="@+id/acrb_ovo"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="26dp"-->
+<!--            android:layout_marginEnd="@dimen/margin_12"-->
+<!--            android:background="@drawable/selector_radio_button"-->
+<!--            android:buttonTint="@color/color_transparent" />-->
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/acrb_lacto_ovo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:layout_marginEnd="@dimen/margin_12"
-            android:background="@drawable/selector_radio_button"
-            android:buttonTint="@color/color_transparent" />
+<!--        <androidx.appcompat.widget.AppCompatRadioButton-->
+<!--            android:id="@+id/acrb_lacto_ovo"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="26dp"-->
+<!--            android:layout_marginEnd="@dimen/margin_12"-->
+<!--            android:background="@drawable/selector_radio_button"-->
+<!--            android:buttonTint="@color/color_transparent" />-->
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/acrb_pesco"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:layout_marginEnd="@dimen/margin_12"
-            android:background="@drawable/selector_radio_button"
-            android:buttonTint="@color/color_transparent" />
+<!--        <androidx.appcompat.widget.AppCompatRadioButton-->
+<!--            android:id="@+id/acrb_pesco"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="26dp"-->
+<!--            android:layout_marginEnd="@dimen/margin_12"-->
+<!--            android:background="@drawable/selector_radio_button"-->
+<!--            android:buttonTint="@color/color_transparent" />-->
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/acrb_pollo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:layout_marginEnd="@dimen/margin_12"
-            android:background="@drawable/selector_radio_button"
-            android:buttonTint="@color/color_transparent" />
+<!--        <androidx.appcompat.widget.AppCompatRadioButton-->
+<!--            android:id="@+id/acrb_pollo"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="26dp"-->
+<!--            android:layout_marginEnd="@dimen/margin_12"-->
+<!--            android:background="@drawable/selector_radio_button"-->
+<!--            android:buttonTint="@color/color_transparent" />-->
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/acrb_flexitarian"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:layout_marginEnd="@dimen/margin_12"
-            android:background="@drawable/selector_radio_button"
-            android:buttonTint="@color/color_transparent" />
-    </RadioGroup>
+<!--        <androidx.appcompat.widget.AppCompatRadioButton-->
+<!--            android:id="@+id/acrb_flexitarian"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="26dp"-->
+<!--            android:layout_marginEnd="@dimen/margin_12"-->
+<!--            android:background="@drawable/selector_radio_button"-->
+<!--            android:buttonTint="@color/color_transparent" />-->
+<!--    </RadioGroup>-->
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_56"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/rg_vegan_test"
-        app:layout_constraintTop_toBottomOf="@id/tv_description">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/linearLayout"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/margin_56"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/rg_vegan_test"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tv_description">-->
 
-        <include
-            android:id="@+id/included_vegan"
-            layout="@layout/include_illus_vegan_level" />
+<!--        <include-->
+<!--            android:id="@+id/included_vegan"-->
+<!--            layout="@layout/include_illus_vegan_level" />-->
 
-        <View
-            android:layout_width="@dimen/item_0"
-            android:layout_height="@dimen/margin_16" />
+<!--        <View-->
+<!--            android:layout_width="@dimen/item_0"-->
+<!--            android:layout_height="@dimen/margin_16" />-->
 
-        <include
-            android:id="@+id/included_lacto"
-            layout="@layout/include_illus_vegan_level" />
+<!--        <include-->
+<!--            android:id="@+id/included_lacto"-->
+<!--            layout="@layout/include_illus_vegan_level" />-->
 
-        <View
-            android:layout_width="@dimen/item_0"
-            android:layout_height="@dimen/margin_16" />
+<!--        <View-->
+<!--            android:layout_width="@dimen/item_0"-->
+<!--            android:layout_height="@dimen/margin_16" />-->
 
-        <include
-            android:id="@+id/included_ovo"
-            layout="@layout/include_illus_vegan_level" />
+<!--        <include-->
+<!--            android:id="@+id/included_ovo"-->
+<!--            layout="@layout/include_illus_vegan_level" />-->
 
-        <View
-            android:layout_width="@dimen/item_0"
-            android:layout_height="@dimen/margin_16" />
+<!--        <View-->
+<!--            android:layout_width="@dimen/item_0"-->
+<!--            android:layout_height="@dimen/margin_16" />-->
 
-        <include
-            android:id="@+id/included_lacto_ovo"
-            layout="@layout/include_illus_vegan_level" />
+<!--        <include-->
+<!--            android:id="@+id/included_lacto_ovo"-->
+<!--            layout="@layout/include_illus_vegan_level" />-->
 
-        <View
-            android:layout_width="@dimen/item_0"
-            android:layout_height="@dimen/margin_16" />
+<!--        <View-->
+<!--            android:layout_width="@dimen/item_0"-->
+<!--            android:layout_height="@dimen/margin_16" />-->
 
-        <include
-            android:id="@+id/included_pesco"
-            layout="@layout/include_illus_vegan_level" />
+<!--        <include-->
+<!--            android:id="@+id/included_pesco"-->
+<!--            layout="@layout/include_illus_vegan_level" />-->
 
-        <View
-            android:layout_width="@dimen/item_0"
-            android:layout_height="@dimen/margin_16" />
+<!--        <View-->
+<!--            android:layout_width="@dimen/item_0"-->
+<!--            android:layout_height="@dimen/margin_16" />-->
 
-        <include
-            android:id="@+id/included_pollo"
-            layout="@layout/include_illus_vegan_level" />
+<!--        <include-->
+<!--            android:id="@+id/included_pollo"-->
+<!--            layout="@layout/include_illus_vegan_level" />-->
 
-        <View
-            android:layout_width="@dimen/item_0"
-            android:layout_height="@dimen/margin_16" />
+<!--        <View-->
+<!--            android:layout_width="@dimen/item_0"-->
+<!--            android:layout_height="@dimen/margin_16" />-->
 
-        <include
-            android:id="@+id/included_flexitarian"
-            layout="@layout/include_illus_vegan_level" />
-    </LinearLayout>
+<!--        <include-->
+<!--            android:id="@+id/included_flexitarian"-->
+<!--            layout="@layout/include_illus_vegan_level" />-->
+<!--    </LinearLayout>-->
 
     <TextView
         android:id="@+id/tv_go_result"

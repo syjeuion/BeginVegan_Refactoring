@@ -60,12 +60,16 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
+    }
+    composeOptions{
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 }
 //FCM
-buildscript{
-    dependencies{
-        classpath ("com.google.gms:google-services:4.3.5")
+buildscript {
+    dependencies {
+        classpath("com.google.gms:google-services:4.3.5")
     }
 }
 
@@ -173,61 +177,27 @@ dependencies {
     implementation("me.relex:circleindicator:2.1.6")
 
     // Image Cropper
-    implementation ("com.github.takusemba:cropme:2.0.8")
+    implementation("com.github.takusemba:cropme:2.0.8")
 
     //Coroutine
-    implementation (Dependencies.KOTLINX_COROUTINES)
+    implementation(Dependencies.KOTLINX_COROUTINES)
 
-    implementation ("androidx.camera:camera-core:1.3.4")
-    implementation ("androidx.camera:camera-camera2:1.3.4")
-    implementation ("androidx.camera:camera-lifecycle:1.3.4")
-    implementation ("androidx.camera:camera-video:1.3.4")
+    implementation("androidx.camera:camera-core:1.3.4")
+    implementation("androidx.camera:camera-camera2:1.3.4")
+    implementation("androidx.camera:camera-lifecycle:1.3.4")
+    implementation("androidx.camera:camera-video:1.3.4")
 
-    implementation ("androidx.camera:camera-view:1.3.4")
-    implementation ("androidx.camera:camera-extensions:1.3.4")
+    implementation("androidx.camera:camera-view:1.3.4")
+    implementation("androidx.camera:camera-extensions:1.3.4")
 
-
-
-//    implementation 'androidx.core:core-ktx:1.8.0'
-//    implementation 'androidx.appcompat:appcompat:1.6.1'
-//    implementation 'com.google.android.material:material:1.5.0'
-//    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-//    testImplementation 'junit:junit:4.13.2'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-//
-//    // Retrofit2
-//    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-//    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-//    implementation ("com.google.code.gson:gson:2.9.0")
-//
-//    // ViewPager2
-//    implementation 'androidx.viewpager2:viewpager2:1.0.0'
-//
-//    // okhttp-logging-interceptor
-//    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
-//
-//    // KAKAO MAP API
-//    implementation files('libs/libDaumMapAndroid.jar')
-//
-//    // KAKAO LOGIN API
-//    implementation "com.kakao.sdk:v2-user:2.15.0" // 카카오 로그인
-//
-//    // Splash Screen
-//    implementation 'androidx.core:core-splashscreen:1.0.0'
-//
-//    // Loading Bar
-//    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
-
-//    //glide
-//    implementation 'com.github.bumptech.glide:glide:4.15.1'
-//    // GPS
-//    implementation 'com.google.android.gms:play-services-location:21.0.1'
-//    // Circle ImageView
-//    implementation 'de.hdodenhof:circleimageview:3.1.0'
-//    // CircleIndicator
-//    implementation 'me.relex:circleindicator:1.3.2'
-//    // Firebase
-//    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
-//    implementation("com.google.firebase:firebase-analytics")
+    //Compose
+    implementation(Dependencies.COMPOSE_UI)
+    implementation(Dependencies.COMPOSE_MATERIAL)
+    implementation(Dependencies.COMPOSE_TOOLING)
+    implementation(Dependencies.COMPOSE_ACTIVITY)
+    implementation(Dependencies.COMPOSE_TOOLING_PREVIEW)
+    implementation(Dependencies.COMPOSE_VIEWMODEL)
+    implementation(platform(Dependencies.COMPOSE_BOM))
+    debugImplementation(Dependencies.COMPOSE_TOOLING)
+    debugImplementation(Dependencies.COMPOSE_MANIFEST)
 }

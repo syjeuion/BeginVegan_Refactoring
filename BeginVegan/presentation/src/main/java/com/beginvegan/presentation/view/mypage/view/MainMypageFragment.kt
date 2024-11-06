@@ -64,10 +64,10 @@ class MainMypageFragment :
     }
 
     private fun setUserInfo(userInfo: MypageUserInfo) {
-        val userLevelKr = resources.getStringArray(R.array.user_levels_kr)
-        val userLevelEng = resources.getStringArray(R.array.user_levels_eng)
-        veganTypeKr = resources.getStringArray(R.array.vegan_type)
-        veganTypeEng = resources.getStringArray(R.array.vegan_types_eng)
+        val userLevelKr = requireNotNull(resources.getStringArray(R.array.user_levels_kr))
+        val userLevelEng = requireNotNull(resources.getStringArray(R.array.user_levels_eng))
+        veganTypeKr = requireNotNull(resources.getStringArray(R.array.vegan_type))
+        veganTypeEng = requireNotNull(resources.getStringArray(R.array.vegan_types_eng))
         val userLevelLists = UserLevelLists(requireContext())
         val levelIllusts = userLevelLists.userLevelIllus
         val levelIcons = userLevelLists.userLevelIcons
