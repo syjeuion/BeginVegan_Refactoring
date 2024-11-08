@@ -62,12 +62,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         with(binding) {
             bnvMain.setupWithNavController(navController)
             navController.addOnDestinationChangedListener { _, destination, _ ->
-                if (destination.id == R.id.mainHomeFragment || destination.id == R.id.veganMapFragment ||
-                    destination.id == R.id.mainTipsFragment || destination.id == R.id.mainMypageFragment ||
-                    destination.id == R.id.veganMapResultFragment
-                ) {
-                    binding.bnvMain.visibility = View.VISIBLE
-                } else binding.bnvMain.visibility = View.GONE
+                val isVisible = bottomNavVisibilityMap[destination.id] ?: false
+                binding.bnvMain.visibility = if(isVisible) View.VISIBLE else View.GONE
+
                 when (destination.id) {
                     R.id.mainHomeFragment -> bnvMain.menu.findItem(R.id.item_home).isChecked = true
                     R.id.veganMapFragment -> bnvMain.menu.findItem(R.id.item_map).isChecked = true
@@ -105,10 +102,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         })
     }
 
-    /**
-     * FCM Intent 주입
-     */
     companion object{
+        //FCM Intent 주입
         fun createIntent(
             context: Context,
             fcmData: FcmData
@@ -116,5 +111,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             this.putExtra("fcmData",fcmData)
         }
+
+        //BottomNav Visibility 처리 - hashMap
+        val bottomNavVisibilityMap = hashMapOf(
+            R.id.mainHomeFragment to true,
+            R.id.veganMapFragment to true,
+            R.id.mainTipsFragment to true,
+            R.id.mainMypageFragment to true,
+            R.id.veganMapResultFragment to true
+        )
     }
 }
