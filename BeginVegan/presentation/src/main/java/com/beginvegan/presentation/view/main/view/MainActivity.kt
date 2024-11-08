@@ -62,8 +62,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         with(binding) {
             bnvMain.setupWithNavController(navController)
             navController.addOnDestinationChangedListener { _, destination, _ ->
-                val isVisible = bottomNavVisibilityMap[destination.id] ?: false
-                binding.bnvMain.visibility = if(isVisible) View.VISIBLE else View.GONE
+                binding.bnvMain.visibility =
+                    if(bottomNavVisibilityMap.contains(destination.id)) View.VISIBLE
+                    else View.GONE
 
                 when (destination.id) {
                     R.id.mainHomeFragment -> bnvMain.menu.findItem(R.id.item_home).isChecked = true
@@ -112,13 +113,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             this.putExtra("fcmData",fcmData)
         }
 
-        //BottomNav Visibility 처리 - hashMap
-        val bottomNavVisibilityMap = hashMapOf(
-            R.id.mainHomeFragment to true,
-            R.id.veganMapFragment to true,
-            R.id.mainTipsFragment to true,
-            R.id.mainMypageFragment to true,
-            R.id.veganMapResultFragment to true
+        //BottomNav Visibility 처리 - hashSet
+        val bottomNavVisibilityMap = hashSetOf(
+            R.id.mainHomeFragment,
+            R.id.veganMapFragment,
+            R.id.mainTipsFragment,
+            R.id.mainMypageFragment,
+            R.id.veganMapResultFragment
         )
     }
 }
