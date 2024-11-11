@@ -16,6 +16,7 @@ import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentTipsRecipeBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.BookmarkController
+import com.beginvegan.presentation.util.MainPages
 import com.beginvegan.presentation.view.tips.adapter.TipsRecipeRvAdapter
 import com.beginvegan.presentation.view.tips.viewModel.RecipeViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -91,7 +92,7 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
      */
     private val openDialogRecipeDetail = { item: TipsRecipeListItem, position: Int ->
         recipeViewModel.getRecipeDetail(item.id)
-        recipeViewModel.setNowFragment("RECIPE")
+        recipeViewModel.setNowFragment(MainPages.TIPS)
         recipeViewModel.setRecipeDetailPosition(RecipeDetailPosition(position, item))
         TipsRecipeDetailDialog().show(childFragmentManager, "TipsRecipeDetail")
     }
@@ -127,7 +128,7 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
         })
 
         //api result 받으면 setRecipeList 실행
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             recipeViewModel.recipeListState.collectLatest{state->
                 when(state){
                     is NetworkResult.Loading -> {}

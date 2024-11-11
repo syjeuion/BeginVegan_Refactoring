@@ -9,6 +9,7 @@ import com.beginvegan.domain.model.tips.TipsRecipeDetail
 import com.beginvegan.domain.model.tips.TipsRecipeListItem
 import com.beginvegan.domain.useCase.tips.TipsRecipeUseCase
 import com.beginvegan.presentation.network.NetworkResult
+import com.beginvegan.presentation.util.MainPages
 import com.beginvegan.presentation.view.tips.viewModel.state.RecipeListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -95,9 +96,9 @@ class RecipeViewModel @Inject constructor(
         _recipeDetailData.value = recipeDetail
     }
 
-    private val _nowFragment = MutableLiveData<String>()
-    val nowFragment:LiveData<String> = _nowFragment
-    fun setNowFragment(fragment:String){
+    private val _nowFragment = MutableLiveData<MainPages>()
+    val nowFragment:LiveData<MainPages> = _nowFragment
+    fun setNowFragment(fragment:MainPages){
         _nowFragment.value = fragment
     }
 

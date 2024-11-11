@@ -18,6 +18,7 @@ import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentMypageMyRecipeBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.BookmarkController
+import com.beginvegan.presentation.util.MainPages
 import com.beginvegan.presentation.util.setContentToolbar
 import com.beginvegan.presentation.view.main.viewModel.MainViewModel
 import com.beginvegan.presentation.view.mypage.adapter.MyRecipeRvAdapter
@@ -170,7 +171,7 @@ class MypageMyRecipeFragment :
     //Dialog
     private fun openDialogRecipeDetail(item: TipsRecipeListItem, position: Int) {
         recipeViewModel.getRecipeDetail(item.id)
-        recipeViewModel.setNowFragment("MYPAGE")
+        recipeViewModel.setNowFragment(MainPages.MYPAGE)
         recipeViewModel.setRecipeDetailPosition(RecipeDetailPosition(position, item))
         TipsRecipeDetailDialog().show(childFragmentManager, "MyRecipeDetail")
     }
