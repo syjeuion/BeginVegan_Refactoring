@@ -27,6 +27,11 @@ class RecipeViewModel @Inject constructor(
     private val _recipeListState =
         MutableStateFlow<NetworkResult<RecipeListState>>(NetworkResult.Loading())
     val recipeListState: StateFlow<NetworkResult<RecipeListState>> = _recipeListState
+
+    private fun setRecipeListLoading(){
+        _recipeListState.value = NetworkResult.Loading()
+    }
+
     private fun addRecipeList(newList: MutableList<TipsRecipeListItem>){
         var oldList = _recipeListState.value.data?.response
         if(oldList==null) oldList = newList
@@ -58,6 +63,8 @@ class RecipeViewModel @Inject constructor(
     }
 
     fun getRecipeList(page: Int) {
+        setRecipeListLoading()
+
         viewModelScope.launch {
             recipeUseCase.getRecipeList(page).collectLatest {
                 it.onSuccess { result ->
@@ -104,6 +111,8 @@ class RecipeViewModel @Inject constructor(
 
     //나를 위한 레시피
     fun getRecipeForMe(page: Int){
+        setRecipeListLoading()
+
         viewModelScope.launch {
             recipeUseCase.getRecipeMy(page).collectLatest {
                 it.onSuccess { result ->

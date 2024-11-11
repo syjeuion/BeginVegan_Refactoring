@@ -1,7 +1,6 @@
 package com.beginvegan.presentation.view.tips.view
 
 import android.graphics.Typeface
-import android.os.Bundle
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
@@ -17,11 +16,12 @@ import com.beginvegan.presentation.databinding.FragmentTipsRecipeBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.BookmarkController
 import com.beginvegan.presentation.util.MainPages
+import com.beginvegan.presentation.util.LOADING
+import com.beginvegan.presentation.util.LoadingDialog
 import com.beginvegan.presentation.view.tips.adapter.TipsRecipeRvAdapter
 import com.beginvegan.presentation.view.tips.viewModel.RecipeViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,6 +40,8 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
     private lateinit var recipeRvAdapter: TipsRecipeRvAdapter
     private val recipeViewModel: RecipeViewModel by activityViewModels()
 
+    private lateinit var loadingDialog: LoadingDialog
+
     private var currentPage = 0
     private var isForMe = false
     private var totalCount = 0
@@ -48,6 +50,7 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
 
     override fun init() {
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
+        loadingDialog = LoadingDialog.newInstance()
 
         reset()
         setToggleRecipeForMe()
@@ -131,12 +134,18 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
         viewLifecycleOwner.lifecycleScope.launch {
             recipeViewModel.recipeListState.collectLatest{state->
                 when(state){
-                    is NetworkResult.Loading -> {}
+                    is NetworkResult.Loading -> {
+                        if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
+                    }
                     is NetworkResult.Success -> {
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+
                         val newList = state.data?.response?.map { it.copy() }
                         recipeRvAdapter.submitList(newList)
                     }
-                    is NetworkResult.Error -> {}
+                    is NetworkResult.Error -> {
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+                    }
                 }
             }
         }
@@ -205,4 +214,8 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
         recipeViewModel.setRecipeList(oldList)
     }
 
+    override fun onStop() {
+        super.onStop()
+        if(loadingDialog.isAdded) loadingDialog.onDestroy()
+    }
 }

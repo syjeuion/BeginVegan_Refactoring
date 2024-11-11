@@ -12,6 +12,8 @@ import com.beginvegan.presentation.base.BaseFragment
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentMypageMyReviewBinding
 import com.beginvegan.presentation.network.NetworkResult
+import com.beginvegan.presentation.util.LOADING
+import com.beginvegan.presentation.util.LoadingDialog
 import com.beginvegan.presentation.util.ReviewRecommendController
 import com.beginvegan.presentation.util.setContentToolbar
 import com.beginvegan.presentation.view.mypage.adapter.MyReviewRvAdapter
@@ -29,13 +31,17 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(Fragm
     @Inject
     lateinit var reviewRecommendController: ReviewRecommendController
     private val myReviewViewModel: MyReviewViewModel by viewModels()
+    //로딩
+    private lateinit var loadingDialog: LoadingDialog
 
     private lateinit var myReviewRvAdapter: MyReviewRvAdapter
     private var myReviewList = mutableListOf<MyReview>()
     private var currentPage = 0
     private var totalCount = 0
-    private var collectJob: Job? = null
+
     override fun init() {
+        loadingDialog = LoadingDialog.newInstance()
+
         setBackUp()
         setFabButton()
         setToolbar()
@@ -50,7 +56,6 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(Fragm
         )
     }
     private fun reset(){
-        collectJob?.cancel()
         myReviewList = mutableListOf()
         currentPage = 0
         totalCount = 0
@@ -94,15 +99,21 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(Fragm
             }
         })
 
-        collectJob = lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             myReviewViewModel.myReviewState.collectLatest{state->
                 when(state){
-                    is NetworkResult.Loading -> {}
+                    is NetworkResult.Loading -> {
+                        if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
+                    }
                     is NetworkResult.Success -> {
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+
                         myReviewList.addAll(state.data?.response!!)
                         myReviewRvAdapter.notifyItemRangeInserted(totalCount,state.data.response.size)
                     }
-                    is NetworkResult.Error -> {}
+                    is NetworkResult.Error -> {
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+                    }
                 }
             }
         }
@@ -130,5 +141,10 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(Fragm
 //        binding.btnMoveToMap.setOnClickListener {
 //            mainNavigationHandler.navigateMyRestaurantToMainHome(true)
 //        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(loadingDialog.isAdded) loadingDialog.onDestroy()
     }
 }

@@ -18,6 +18,8 @@ import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentMypageMyMagazineBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.BookmarkController
+import com.beginvegan.presentation.util.LOADING
+import com.beginvegan.presentation.util.LoadingDialog
 import com.beginvegan.presentation.util.setContentToolbar
 import com.beginvegan.presentation.view.main.viewModel.MainViewModel
 import com.beginvegan.presentation.view.mypage.adapter.MyMagazineRvAdapter
@@ -41,6 +43,9 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(F
     private val myMagazineViewModel: MyMagazineViewModel by viewModels()
     private val mainViewModel: MainViewModel by navGraphViewModels(R.id.nav_main_graph)
 
+    //로딩
+    private lateinit var loadingDialog: LoadingDialog
+
     private lateinit var myMagazineRvAdapter: MyMagazineRvAdapter
     private var myMagazineList = mutableListOf<MypageMyMagazineItem>()
     private var currentPage = 0
@@ -51,6 +56,8 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(F
 
     override fun init() {
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
+        loadingDialog = LoadingDialog.newInstance()
+
         setToolbar()
         setBackUp()
         setFabButton()
@@ -129,12 +136,18 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(F
         collectJob = lifecycleScope.launch {
             myMagazineViewModel.myMagazineState.collectLatest{state->
                 when(state){
-                    is NetworkResult.Loading -> {}
+                    is NetworkResult.Loading -> {
+                        if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
+                    }
                     is NetworkResult.Success -> {
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+
                         myMagazineList.addAll(state.data?.response!!)
                         myMagazineRvAdapter.notifyItemRangeInserted(totalCount,state.data.response.size)
                     }
-                    is NetworkResult.Error -> {}
+                    is NetworkResult.Error -> {
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+                    }
                 }
             }
         }
@@ -160,5 +173,10 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(F
         binding.btnMoveToMagazine.setOnClickListener {
             mainNavigationHandler.navigateMyMagazineToTips()
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(loadingDialog.isAdded) loadingDialog.onDestroy()
     }
 }
