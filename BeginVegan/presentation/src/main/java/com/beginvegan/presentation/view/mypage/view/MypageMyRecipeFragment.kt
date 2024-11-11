@@ -80,8 +80,10 @@ class MypageMyRecipeFragment :
 
     private fun setRvAdapter() {
         myRecipeRvAdapter = MyRecipeRvAdapter(requireContext())
-        binding.rvMyRecipe.adapter = myRecipeRvAdapter
-        binding.rvMyRecipe.layoutManager = LinearLayoutManager(this.context)
+        with(binding.rvMyRecipe){
+            adapter = myRecipeRvAdapter
+            layoutManager = LinearLayoutManager(this.context)
+        }
 
         myRecipeRvAdapter.setOnItemClickListener(object : MyRecipeRvAdapter.OnItemClickListener {
             override fun onItemClick(item: TipsRecipeListItem, position: Int) {
@@ -144,9 +146,7 @@ class MypageMyRecipeFragment :
                         val newList = state.data?.response?.map { it.copy() }
                         myRecipeRvAdapter.submitList(newList)
                     }
-                    is NetworkResult.Error -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
-                    }
+                    is NetworkResult.Error -> if(loadingDialog.isAdded) loadingDialog.dismiss()
                 }
             }
         }
@@ -180,9 +180,11 @@ class MypageMyRecipeFragment :
 
     //Dialog
     private fun openDialogRecipeDetail(item: TipsRecipeListItem, position: Int) {
-        recipeViewModel.getRecipeDetail(item.id)
-        recipeViewModel.setNowFragment(MainPages.MYPAGE)
-        recipeViewModel.setRecipeDetailPosition(RecipeDetailPosition(position, item))
+        with(recipeViewModel){
+            getRecipeDetail(item.id)
+            setNowFragment(MainPages.MYPAGE)
+            setRecipeDetailPosition(RecipeDetailPosition(position, item))
+        }
         TipsRecipeDetailDialog().show(childFragmentManager, "MyRecipeDetail")
     }
 

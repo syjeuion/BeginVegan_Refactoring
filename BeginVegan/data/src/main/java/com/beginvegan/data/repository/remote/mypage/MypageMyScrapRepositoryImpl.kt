@@ -23,7 +23,7 @@ class MypageMyScrapRepositoryImpl @Inject constructor(
     private val mypageMyRestaurantMapper: MypageMyRestaurantMapper,
     private val mypageMyReviewMapper: MypageMyReviewMapper
 ) : MypageMyScrapRepository {
-    override suspend fun getMyMagazineList(page: Int): Flow<Result<List<MypageMyMagazineItem>>> {
+    override fun getMyMagazineList(page: Int): Flow<Result<List<MypageMyMagazineItem>>> {
         return flow {
             try {
                 val response = mypageMyScrapRemoteDataSource.getMyMagazineList(page)

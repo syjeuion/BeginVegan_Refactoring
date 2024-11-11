@@ -71,48 +71,52 @@ class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(Dialo
     }
 
     private fun setBinding(data: TipsRecipeDetail){
-        binding.tvRecipeTitle.text = data.name
-        binding.tvVeganType.text = setVeganType(data.veganType)
-        setIngredients(data.ingredients)
-        setProcess(data.blocks)
+        with(binding){
+            tvRecipeTitle.text = data.name
+            tvVeganType.text = setVeganType(data.veganType)
+            setIngredients(data.ingredients)
+            setProcess(data.blocks)
 
-        binding.tbInterest.setOnCheckedChangeListener(null)
-        binding.tbInterest.isChecked = data.isBookmarked
+            with(tbInterest){
+                setOnCheckedChangeListener(null)
+                isChecked = data.isBookmarked
 
-        binding.tbInterest.setOnCheckedChangeListener { _, isChecked ->
-            when(nowFragmet){
-                MainPages.HOME -> {
-                    with(homeViewModel.recipeDetailPosition.value){
-                        this?.item?.isBookmarked = isChecked
-                        homeViewModel.setRecipeDetailPosition(this!!)
+                setOnCheckedChangeListener { _, isChecked ->
+                    when(nowFragmet){
+                        MainPages.HOME -> {
+                            with(homeViewModel.recipeDetailPosition.value){
+                                this?.item?.isBookmarked = isChecked
+                                homeViewModel.setRecipeDetailPosition(this!!)
+                            }
+                        }
+                        MainPages.TIPS -> {
+                            with(recipeViewModel.recipeDetailData.value){
+                                this?.isBookmarked = isChecked
+                                recipeViewModel.setRecipeDetail(this!!)
+                            }
+                            with(recipeViewModel.recipeDetailPosition.value){
+                                val newData = this?.item!!.copy(isBookmarked = isChecked)
+                                recipeViewModel.updateRecipeListItem(position, newData)
+                            }
+                        }
+                        MainPages.MYPAGE -> {
+                            with(recipeViewModel.recipeDetailPosition.value){
+                                val newData = this?.item!!.copy(isBookmarked = isChecked)
+                                myRecipeViewModel.updateRecipeListItem(position, newData)
+                            }
+                        }
+                        MainPages.MAP -> {}
                     }
-                }
-                MainPages.TIPS -> {
-                    with(recipeViewModel.recipeDetailData.value){
-                        this?.isBookmarked = isChecked
-                        recipeViewModel.setRecipeDetail(this!!)
-                    }
-                    with(recipeViewModel.recipeDetailPosition.value){
-                        val newData = this?.item!!.copy(isBookmarked = isChecked)
-                        recipeViewModel.updateRecipeListItem(position, newData)
-                    }
-                }
-                MainPages.MYPAGE -> {
-                    with(recipeViewModel.recipeDetailPosition.value){
-                        val newData = this?.item!!.copy(isBookmarked = isChecked)
-                        myRecipeViewModel.updateRecipeListItem(position, newData)
-                    }
-                }
-                MainPages.MAP -> {}
-            }
-            viewLifecycleOwner.lifecycleScope.launch {
-                if(isChecked){
-                    if(bookmarkController.postBookmark(data.id, "RECIPE")){
-                        setSnackBar(getString(R.string.toast_scrap_done))
-                    }
-                }else{
-                    if(bookmarkController.deleteBookmark(data.id, "RECIPE")){
-                        setSnackBar(getString(R.string.toast_scrap_undo))
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        if(isChecked){
+                            if(bookmarkController.postBookmark(data.id, "RECIPE")){
+                                setSnackBar(getString(R.string.toast_scrap_done))
+                            }
+                        }else{
+                            if(bookmarkController.deleteBookmark(data.id, "RECIPE")){
+                                setSnackBar(getString(R.string.toast_scrap_undo))
+                            }
+                        }
                     }
                 }
             }
