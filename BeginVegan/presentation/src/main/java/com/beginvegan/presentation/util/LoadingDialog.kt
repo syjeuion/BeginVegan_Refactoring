@@ -1,13 +1,14 @@
 package com.beginvegan.presentation.util
 
-import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseDialogFragment
 import com.beginvegan.presentation.databinding.DialogLoadingBinding
 
-class LoadingDialog: BaseDialogFragment<DialogLoadingBinding>(DialogLoadingBinding::inflate) {
+const val LOADING = "LOADING"
+class LoadingDialog : BaseDialogFragment<DialogLoadingBinding>(DialogLoadingBinding::inflate) {
+    companion object{
+        fun newInstance() = LoadingDialog()
+    }
     override fun init() {
-        setDim(0.7f)
         setCancelAble(false)
     }
-
 }

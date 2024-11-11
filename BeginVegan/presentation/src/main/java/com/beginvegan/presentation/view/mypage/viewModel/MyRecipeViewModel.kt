@@ -44,6 +44,9 @@ class MyRecipeViewModel @Inject constructor(
             MyRecipeState(response = newList, isLoading = false)
         )
     }
+    private fun setLoading(){
+        _myRecipesState.value = NetworkResult.Loading()
+    }
     fun updateRecipeListItem(position:Int, item: TipsRecipeListItem){
         _myRecipesState.value.data?.response!![position] = item
         _myRecipesState.value = NetworkResult.Success(
@@ -59,6 +62,7 @@ class MyRecipeViewModel @Inject constructor(
     val isRecipeEmpty: LiveData<Boolean> = _isRecipeEmpty
 
     fun getMyRecipe(page:Int){
+        setLoading()
         viewModelScope.launch {
             myScrapUseCase.getMyRecipeList(page).collectLatest {
                 it.onSuccess {list->
@@ -66,11 +70,12 @@ class MyRecipeViewModel @Inject constructor(
                         if(page==0) _isRecipeEmpty.value = true
                         _isContinueGetList.value = false
                     }
-                    else addMyRecipeList(list.toMutableList())
+                    addMyRecipeList(list.toMutableList())
                 }.onFailure {
                     _myRecipesState.value = NetworkResult.Error("getMyMagazineList Failure")
                 }
             }
         }
     }
+
 }

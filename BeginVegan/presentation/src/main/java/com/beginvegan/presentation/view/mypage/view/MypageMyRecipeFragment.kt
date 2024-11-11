@@ -18,6 +18,8 @@ import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentMypageMyRecipeBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.BookmarkController
+import com.beginvegan.presentation.util.LOADING
+import com.beginvegan.presentation.util.LoadingDialog
 import com.beginvegan.presentation.util.setContentToolbar
 import com.beginvegan.presentation.view.main.viewModel.MainViewModel
 import com.beginvegan.presentation.view.mypage.adapter.MyRecipeRvAdapter
@@ -43,15 +45,19 @@ class MypageMyRecipeFragment :
     private val recipeViewModel: RecipeViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by hiltNavGraphViewModels(R.id.nav_main_graph)
 
+    //로딩
+    private lateinit var loadingDialog: LoadingDialog
+
     private lateinit var myRecipeRvAdapter: MyRecipeRvAdapter
     private var currentPage = 0
     private var totalCount = 0
-    private var collectJob: Job? = null
 
     private var typeface: Typeface? = null
 
     override fun init() {
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
+        loadingDialog = LoadingDialog.newInstance()
+
         setToolbar()
         setBackUp()
         setFabButton()
@@ -67,7 +73,6 @@ class MypageMyRecipeFragment :
         )
     }
     private fun reset() {
-        collectJob?.cancel()
         myRecipeViewModel.resetViewModel()
         currentPage = 0
         totalCount = 0
@@ -126,16 +131,22 @@ class MypageMyRecipeFragment :
             }
         })
 
-        collectJob = lifecycleScope.launch {
+
+        viewLifecycleOwner.lifecycleScope.launch {
             myRecipeViewModel.myRecipesState.collectLatest { state ->
                 when (state) {
-                    is NetworkResult.Loading -> {}
+                    is NetworkResult.Loading -> {
+                        if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
+                    }
                     is NetworkResult.Success -> {
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+
                         val newList = state.data?.response?.map { it.copy() }
                         myRecipeRvAdapter.submitList(newList)
                     }
-
-                    is NetworkResult.Error -> {}
+                    is NetworkResult.Error -> {
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+                    }
                 }
             }
         }
@@ -185,15 +196,15 @@ class MypageMyRecipeFragment :
 
     //update Bookmark
     private fun updateBookmark(isChecked: Boolean, oldItem: TipsRecipeListItem, position: Int) {
-        val newData = TipsRecipeListItem(
-            id = oldItem.id,
-            name = oldItem.name,
-            veganType = oldItem.veganType,
-            isBookmarked = isChecked
-        )
+        val newData = oldItem.copy(isBookmarked = isChecked)
         val oldList = myRecipeViewModel.myRecipesState.value.data?.response
         oldList!![position] = newData
 
         myRecipeViewModel.setMyRecipeList(oldList)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(loadingDialog.isAdded) loadingDialog.onDestroy()
     }
 }

@@ -27,6 +27,9 @@ class MyReviewViewModel @Inject constructor(
             MyReviewState(list, false)
         )
     }
+    private fun setLoading(){
+        _myReviewState.value = NetworkResult.Loading()
+    }
 
     private val _isContinueGetList = MutableLiveData(true)
     val isContinueGetList: LiveData<Boolean> = _isContinueGetList
@@ -41,6 +44,7 @@ class MyReviewViewModel @Inject constructor(
     }
 
     fun getMyReview(page:Int){
+        setLoading()
         viewModelScope.launch {
             myScrapUseCase.getMyReviewList(page).collectLatest {
                 it.onSuccess {list->
@@ -48,7 +52,7 @@ class MyReviewViewModel @Inject constructor(
                         if(page==0) _isReviewEmpty.value = true
                         _isContinueGetList.value = false
                     }
-                    else setMyReviewList(list.toMutableList())
+                    setMyReviewList(list.toMutableList())
                 }.onFailure {
                     _myReviewState.value = NetworkResult.Error("getMyReviewList Failure")
                 }
