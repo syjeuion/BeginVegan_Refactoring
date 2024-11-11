@@ -13,6 +13,7 @@ import com.beginvegan.presentation.base.BaseFragment
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentHomeTipsRecipeBinding
 import com.beginvegan.presentation.util.BookmarkController
+import com.beginvegan.presentation.util.MainPages
 import com.beginvegan.presentation.view.home.adapter.HomeRecipeVpAdapter
 import com.beginvegan.presentation.view.home.viewModel.HomeTipsViewModel
 import com.beginvegan.presentation.view.tips.view.TipsRecipeDetailDialog
@@ -83,7 +84,7 @@ class HomeTipsRecipeFragment: BaseFragment<FragmentHomeTipsRecipeBinding>(Fragme
     //Dialog
     private fun openDialogRecipeDetail(item: TipsRecipeListItem, position: Int){
         recipeViewModel.getRecipeDetail(item.id)
-        recipeViewModel.setNowFragment("HOME")
+        recipeViewModel.setNowFragment(MainPages.HOME)
         viewModel.setRecipeDetailPosition(RecipeDetailPosition(position, item))
         TipsRecipeDetailDialog().show(childFragmentManager, "MyRecipeDetail")
     }

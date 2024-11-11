@@ -11,7 +11,7 @@ import javax.inject.Inject
 class MypageMyScrapUseCase @Inject constructor(
     private val mypageMyScrapRepository: MypageMyScrapRepository
 ){
-    suspend fun getMyMagazineList(page: Int): Flow<Result<List<MypageMyMagazineItem>>> =
+     fun getMyMagazineList(page: Int): Flow<Result<List<MypageMyMagazineItem>>> =
         mypageMyScrapRepository.getMyMagazineList(page)
 
     suspend fun getMyRecipeList(page:Int): Flow<Result<List<TipsRecipeListItem>>> =

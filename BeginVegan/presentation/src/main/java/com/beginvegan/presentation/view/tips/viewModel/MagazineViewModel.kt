@@ -24,14 +24,11 @@ class MagazineViewModel @Inject constructor(
 
     private val _magazineListState = MutableStateFlow<NetworkResult<MagazineListState>>(NetworkResult.Loading())
     val magazineListState: StateFlow<NetworkResult<MagazineListState>> = _magazineListState
-    fun addMagazineList(list:MutableList<TipsMagazineItem>){
+
+    private fun addMagazineList(list:MutableList<TipsMagazineItem>){
         _magazineListState.value = NetworkResult.Success(
             MagazineListState(list, false)
         )
-    }
-
-    private fun setMagazineListLoading(){
-        _magazineListState.value = NetworkResult.Loading()
     }
 
     private val _isContinueGetList = MutableLiveData(true)
@@ -49,15 +46,13 @@ class MagazineViewModel @Inject constructor(
     }
 
     fun getMagazineList(page:Int) {
-        setMagazineListLoading()
         viewModelScope.launch {
+            _magazineListState.value = NetworkResult.Loading()
             tipsMagazineUseCase.getMagazineList(page).collectLatest {
                  it.onSuccess {result ->
                      if (result.isEmpty()) {
                          _isContinueGetList.value = false
-                     } else {
-                         addMagazineList(result.toMutableList())
-                     }
+                     }else addMagazineList(result.toMutableList())
                  }.onFailure {e->
                      _magazineListState.value = NetworkResult.Error(e.message!!)
                  }

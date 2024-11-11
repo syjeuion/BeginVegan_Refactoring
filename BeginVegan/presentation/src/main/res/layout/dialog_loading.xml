@@ -16,6 +16,6 @@
         app:lottie_autoPlay="true"
         android:layout_gravity="center"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/lottie_loading"
+        app:lottie_rawRes="@raw/lottie_loading_slow"
         android:backgroundTint="@color/color_transparent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@ import com.beginvegan.domain.model.tips.TipsRecipeListItem
 import kotlinx.coroutines.flow.Flow
 
 interface MypageMyScrapRepository {
-    suspend fun getMyMagazineList(page: Int): Flow<Result<List<MypageMyMagazineItem>>>
+     fun getMyMagazineList(page: Int): Flow<Result<List<MypageMyMagazineItem>>>
     suspend fun getMyRecipeList(page: Int): Flow<Result<List<TipsRecipeListItem>>>
     suspend fun getMyRestaurantList(page: Int, latitude: String, longitude: String): Flow<Result<List<MypageMyRestaurantItem>>>
     suspend fun getMyReviewList(page: Int): Flow<Result<List<MyReview>>>

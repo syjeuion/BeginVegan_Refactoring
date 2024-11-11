@@ -20,6 +20,7 @@ import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.BookmarkController
 import com.beginvegan.presentation.util.LOADING
 import com.beginvegan.presentation.util.LoadingDialog
+import com.beginvegan.presentation.util.MainPages
 import com.beginvegan.presentation.util.setContentToolbar
 import com.beginvegan.presentation.view.main.viewModel.MainViewModel
 import com.beginvegan.presentation.view.mypage.adapter.MyRecipeRvAdapter
@@ -28,7 +29,6 @@ import com.beginvegan.presentation.view.tips.view.TipsRecipeDetailDialog
 import com.beginvegan.presentation.view.tips.viewModel.RecipeViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -80,8 +80,10 @@ class MypageMyRecipeFragment :
 
     private fun setRvAdapter() {
         myRecipeRvAdapter = MyRecipeRvAdapter(requireContext())
-        binding.rvMyRecipe.adapter = myRecipeRvAdapter
-        binding.rvMyRecipe.layoutManager = LinearLayoutManager(this.context)
+        with(binding.rvMyRecipe){
+            adapter = myRecipeRvAdapter
+            layoutManager = LinearLayoutManager(this.context)
+        }
 
         myRecipeRvAdapter.setOnItemClickListener(object : MyRecipeRvAdapter.OnItemClickListener {
             override fun onItemClick(item: TipsRecipeListItem, position: Int) {
@@ -144,9 +146,7 @@ class MypageMyRecipeFragment :
                         val newList = state.data?.response?.map { it.copy() }
                         myRecipeRvAdapter.submitList(newList)
                     }
-                    is NetworkResult.Error -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
-                    }
+                    is NetworkResult.Error -> if(loadingDialog.isAdded) loadingDialog.dismiss()
                 }
             }
         }
@@ -180,9 +180,11 @@ class MypageMyRecipeFragment :
 
     //Dialog
     private fun openDialogRecipeDetail(item: TipsRecipeListItem, position: Int) {
-        recipeViewModel.getRecipeDetail(item.id)
-        recipeViewModel.setNowFragment("MYPAGE")
-        recipeViewModel.setRecipeDetailPosition(RecipeDetailPosition(position, item))
+        with(recipeViewModel){
+            getRecipeDetail(item.id)
+            setNowFragment(MainPages.MYPAGE)
+            setRecipeDetailPosition(RecipeDetailPosition(position, item))
+        }
         TipsRecipeDetailDialog().show(childFragmentManager, "MyRecipeDetail")
     }
 

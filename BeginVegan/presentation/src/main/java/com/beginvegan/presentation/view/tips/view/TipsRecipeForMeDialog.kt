@@ -10,15 +10,17 @@ class TipsRecipeForMeDialog:BaseDialogFragment<DialogWithTitleBinding>(DialogWit
     override fun init() {
         isCancelable = false
 
-        binding.tvTitle.text = getString(R.string.dialog_tips_recipe_for_me_title)
-        binding.tvContent.text = getString(R.string.dialog_tips_recipe_for_me_description)
-        binding.btnConfirm.text = getString(R.string.btn_confirm)
+        with(binding){
+            tvTitle.text = getString(R.string.dialog_tips_recipe_for_me_title)
+            tvContent.text = getString(R.string.dialog_tips_recipe_for_me_description)
+            btnConfirm.text = getString(R.string.btn_confirm)
 
-        binding.tvSubContent.visibility = ViewGroup.GONE
-        binding.btnCancel.visibility = ViewGroup.GONE
+            tvSubContent.visibility = ViewGroup.GONE
+            btnCancel.visibility = ViewGroup.GONE
 
-        binding.btnConfirm.setOnClickListener {
-            dismiss()
+            btnConfirm.setOnClickListener {
+                dismiss()
+            }
         }
     }
 }

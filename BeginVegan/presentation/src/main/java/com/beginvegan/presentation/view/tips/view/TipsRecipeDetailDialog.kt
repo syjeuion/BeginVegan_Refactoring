@@ -12,12 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import com.beginvegan.domain.model.tips.RecipeBlock
 import com.beginvegan.domain.model.tips.RecipeIngredient
 import com.beginvegan.domain.model.tips.TipsRecipeDetail
-import com.beginvegan.domain.model.tips.TipsRecipeListItem
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseDialogFragment
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.DialogRecipeDetailBinding
 import com.beginvegan.presentation.util.BookmarkController
+import com.beginvegan.presentation.util.MainPages
 import com.beginvegan.presentation.view.home.viewModel.HomeTipsViewModel
 import com.beginvegan.presentation.view.mypage.viewModel.MyRecipeViewModel
 import com.beginvegan.presentation.view.tips.viewModel.RecipeViewModel
@@ -41,7 +41,7 @@ class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(Dialo
     private lateinit var veganTypesEng:Array<String>
 
     private var typeface: Typeface? = null
-    private lateinit var nowFragmet:String
+    private lateinit var nowFragmet:MainPages
 
     override fun init() {
         isCancelable = false
@@ -71,53 +71,52 @@ class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(Dialo
     }
 
     private fun setBinding(data: TipsRecipeDetail){
-        binding.tvRecipeTitle.text = data.name
-        binding.tvVeganType.text = setVeganType(data.veganType)
-        setIngredients(data.ingredients)
-        setProcess(data.blocks)
+        with(binding){
+            tvRecipeTitle.text = data.name
+            tvVeganType.text = setVeganType(data.veganType)
+            setIngredients(data.ingredients)
+            setProcess(data.blocks)
 
-        binding.tbInterest.setOnCheckedChangeListener(null)
-        binding.tbInterest.isChecked = data.isBookmarked
+            with(tbInterest){
+                setOnCheckedChangeListener(null)
+                isChecked = data.isBookmarked
 
-        binding.tbInterest.setOnCheckedChangeListener { _, isChecked ->
-            when(nowFragmet){
-                "HOME" -> {
-                    val currentData = homeViewModel.recipeDetailPosition.value
-                    currentData?.item?.isBookmarked = isChecked
-                    homeViewModel.setRecipeDetailPosition(currentData!!)
-                }
-                "RECIPE" -> {
-                    val detailData = recipeViewModel.recipeDetailData.value
-                    detailData?.isBookmarked = isChecked
-                    recipeViewModel.setRecipeDetail(detailData!!)
-
-                    val currentData = recipeViewModel.recipeDetailPosition.value
-
-                    val newData = currentData?.item!!.copy(
-                        isBookmarked = isChecked
-                    )
-                    recipeViewModel.updateRecipeListItem(currentData.position, newData)
-                }
-                "MYPAGE" -> {
-                    val currentData = recipeViewModel.recipeDetailPosition.value
-                    val oldItem = currentData?.item!!
-                    val newData = TipsRecipeListItem(
-                        id = oldItem.id,
-                        name = oldItem.name,
-                        veganType = oldItem.veganType,
-                        isBookmarked = isChecked
-                    )
-                    myRecipeViewModel.updateRecipeListItem(currentData.position, newData)
-                }
-            }
-            viewLifecycleOwner.lifecycleScope.launch {
-                if(isChecked){
-                    if(bookmarkController.postBookmark(data.id, "RECIPE")){
-                        setSnackBar(getString(R.string.toast_scrap_done))
+                setOnCheckedChangeListener { _, isChecked ->
+                    when(nowFragmet){
+                        MainPages.HOME -> {
+                            with(homeViewModel.recipeDetailPosition.value){
+                                this?.item?.isBookmarked = isChecked
+                                homeViewModel.setRecipeDetailPosition(this!!)
+                            }
+                        }
+                        MainPages.TIPS -> {
+                            with(recipeViewModel.recipeDetailData.value){
+                                this?.isBookmarked = isChecked
+                                recipeViewModel.setRecipeDetail(this!!)
+                            }
+                            with(recipeViewModel.recipeDetailPosition.value){
+                                val newData = this?.item!!.copy(isBookmarked = isChecked)
+                                recipeViewModel.updateRecipeListItem(position, newData)
+                            }
+                        }
+                        MainPages.MYPAGE -> {
+                            with(recipeViewModel.recipeDetailPosition.value){
+                                val newData = this?.item!!.copy(isBookmarked = isChecked)
+                                myRecipeViewModel.updateRecipeListItem(position, newData)
+                            }
+                        }
+                        MainPages.MAP -> {}
                     }
-                }else{
-                    if(bookmarkController.deleteBookmark(data.id, "RECIPE")){
-                        setSnackBar(getString(R.string.toast_scrap_undo))
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        if(isChecked){
+                            if(bookmarkController.postBookmark(data.id, "RECIPE")){
+                                setSnackBar(getString(R.string.toast_scrap_done))
+                            }
+                        }else{
+                            if(bookmarkController.deleteBookmark(data.id, "RECIPE")){
+                                setSnackBar(getString(R.string.toast_scrap_undo))
+                            }
+                        }
                     }
                 }
             }
@@ -174,31 +173,27 @@ class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(Dialo
 
     //SnackBar
     private fun setSnackBar(message:String){
-        var snackbar:Snackbar
-        if(nowFragmet == "MYPAGE"){
-            snackbar = Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
+        val snackBar = if(nowFragmet == MainPages.MYPAGE){
+            Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
         }else{
-            snackbar = Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
+            Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
                 .setAction(getString(R.string.toast_scrap_action)){
-                    when(recipeViewModel.nowFragment.value){
-                        "HOME"->{
-                            mainNavigationHandler.navigateHomeToMyRecipe()
-                        }
-                        "RECIPE"->{
-                            mainNavigationHandler.navigateTipsRecipeToMyRecipe()
-                        }
-                    }
+                    if(recipeViewModel.nowFragment.value ==MainPages.HOME)
+                        mainNavigationHandler.navigateHomeToMyRecipe()
+                    else
+                        mainNavigationHandler.navigateTipsRecipeToMyRecipe()
                 }
                 .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
         }
+        with(snackBar){
+            view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+            view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
+            val snackBarView = view
+            val params = snackBarView.layoutParams as FrameLayout.LayoutParams
+            params.bottomMargin = 200
+            snackBarView.layoutParams = params
 
-        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-        val snackbarView = snackbar.view
-        val params = snackbarView.layoutParams as FrameLayout.LayoutParams
-        params.bottomMargin = 200
-        snackbarView.layoutParams = params
-
-        snackbar.show()
+            show()
+        }
     }
 }

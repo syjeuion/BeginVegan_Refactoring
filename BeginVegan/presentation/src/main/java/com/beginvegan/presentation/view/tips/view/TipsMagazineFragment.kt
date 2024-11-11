@@ -99,9 +99,11 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(FragmentT
                                 mainNavigationHandler.navigateTipsMagazineDetailToMyMagazine()
                             }
                             .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-                        snackbar.show()
+                        with(snackbar){
+                            view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+                            view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
+                            show()
+                        }
                     }
                 }
             }
@@ -130,24 +132,27 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(FragmentT
             magazineViewModel.magazineListState.collectLatest{state->
                 when(state){
                     is NetworkResult.Loading -> {
-                        if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
+                        if(!loadingDialog.isAdded && !loadingDialog.isVisible) loadingDialog.show(childFragmentManager, LOADING)
                     }
                     is NetworkResult.Success -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
-
+                        dismiss()
                         val newList = state.data?.response?.map { it.copy() }
                         magazineRvAdapter.submitList(newList)
                     }
                     is NetworkResult.Error -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+                        dismiss()
                     }
                 }
             }
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    private fun dismiss() {
+        if (loadingDialog.isAdded) loadingDialog.dismiss()
+    }
+
+    override fun onPause() {
+        super.onPause()
         if(loadingDialog.isAdded) loadingDialog.onDestroy()
     }
 

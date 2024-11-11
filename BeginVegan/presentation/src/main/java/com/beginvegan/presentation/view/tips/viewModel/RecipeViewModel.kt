@@ -9,6 +9,7 @@ import com.beginvegan.domain.model.tips.TipsRecipeDetail
 import com.beginvegan.domain.model.tips.TipsRecipeListItem
 import com.beginvegan.domain.useCase.tips.TipsRecipeUseCase
 import com.beginvegan.presentation.network.NetworkResult
+import com.beginvegan.presentation.util.MainPages
 import com.beginvegan.presentation.view.tips.viewModel.state.RecipeListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,10 +27,6 @@ class RecipeViewModel @Inject constructor(
     private val _recipeListState =
         MutableStateFlow<NetworkResult<RecipeListState>>(NetworkResult.Loading())
     val recipeListState: StateFlow<NetworkResult<RecipeListState>> = _recipeListState
-
-    private fun setRecipeListLoading(){
-        _recipeListState.value = NetworkResult.Loading()
-    }
 
     private fun addRecipeList(newList: MutableList<TipsRecipeListItem>){
         var oldList = _recipeListState.value.data?.response
@@ -62,9 +59,8 @@ class RecipeViewModel @Inject constructor(
     }
 
     fun getRecipeList(page: Int) {
-        setRecipeListLoading()
-
         viewModelScope.launch {
+            _recipeListState.value = NetworkResult.Loading()
             recipeUseCase.getRecipeList(page).collectLatest {
                 it.onSuccess { result ->
                     if (result.isEmpty()) {
@@ -102,24 +98,22 @@ class RecipeViewModel @Inject constructor(
         _recipeDetailData.value = recipeDetail
     }
 
-    private val _nowFragment = MutableLiveData<String>()
-    val nowFragment:LiveData<String> = _nowFragment
-    fun setNowFragment(fragment:String){
+    private val _nowFragment = MutableLiveData<MainPages>()
+    val nowFragment:LiveData<MainPages> = _nowFragment
+    fun setNowFragment(fragment:MainPages){
         _nowFragment.value = fragment
     }
 
     //나를 위한 레시피
     fun getRecipeForMe(page: Int){
-        setRecipeListLoading()
-
         viewModelScope.launch {
+            _recipeListState.value = NetworkResult.Loading()
             recipeUseCase.getRecipeMy(page).collectLatest {
                 it.onSuccess { result ->
-                    if (result.isEmpty()) {
+                    if (result.isEmpty())
                         _isContinueGetList.value = false
-                    } else {
+                    else
                         addRecipeList(result.toMutableList())
-                    }
                 }.onFailure {
                     _recipeListState.value = NetworkResult.Error("getRecipeList Failed")
                 }

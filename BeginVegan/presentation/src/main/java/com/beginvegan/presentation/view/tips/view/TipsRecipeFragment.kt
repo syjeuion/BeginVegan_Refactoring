@@ -17,6 +17,7 @@ import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.BookmarkController
 import com.beginvegan.presentation.util.LOADING
 import com.beginvegan.presentation.util.LoadingDialog
+import com.beginvegan.presentation.util.MainPages
 import com.beginvegan.presentation.view.tips.adapter.TipsRecipeRvAdapter
 import com.beginvegan.presentation.view.tips.viewModel.RecipeViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -82,8 +83,10 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
             openDialogRecipeDetail,
             changeBookmark
         )
-        binding.rvRecipe.adapter = recipeRvAdapter
-        binding.rvRecipe.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        with(binding.rvRecipe){
+            adapter = recipeRvAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        }
         recipeRvAdapter.submitList(mutableListOf())
     }
 
@@ -93,9 +96,11 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
      * changeBookmark: 북마크 처리
      */
     private val openDialogRecipeDetail = { item: TipsRecipeListItem, position: Int ->
-        recipeViewModel.getRecipeDetail(item.id)
-        recipeViewModel.setNowFragment("RECIPE")
-        recipeViewModel.setRecipeDetailPosition(RecipeDetailPosition(position, item))
+        with(recipeViewModel){
+            getRecipeDetail(item.id)
+            setNowFragment(MainPages.TIPS)
+            setRecipeDetailPosition(RecipeDetailPosition(position, item))
+        }
         TipsRecipeDetailDialog().show(childFragmentManager, "TipsRecipeDetail")
     }
     private val changeBookmark = {isBookmarked:Boolean, data: TipsRecipeListItem, position:Int ->
@@ -130,7 +135,7 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
         })
 
         //api result 받으면 setRecipeList 실행
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             recipeViewModel.recipeListState.collectLatest{state->
                 when(state){
                     is NetworkResult.Loading -> {
@@ -194,19 +199,16 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
                 mainNavigationHandler.navigateTipsRecipeToMyRecipe()
             }
             .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-        snackbar.show()
+        with(snackbar){
+            view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+            view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
+            show()
+        }
     }
 
     //change Bookmark
     private fun updateBookmark(isChecked:Boolean, oldItem:TipsRecipeListItem, position: Int){
-        val newData = TipsRecipeListItem(
-            id = oldItem.id,
-            name = oldItem.name,
-            veganType = oldItem.veganType,
-            isBookmarked = isChecked
-        )
+        val newData = oldItem.copy(isBookmarked = isChecked)
         val oldList = recipeViewModel.recipeListState.value.data?.response
         oldList!![position] = newData
 
