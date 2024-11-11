@@ -9,7 +9,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.beginvegan.domain.model.tips.MagazineContent
 import com.beginvegan.domain.model.tips.TipsMagazineDetail
 import com.beginvegan.presentation.R
@@ -17,10 +16,12 @@ import com.beginvegan.presentation.base.BaseFragment
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentTipsMagazineDetailBinding
 import com.beginvegan.presentation.util.BookmarkController
-import com.beginvegan.presentation.util.setContentToolbar
+import com.beginvegan.presentation.util.LOADING
+import com.beginvegan.presentation.util.LoadingDialog
 import com.beginvegan.presentation.util.setMagazineDetailToolbar
 import com.beginvegan.presentation.view.main.viewModel.MainViewModel
 import com.beginvegan.presentation.view.tips.viewModel.MagazineViewModel
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -36,13 +37,18 @@ class TipsMagazineDetailFragment : BaseFragment<FragmentTipsMagazineDetailBindin
     lateinit var bookmarkController: BookmarkController
     private val magazineViewModel:MagazineViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by hiltNavGraphViewModels(R.id.nav_main_graph)
+    //로딩
+    private lateinit var loadingDialog: LoadingDialog
 
     private var typeface: Typeface? = null
 
     override fun init() {
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
+        loadingDialog = LoadingDialog.newInstance()
+        if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
 
         magazineViewModel.magazineDetail.observe(this){
+            if(loadingDialog.isAdded) loadingDialog.dismiss()
             if(it != null) setView(it)
         }
         setToolbar()
@@ -139,6 +145,10 @@ class TipsMagazineDetailFragment : BaseFragment<FragmentTipsMagazineDetailBindin
         parentLayout.addView(textView)
     }
 
+    override fun onStop() {
+        super.onStop()
+        if(loadingDialog.isAdded) loadingDialog.onDestroy()
+    }
     override fun onDestroy() {
         super.onDestroy()
         mainViewModel.setFromMyMagazine(false)

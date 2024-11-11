@@ -27,6 +27,9 @@ class MyRestaurantViewModel @Inject constructor(
             MyRestaurantState(list, false)
         )
     }
+    private fun setLoading(){
+        _myRestaurantState.value = NetworkResult.Loading()
+    }
 
     private val _isContinueGetList = MutableLiveData(true)
     val isContinueGetList: LiveData<Boolean> = _isContinueGetList
@@ -41,13 +44,15 @@ class MyRestaurantViewModel @Inject constructor(
     }
 
     fun getMyRestaurant(page: Int, latitude: String, longitude: String) {
+        setLoading()
         viewModelScope.launch {
             myScrapUseCase.getMyRestaurantList(page, latitude, longitude).collectLatest {
                 it.onSuccess { list ->
                     if (list.isEmpty()) {
                         if (page == 0) _isRestaurantEmpty.value = true
                         _isContinueGetList.value = false
-                    } else setMyRestaurantList(list.toMutableList())
+                    }
+                    setMyRestaurantList(list.toMutableList())
                 }.onFailure {
                     _myRestaurantState.value = NetworkResult.Error("getMyRestaurantList Failure")
                 }

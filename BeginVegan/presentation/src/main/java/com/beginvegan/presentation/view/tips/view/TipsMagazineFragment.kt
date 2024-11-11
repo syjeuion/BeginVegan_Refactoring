@@ -15,11 +15,12 @@ import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentTipsMagazineBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.BookmarkController
+import com.beginvegan.presentation.util.LOADING
+import com.beginvegan.presentation.util.LoadingDialog
 import com.beginvegan.presentation.view.tips.adapter.TipsMagazineRvAdapter
 import com.beginvegan.presentation.view.tips.viewModel.MagazineViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,6 +35,9 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(FragmentT
 
     private lateinit var magazineRvAdapter: TipsMagazineRvAdapter
 
+    //로딩
+    private lateinit var loadingDialog: LoadingDialog
+
     private var recipeList = mutableListOf<TipsMagazineItem>()
     private var currentPage = 0
     private var totalCount = 0
@@ -42,6 +46,7 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(FragmentT
 
     override fun init() {
         typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
+        loadingDialog = LoadingDialog.newInstance()
 
         reset()
         setRvAdapter()
@@ -124,15 +129,26 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(FragmentT
         viewLifecycleOwner.lifecycleScope.launch {
             magazineViewModel.magazineListState.collectLatest{state->
                 when(state){
-                    is NetworkResult.Loading -> {}
+                    is NetworkResult.Loading -> {
+                        if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
+                    }
                     is NetworkResult.Success -> {
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+
                         val newList = state.data?.response?.map { it.copy() }
                         magazineRvAdapter.submitList(newList)
                     }
-                    is NetworkResult.Error -> {}
+                    is NetworkResult.Error -> {
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+                    }
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(loadingDialog.isAdded) loadingDialog.onDestroy()
     }
 
     private fun setTabBtn(){

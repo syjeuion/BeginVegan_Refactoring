@@ -49,10 +49,8 @@ class HomeFragment : BaseFragment<FragmentMainHomeBinding>(FragmentMainHomeBindi
 
     @Inject
     lateinit var drawerController: DrawerController
-
     @Inject
     lateinit var bookmarkController: BookmarkController
-
     @Inject
     lateinit var mainNavigationHandler: MainNavigationHandler
     private var tipsNowTab = "MAGAZINE"
@@ -125,17 +123,11 @@ class HomeFragment : BaseFragment<FragmentMainHomeBinding>(FragmentMainHomeBindi
         mainViewModel.getUserInfo()
 
         setUserInfo()
-
         setTipsTab()
-
         setOpenDrawer()
-
         setBeganTest()
-
         checkAndRequestPermissions()
-
         setRecommendRestaurant()
-
         setMoreButton()
     }
 

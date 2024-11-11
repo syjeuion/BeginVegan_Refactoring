@@ -30,6 +30,10 @@ class MagazineViewModel @Inject constructor(
         )
     }
 
+    private fun setMagazineListLoading(){
+        _magazineListState.value = NetworkResult.Loading()
+    }
+
     private val _isContinueGetList = MutableLiveData(true)
     val isContinueGetList: LiveData<Boolean> = _isContinueGetList
 
@@ -45,6 +49,7 @@ class MagazineViewModel @Inject constructor(
     }
 
     fun getMagazineList(page:Int) {
+        setMagazineListLoading()
         viewModelScope.launch {
             tipsMagazineUseCase.getMagazineList(page).collectLatest {
                  it.onSuccess {result ->

@@ -50,5 +50,7 @@
 
     <color name="kakao_map_red_dot">#EC422D</color>
 
+    <color name="color_dim">#aa000000</color>
+
     <drawable name="onboarding_color">@drawable/selector_outline_box_color</drawable>
 </resources>

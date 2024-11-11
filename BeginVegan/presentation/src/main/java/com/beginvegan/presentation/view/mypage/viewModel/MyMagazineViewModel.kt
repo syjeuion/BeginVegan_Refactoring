@@ -28,6 +28,10 @@ class MyMagazineViewModel @Inject constructor(
         )
     }
 
+    private fun setLoading(){
+        _myMagazinesState.value = NetworkResult.Loading()
+    }
+
     private val _isContinueGetList = MutableLiveData(true)
     val isContinueGetList: LiveData<Boolean> = _isContinueGetList
     fun reSetVieModel(){
@@ -40,6 +44,7 @@ class MyMagazineViewModel @Inject constructor(
     val isMagazineEmpty:LiveData<Boolean> = _isMagazineEmpty
 
     fun getMyMagazine(page:Int){
+        setLoading()
         viewModelScope.launch {
             myScrapUseCase.getMyMagazineList(page).collectLatest {
                 it.onSuccess {list->

@@ -18,6 +18,8 @@ import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentMypageMyRestaurantBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.DefaultDialog
+import com.beginvegan.presentation.util.LOADING
+import com.beginvegan.presentation.util.LoadingDialog
 import com.beginvegan.presentation.util.setContentToolbar
 import com.beginvegan.presentation.view.map.view.VeganMapFragment
 import com.beginvegan.presentation.view.mypage.adapter.MyRestaurantRvAdapter
@@ -43,6 +45,8 @@ class MypageMyRestaurantFragment :
     @Inject
     lateinit var mainNavigationHandler: MainNavigationHandler
     private val myRestaurantViewModel: MyRestaurantViewModel by viewModels()
+    //로딩
+    private lateinit var loadingDialog: LoadingDialog
 
     private val permissions = arrayOf(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION)
     private lateinit var currentLocation: LatLng
@@ -52,7 +56,10 @@ class MypageMyRestaurantFragment :
     private var currentPage = 0
     private var totalCount = 0
     private var collectJob: Job? = null
+
     override fun init() {
+        loadingDialog = LoadingDialog.newInstance()
+
         checkAndRequestPermissions()
         setToolbar()
         setBackUp()
@@ -135,19 +142,24 @@ class MypageMyRestaurantFragment :
             }
         })
 
-        collectJob = lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             myRestaurantViewModel.myRestaurantState.collectLatest { state ->
                 when (state) {
-                    is NetworkResult.Loading -> {}
+                    is NetworkResult.Loading -> {
+                        if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
+                    }
                     is NetworkResult.Success -> {
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+
                         myRestaurantList.addAll(state.data?.response!!)
                         myRestaurantRvAdapter.notifyItemRangeInserted(
                             totalCount,
                             state.data.response.size
                         )
                     }
-
-                    is NetworkResult.Error -> {}
+                    is NetworkResult.Error -> {
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+                    }
                 }
             }
         }
@@ -383,5 +395,10 @@ class MypageMyRestaurantFragment :
     companion object {
         private const val ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
         private const val ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(loadingDialog.isAdded) loadingDialog.onDestroy()
     }
 }

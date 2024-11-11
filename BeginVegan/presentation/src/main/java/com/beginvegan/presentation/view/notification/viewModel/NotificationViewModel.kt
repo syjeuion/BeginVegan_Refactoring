@@ -29,7 +29,7 @@ class NotificationViewModel @Inject constructor(
 
     private suspend fun getAlarmList(){
         unreadAlarmUseCase.invoke().catch {
-            _alarmLists.value = NetworkResult.Loading(true)
+            _alarmLists.value = NetworkResult.Loading()
         }.collectLatest {result ->
             result.onSuccess {lists ->
                 _alarmLists.value = NetworkResult.Success(NotificationState(
