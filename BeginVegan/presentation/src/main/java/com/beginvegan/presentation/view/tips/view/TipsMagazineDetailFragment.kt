@@ -76,57 +76,85 @@ class TipsMagazineDetailFragment : BaseFragment<FragmentTipsMagazineDetailBindin
     }
 
     private fun setView(it: TipsMagazineDetail){
-        binding.tvMagazineTitle.text = it.title
-        binding.tvWriter.text = it.editor
-        binding.tvDate.text = transferDate(it.createdDate)
+        with(binding){
+            tvMagazineTitle.text = it.title
+            tvWriter.text = it.editor
+            tvDate.text = transferDate(it.createdDate)
 
-        Glide.with(this)
-            .load(it.thumbnail)
-            .into(binding.ivThumbnail)
-
+            Glide.with(this@TipsMagazineDetailFragment)
+                .load(it.thumbnail)
+                .into(ivThumbnail)
+        }
         for(content in it.magazineContents){
             createContentTextView(content)
         }
-
-        binding.tbInterest.setOnCheckedChangeListener(null)
-        binding.tbInterest.isChecked = it.isBookmarked
-        binding.tbInterest.setOnCheckedChangeListener { _, isChecked ->
-            lifecycleScope.launch {
-                if(isChecked){
-                    bookmarkController.postBookmark(it.id, "MAGAZINE")
-                    if(mainViewModel.fromMyMagazine.value!!){
-                        val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_done), Snackbar.LENGTH_SHORT)
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                        snackbar.show()
-                    }else{
-                        val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_done), Snackbar.LENGTH_SHORT)
-                            .setAction(getString(R.string.toast_scrap_action)){
-                                mainNavigationHandler.navigateTipsMagazineDetailToMyMagazine()
+        with(binding.tbInterest){
+            setOnCheckedChangeListener(null)
+            isChecked = it.isBookmarked
+            setOnCheckedChangeListener { _, isChecked ->
+                lifecycleScope.launch {
+                    if (isChecked) {
+                        bookmarkController.postBookmark(it.id, "MAGAZINE")
+                        if (mainViewModel.fromMyMagazine.value!!) {
+                            val snackbar = Snackbar.make(
+                                binding.clLayout,
+                                getString(R.string.toast_scrap_done),
+                                Snackbar.LENGTH_SHORT
+                            )
+                            snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                                .setTypeface(typeface)
+                            snackbar.show()
+                        } else {
+                            val snackbar = Snackbar.make(
+                                binding.clLayout,
+                                getString(R.string.toast_scrap_done),
+                                Snackbar.LENGTH_SHORT
+                            )
+                                .setAction(getString(R.string.toast_scrap_action)) {
+                                    mainNavigationHandler.navigateTipsMagazineDetailToMyMagazine()
+                                }
+                                .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
+                            with(snackbar) {
+                                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                                    .setTypeface(typeface)
+                                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
+                                    .setTypeface(typeface)
+                                show()
                             }
-                            .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-                        snackbar.show()
-                    }
-                }else{
-                    bookmarkController.deleteBookmark(it.id, "MAGAZINE")
-                    if(mainViewModel.fromMyMagazine.value!!){
-                        val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_undo), Snackbar.LENGTH_SHORT)
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                        snackbar.show()
-                    }else{
-                        val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_undo), Snackbar.LENGTH_SHORT)
-                            .setAction(getString(R.string.toast_scrap_action)){
-                                mainNavigationHandler.navigateTipsMagazineDetailToMyMagazine()
+                        }
+                    } else {
+                        bookmarkController.deleteBookmark(it.id, "MAGAZINE")
+                        if (mainViewModel.fromMyMagazine.value!!) {
+                            val snackbar = Snackbar.make(
+                                binding.clLayout,
+                                getString(R.string.toast_scrap_undo),
+                                Snackbar.LENGTH_SHORT
+                            )
+                            snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                                .setTypeface(typeface)
+                            snackbar.show()
+                        } else {
+                            val snackbar = Snackbar.make(
+                                binding.clLayout,
+                                getString(R.string.toast_scrap_undo),
+                                Snackbar.LENGTH_SHORT
+                            )
+                                .setAction(getString(R.string.toast_scrap_action)) {
+                                    mainNavigationHandler.navigateTipsMagazineDetailToMyMagazine()
+                                }
+                                .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
+                            with(snackbar) {
+                                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                                    .setTypeface(typeface)
+                                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
+                                    .setTypeface(typeface)
+                                show()
                             }
-                            .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-                        snackbar.show()
+                        }
                     }
+                    it.isBookmarked = isChecked
+                    magazineViewModel.setMagazineDetail(it)
                 }
-                it.isBookmarked = isChecked
-                magazineViewModel.setMagazineDetail(it)
             }
         }
     }

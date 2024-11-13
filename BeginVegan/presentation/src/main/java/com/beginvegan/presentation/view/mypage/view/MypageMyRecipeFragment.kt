@@ -31,6 +31,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -141,12 +142,11 @@ class MypageMyRecipeFragment :
                         if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
                     }
                     is NetworkResult.Success -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
-
-                        val newList = state.data?.response?.map { it.copy() }
-                        myRecipeRvAdapter.submitList(newList)
+                        dismiss()
+                        myRecipeRvAdapter.submitList(state.data)
                     }
-                    is NetworkResult.Error -> if(loadingDialog.isAdded) loadingDialog.dismiss()
+                    is NetworkResult.Error -> dismiss()
+                    is NetworkResult.Empty -> dismiss()
                 }
             }
         }
@@ -154,6 +154,9 @@ class MypageMyRecipeFragment :
         myRecipeViewModel.isRecipeEmpty.observe(this) {
             setEmptyState(it)
         }
+    }
+    private fun dismiss() {
+        if (loadingDialog.isAdded) loadingDialog.dismiss()
     }
 
     //BackUp
@@ -199,10 +202,11 @@ class MypageMyRecipeFragment :
     //update Bookmark
     private fun updateBookmark(isChecked: Boolean, oldItem: TipsRecipeListItem, position: Int) {
         val newData = oldItem.copy(isBookmarked = isChecked)
-        val oldList = myRecipeViewModel.myRecipesState.value.data?.response
-        oldList!![position] = newData
-
-        myRecipeViewModel.setMyRecipeList(oldList)
+        val oldList = (myRecipeViewModel.myRecipesState.value as? NetworkResult.Success)?.data
+        oldList?.let {
+            it[position] = newData
+            myRecipeViewModel.setMyRecipeList(it)
+        }
     }
 
     override fun onStop() {

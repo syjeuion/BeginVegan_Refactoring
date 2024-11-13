@@ -10,7 +10,6 @@ import com.beginvegan.domain.model.tips.TipsRecipeListItem
 import com.beginvegan.domain.useCase.tips.TipsRecipeUseCase
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.MainPages
-import com.beginvegan.presentation.view.tips.viewModel.state.RecipeListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,35 +22,27 @@ import javax.inject.Inject
 class RecipeViewModel @Inject constructor(
     private val recipeUseCase: TipsRecipeUseCase
 ) : ViewModel() {
-    //RecyclerView List
+    /**
+     * RecyclerView List
+     */
     private val _recipeListState =
-        MutableStateFlow<NetworkResult<RecipeListState>>(NetworkResult.Loading())
-    val recipeListState: StateFlow<NetworkResult<RecipeListState>> = _recipeListState
+        MutableStateFlow<NetworkResult<MutableList<TipsRecipeListItem>>>(NetworkResult.Loading)
+    val recipeListState: StateFlow<NetworkResult<MutableList<TipsRecipeListItem>>> = _recipeListState
 
     private fun addRecipeList(newList: MutableList<TipsRecipeListItem>){
-        var oldList = _recipeListState.value.data?.response
-        if(oldList==null) oldList = newList
-        else oldList.addAll(newList)
-        _recipeListState.value = NetworkResult.Success(
-            RecipeListState(response = oldList, isLoading = false)
-        )
+        val oldList = (_recipeListState.value as? NetworkResult.Success)?.data
+        val addedList =
+            if(oldList.isNullOrEmpty()) newList
+            else (oldList + newList).toMutableList()
+
+        _recipeListState.value = NetworkResult.Success(addedList)
     }
     fun setRecipeList(nowList: MutableList<TipsRecipeListItem>){
-        Timber.d("setRecipeList")
         val newList = nowList.map { it.copy() }
-        _recipeListState.value = NetworkResult.Success(
-            RecipeListState(response = newList.toMutableList(), isLoading = false)
-        )
-    }
-    fun updateRecipeListItem(position:Int, item: TipsRecipeListItem){
-        _recipeListState.value.data?.response!![position] = item
-        _recipeListState.value = NetworkResult.Success(
-            RecipeListState(
-                _recipeListState.value.data?.response!!, false
-            )
-        )
+        _recipeListState.value = NetworkResult.Success(newList.toMutableList())
     }
 
+    //다음 페이지 요청 여부
     private val _isContinueGetList = MutableLiveData(true)
     val isContinueGetList: LiveData<Boolean> = _isContinueGetList
     fun reSetIsContinueGetList(){
@@ -60,22 +51,38 @@ class RecipeViewModel @Inject constructor(
 
     fun getRecipeList(page: Int) {
         viewModelScope.launch {
-            _recipeListState.value = NetworkResult.Loading()
+            if(page == 0) _recipeListState.value = NetworkResult.Loading
             recipeUseCase.getRecipeList(page).collectLatest {
                 it.onSuccess { result ->
                     if (result.isEmpty()) {
                         _isContinueGetList.value = false
-                    } else {
-                        addRecipeList(result.toMutableList())
+                        if(page == 0) _recipeListState.value = NetworkResult.Empty
                     }
-                }.onFailure {
-                    _recipeListState.value = NetworkResult.Error("getRecipeList Failed")
+                    else addRecipeList(result.toMutableList())
+                }.onFailure {e ->
+                    _recipeListState.value = NetworkResult.Error(e)
                 }
             }
         }
     }
 
-    //Recipe Detail
+    /**
+     * update recipe list item
+     * Dialog에서 Bookmark 처리 시 RecyclerView에 반영
+     */
+    fun updateRecipeListItem(position:Int, item: TipsRecipeListItem){
+        val oldList = (_recipeListState.value as? NetworkResult.Success)?.data
+        oldList?.let {
+            val newList = it.toMutableList()
+            newList[position] = item
+            _recipeListState.value = NetworkResult.Success(newList)
+        }
+    }
+
+    /**
+     * Recipe Detail
+     * 레시피 상세 정보 불러오기
+     */
     private val _recipeDetailData = MutableLiveData<TipsRecipeDetail>()
     val recipeDetailData: LiveData<TipsRecipeDetail> = _recipeDetailData
 
@@ -98,30 +105,37 @@ class RecipeViewModel @Inject constructor(
         _recipeDetailData.value = recipeDetail
     }
 
+    // 레시피 snackBar 클릭 시 이동 경로 탐색
     private val _nowFragment = MutableLiveData<MainPages>()
     val nowFragment:LiveData<MainPages> = _nowFragment
     fun setNowFragment(fragment:MainPages){
         _nowFragment.value = fragment
     }
 
-    //나를 위한 레시피
+    /**
+     * 나를 위한 레시피
+     */
     fun getRecipeForMe(page: Int){
         viewModelScope.launch {
-            _recipeListState.value = NetworkResult.Loading()
-            recipeUseCase.getRecipeMy(page).collectLatest {
+            if(page == 0) _recipeListState.value = NetworkResult.Loading
+            recipeUseCase.getRecipeMy(page).collectLatest { it ->
                 it.onSuccess { result ->
-                    if (result.isEmpty())
+                    if (result.isEmpty()){
                         _isContinueGetList.value = false
-                    else
-                        addRecipeList(result.toMutableList())
-                }.onFailure {
-                    _recipeListState.value = NetworkResult.Error("getRecipeList Failed")
+                        if(page == 0) _recipeListState.value = NetworkResult.Empty
+                    }
+                    else addRecipeList(result.toMutableList())
+                }.onFailure {e ->
+                    _recipeListState.value = NetworkResult.Error(e)
                 }
             }
         }
     }
 
-    //From VeganTest
+    /**
+     * From VeganTest
+     * VeganTest에서 온 경우 나를 위한 레시피 리스트 출력
+     */
     private val _isFromTest = MutableLiveData(false)
     val isFromTest: LiveData<Boolean> = _isFromTest
     fun setIsFromTest(fromTest:Boolean){

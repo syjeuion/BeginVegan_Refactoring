@@ -24,6 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -142,17 +143,17 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
                         if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
                     }
                     is NetworkResult.Success -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
-
-                        val newList = state.data?.response?.map { it.copy() }
-                        recipeRvAdapter.submitList(newList)
+                        dismiss()
+                        recipeRvAdapter.submitList(state.data)
                     }
-                    is NetworkResult.Error -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
-                    }
+                    is NetworkResult.Error -> dismiss()
+                    is NetworkResult.Empty -> dismiss()
                 }
             }
         }
+    }
+    private fun dismiss() {
+        if (loadingDialog.isAdded) loadingDialog.dismiss()
     }
 
     //나를 위한 레시피 토글 처리
@@ -209,10 +210,7 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
     //change Bookmark
     private fun updateBookmark(isChecked:Boolean, oldItem:TipsRecipeListItem, position: Int){
         val newData = oldItem.copy(isBookmarked = isChecked)
-        val oldList = recipeViewModel.recipeListState.value.data?.response
-        oldList!![position] = newData
-
-        recipeViewModel.setRecipeList(oldList)
+        recipeViewModel.updateRecipeListItem(position, newData)
     }
 
     override fun onStop() {

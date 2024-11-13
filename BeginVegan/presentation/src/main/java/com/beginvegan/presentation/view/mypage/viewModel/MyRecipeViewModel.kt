@@ -7,13 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.beginvegan.domain.model.tips.TipsRecipeListItem
 import com.beginvegan.domain.useCase.mypage.MypageMyScrapUseCase
 import com.beginvegan.presentation.network.NetworkResult
-import com.beginvegan.presentation.view.mypage.viewModel.state.MyRecipeState
-import com.beginvegan.presentation.view.tips.viewModel.state.RecipeListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,35 +23,33 @@ class MyRecipeViewModel @Inject constructor(
     //reset
     fun resetViewModel(){
         _isContinueGetList.value = true
-        setMyRecipeList(mutableListOf())
+//        setMyRecipeList(mutableListOf())
         _isRecipeEmpty.value = false
     }
 
     //RecipeList
-    private val _myRecipesState = MutableStateFlow<NetworkResult<MyRecipeState>>(NetworkResult.Loading())
-    val myRecipesState: StateFlow<NetworkResult<MyRecipeState>> = _myRecipesState
-    private fun addMyRecipeList(newList:MutableList<TipsRecipeListItem>){
-        var oldList = _myRecipesState.value.data?.response
-        if(oldList==null) oldList = newList
-        else oldList.addAll(newList)
-        _myRecipesState.value = NetworkResult.Success(
-            MyRecipeState(response = oldList, isLoading = false)
-        )
+    private val _myRecipesState = MutableStateFlow<NetworkResult<MutableList<TipsRecipeListItem>>>(NetworkResult.Loading)
+    val myRecipesState: StateFlow<NetworkResult<MutableList<TipsRecipeListItem>>> = _myRecipesState
+
+    private fun addMyRecipeList(newList: MutableList<TipsRecipeListItem>){
+        val oldList = (_myRecipesState.value as? NetworkResult.Success)?.data
+        val addedList =
+            if(oldList.isNullOrEmpty()) newList
+            else (oldList + newList).toMutableList()
+
+        _myRecipesState.value = NetworkResult.Success(addedList)
     }
     fun setMyRecipeList(newList:MutableList<TipsRecipeListItem>){
-        _myRecipesState.value = NetworkResult.Success(
-            MyRecipeState(response = newList, isLoading = false)
-        )
+        _myRecipesState.value = NetworkResult.Success(newList)
     }
 
+    //Dialog Bookmark 클릭 시 update
     fun updateRecipeListItem(position:Int, item: TipsRecipeListItem){
-        with(_myRecipesState){
-            value.data?.response!![position] = item
-            value = NetworkResult.Success(
-                MyRecipeState(
-                    value.data?.response!!, false
-                )
-            )
+        val oldList = (_myRecipesState.value as? NetworkResult.Success)?.data
+        oldList?.let{
+            val newList = it.toMutableList()
+            newList[position] = item
+            _myRecipesState.value = NetworkResult.Success(newList)
         }
     }
     private val _isContinueGetList = MutableLiveData(true)
@@ -63,16 +60,19 @@ class MyRecipeViewModel @Inject constructor(
 
     fun getMyRecipe(page:Int){
         viewModelScope.launch {
-            _myRecipesState.value = NetworkResult.Loading()
+            if(page == 0) _myRecipesState.value = NetworkResult.Loading
             myScrapUseCase.getMyRecipeList(page).collectLatest {
                 it.onSuccess {list->
                     if(list.isEmpty()) {
-                        if(page==0) _isRecipeEmpty.value = true
+                        if(page==0){
+                            _isRecipeEmpty.value = true
+                            _myRecipesState.value = NetworkResult.Empty
+                        }
                         _isContinueGetList.value = false
                     }
-                    addMyRecipeList(list.toMutableList())
-                }.onFailure {
-                    _myRecipesState.value = NetworkResult.Error("getMyMagazineList Failure")
+                    else addMyRecipeList(list.toMutableList())
+                }.onFailure {e ->
+                    _myRecipesState.value = NetworkResult.Error(e)
                 }
             }
         }

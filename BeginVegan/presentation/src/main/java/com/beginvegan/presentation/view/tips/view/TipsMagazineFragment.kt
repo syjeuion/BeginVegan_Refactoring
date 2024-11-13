@@ -136,12 +136,10 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(FragmentT
                     }
                     is NetworkResult.Success -> {
                         dismiss()
-                        val newList = state.data?.response?.map { it.copy() }
-                        magazineRvAdapter.submitList(newList)
+                        magazineRvAdapter.submitList(state.data)
                     }
-                    is NetworkResult.Error -> {
-                        dismiss()
-                    }
+                    is NetworkResult.Error -> dismiss()
+                    is NetworkResult.Empty -> dismiss()
                 }
             }
         }

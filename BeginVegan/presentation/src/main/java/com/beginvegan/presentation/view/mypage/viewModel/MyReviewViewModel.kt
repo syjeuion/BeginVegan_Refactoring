@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.beginvegan.domain.model.mypage.MyReview
 import com.beginvegan.domain.useCase.mypage.MypageMyScrapUseCase
 import com.beginvegan.presentation.network.NetworkResult
-import com.beginvegan.presentation.view.mypage.viewModel.state.MyReviewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,16 +18,15 @@ import javax.inject.Inject
 class MyReviewViewModel @Inject constructor(
     private val myScrapUseCase: MypageMyScrapUseCase
 ):ViewModel() {
-    private val _myReviewState = MutableStateFlow<NetworkResult<MyReviewState>>(
-        NetworkResult.Loading())
-    val myReviewState: StateFlow<NetworkResult<MyReviewState>> = _myReviewState
-    fun setMyReviewList(list:MutableList<MyReview>){
-        _myReviewState.value = NetworkResult.Success(
-            MyReviewState(list, false)
-        )
-    }
-    private fun setLoading(){
-        _myReviewState.value = NetworkResult.Loading()
+    private val _myReviewState = MutableStateFlow<NetworkResult<MutableList<MyReview>>>(NetworkResult.Loading)
+    val myReviewState: StateFlow<NetworkResult<MutableList<MyReview>>> = _myReviewState
+    fun setMyReviewList(newList:MutableList<MyReview>){
+        val oldList = (_myReviewState.value as? NetworkResult.Success)?.data
+        val addedList =
+            if(oldList.isNullOrEmpty()) newList
+            else (oldList + newList).toMutableList()
+
+        _myReviewState.value = NetworkResult.Success(addedList)
     }
 
     private val _isContinueGetList = MutableLiveData(true)
@@ -44,17 +42,20 @@ class MyReviewViewModel @Inject constructor(
     }
 
     fun getMyReview(page:Int){
-        setLoading()
         viewModelScope.launch {
+            if(page == 0) _myReviewState.value = NetworkResult.Loading
             myScrapUseCase.getMyReviewList(page).collectLatest {
                 it.onSuccess {list->
                     if(list.isEmpty()) {
-                        if(page==0) _isReviewEmpty.value = true
+                        if(page==0) {
+                            _isReviewEmpty.value = true
+                            _myReviewState.value = NetworkResult.Empty
+                        }
                         _isContinueGetList.value = false
                     }
-                    setMyReviewList(list.toMutableList())
-                }.onFailure {
-                    _myReviewState.value = NetworkResult.Error("getMyReviewList Failure")
+                    else setMyReviewList(list.toMutableList())
+                }.onFailure {e ->
+                    _myReviewState.value = NetworkResult.Error(e)
                 }
             }
         }

@@ -19,7 +19,6 @@ import com.beginvegan.presentation.util.setContentToolbar
 import com.beginvegan.presentation.view.mypage.adapter.MyReviewRvAdapter
 import com.beginvegan.presentation.view.mypage.viewModel.MyReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -106,14 +105,13 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(Fragm
                         if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
                     }
                     is NetworkResult.Success -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+                        dismiss()
 
-                        myReviewList.addAll(state.data?.response!!)
-                        myReviewRvAdapter.notifyItemRangeInserted(totalCount,state.data.response.size)
+                        myReviewList.addAll(state.data)
+                        myReviewRvAdapter.notifyItemRangeInserted(totalCount,state.data.size)
                     }
-                    is NetworkResult.Error -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
-                    }
+                    is NetworkResult.Error -> dismiss()
+                    is NetworkResult.Empty -> dismiss()
                 }
             }
         }
@@ -122,6 +120,9 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(Fragm
             setEmptyState(it)
         }
 
+    }
+    private fun dismiss() {
+        if (loadingDialog.isAdded) loadingDialog.dismiss()
     }
 
     private fun setBackUp(){
