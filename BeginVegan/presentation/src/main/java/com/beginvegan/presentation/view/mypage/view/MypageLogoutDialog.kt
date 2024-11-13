@@ -9,17 +9,17 @@ class MypageLogoutDialog:BaseDialogFragment<DialogWithoutTitleBinding>(DialogWit
 
     override fun init() {
 //        isCancelable =false
+        with(binding){
+            tvContent.text = getString(R.string.dialog_mypage_setting_logout)
+            btnCancel.text = getString(R.string.btn_cancel)
+            btnConfirm.text = getString(R.string.btn_confirm)
 
-        binding.tvContent.text = getString(R.string.dialog_mypage_setting_logout)
-        binding.btnCancel.text = getString(R.string.btn_cancel)
-        binding.btnConfirm.text = getString(R.string.btn_confirm)
-
-        binding.btnCancel.setOnClickListener {
-            dismiss()
-        }
-
-        binding.btnConfirm.setOnClickListener {
-            listener?.onConfirm()
+            btnCancel.setOnClickListener {
+                dismiss()
+            }
+            btnConfirm.setOnClickListener {
+                listener?.onConfirm()
+            }
         }
     }
 

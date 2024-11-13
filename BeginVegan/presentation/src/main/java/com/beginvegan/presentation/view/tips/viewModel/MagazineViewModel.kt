@@ -8,7 +8,6 @@ import com.beginvegan.domain.model.tips.TipsMagazineDetail
 import com.beginvegan.domain.model.tips.TipsMagazineItem
 import com.beginvegan.domain.useCase.tips.TipsMagazineUseCase
 import com.beginvegan.presentation.network.NetworkResult
-import com.beginvegan.presentation.view.tips.viewModel.state.MagazineListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,13 +21,16 @@ class MagazineViewModel @Inject constructor(
     private val tipsMagazineUseCase: TipsMagazineUseCase
 ) : ViewModel() {
 
-    private val _magazineListState = MutableStateFlow<NetworkResult<MagazineListState>>(NetworkResult.Loading())
-    val magazineListState: StateFlow<NetworkResult<MagazineListState>> = _magazineListState
+    private val _magazineListState = MutableStateFlow<NetworkResult<MutableList<TipsMagazineItem>>>(NetworkResult.Loading)
+    val magazineListState: StateFlow<NetworkResult<MutableList<TipsMagazineItem>>> = _magazineListState
 
-    private fun addMagazineList(list:MutableList<TipsMagazineItem>){
-        _magazineListState.value = NetworkResult.Success(
-            MagazineListState(list, false)
-        )
+    private fun addMagazineList(newList:MutableList<TipsMagazineItem>){
+        val oldList = (_magazineListState.value as? NetworkResult.Success)?.data
+        val addedList =
+            if(oldList.isNullOrEmpty()) newList
+            else (oldList + newList).toMutableList()
+
+        _magazineListState.value = NetworkResult.Success(addedList)
     }
 
     private val _isContinueGetList = MutableLiveData(true)
@@ -47,14 +49,15 @@ class MagazineViewModel @Inject constructor(
 
     fun getMagazineList(page:Int) {
         viewModelScope.launch {
-            _magazineListState.value = NetworkResult.Loading()
+            if(page == 0) _magazineListState.value = NetworkResult.Loading
             tipsMagazineUseCase.getMagazineList(page).collectLatest {
                  it.onSuccess {result ->
                      if (result.isEmpty()) {
                          _isContinueGetList.value = false
+                         if(page == 0) _magazineListState.value = NetworkResult.Empty
                      }else addMagazineList(result.toMutableList())
                  }.onFailure {e->
-                     _magazineListState.value = NetworkResult.Error(e.message!!)
+                     _magazineListState.value = NetworkResult.Error(e)
                  }
             }
         }

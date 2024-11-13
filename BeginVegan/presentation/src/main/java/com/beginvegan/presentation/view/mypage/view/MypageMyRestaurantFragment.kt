@@ -21,7 +21,6 @@ import com.beginvegan.presentation.util.DefaultDialog
 import com.beginvegan.presentation.util.LOADING
 import com.beginvegan.presentation.util.LoadingDialog
 import com.beginvegan.presentation.util.setContentToolbar
-import com.beginvegan.presentation.view.map.view.VeganMapFragment
 import com.beginvegan.presentation.view.mypage.adapter.MyRestaurantRvAdapter
 import com.beginvegan.presentation.view.mypage.viewModel.MyRestaurantViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -32,7 +31,6 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.kakao.vectormap.LatLng
-import com.kakao.vectormap.camera.CameraUpdateFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -55,7 +53,6 @@ class MypageMyRestaurantFragment :
     private var myRestaurantList = mutableListOf<MypageMyRestaurantItem>()
     private var currentPage = 0
     private var totalCount = 0
-    private var collectJob: Job? = null
 
     override fun init() {
         loadingDialog = LoadingDialog.newInstance()
@@ -74,7 +71,6 @@ class MypageMyRestaurantFragment :
         )
     }
     private fun reset() {
-        collectJob?.cancel()
         myRestaurantList = mutableListOf()
         currentPage = 0
         totalCount = 0
@@ -149,17 +145,16 @@ class MypageMyRestaurantFragment :
                         if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
                     }
                     is NetworkResult.Success -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+                        dismiss()
 
-                        myRestaurantList.addAll(state.data?.response!!)
+                        myRestaurantList.addAll(state.data)
                         myRestaurantRvAdapter.notifyItemRangeInserted(
                             totalCount,
-                            state.data.response.size
+                            state.data.size
                         )
                     }
-                    is NetworkResult.Error -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
-                    }
+                    is NetworkResult.Error -> dismiss()
+                    is NetworkResult.Empty -> dismiss()
                 }
             }
         }
@@ -168,6 +163,10 @@ class MypageMyRestaurantFragment :
             setEmptyState(it)
         }
 
+    }
+
+    private fun dismiss() {
+        if (loadingDialog.isAdded) loadingDialog.dismiss()
     }
 
 

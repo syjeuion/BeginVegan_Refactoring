@@ -5,11 +5,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.beginvegan.domain.model.alarms.Alarm
-import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseFragment
 import com.beginvegan.presentation.databinding.FragmentNotificationDrawerBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.DrawerController
+import com.beginvegan.presentation.util.LOADING
+import com.beginvegan.presentation.util.LoadingDialog
 import com.beginvegan.presentation.view.notification.adapter.NotificationReadRvAdapter
 import com.beginvegan.presentation.view.notification.adapter.NotificationUnreadRvAdapter
 import com.beginvegan.presentation.view.notification.viewModel.NotificationViewModel
@@ -25,7 +26,10 @@ class NotificationDrawerFragment :
     lateinit var drawerController: DrawerController
     private val notificationViewModel: NotificationViewModel by viewModels()
 
+    private lateinit var loadingDialog: LoadingDialog
+
     override fun init() {
+        loadingDialog = LoadingDialog.newInstance()
         setDrawerRv()
     }
 
@@ -34,23 +38,22 @@ class NotificationDrawerFragment :
             drawerController.closeDrawer()
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             notificationViewModel.alarmLists.collectLatest { state ->
                 when (state) {
                     is NetworkResult.Loading -> {
-
+                        if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
                     }
-
                     is NetworkResult.Success -> {
-                        val unreadList = state.data!!.response!!.unreadAlarmList
+                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+
+                        val unreadList = state.data.unreadAlarmList
                         setUnreadAlarmList(unreadList)
-                        val readlist = state.data!!.response!!.readAlarmList
+                        val readlist = state.data.readAlarmList
                         setReadAlarmList(readlist)
                     }
-
-                    is NetworkResult.Error -> {
-
-                    }
+                    is NetworkResult.Error -> if(loadingDialog.isAdded) loadingDialog.dismiss()
+                    is NetworkResult.Empty -> if(loadingDialog.isAdded) loadingDialog.dismiss()
                 }
             }
         }

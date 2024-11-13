@@ -1,7 +1,9 @@
 package com.beginvegan.presentation.network
 
-sealed class NetworkResult<T>(val data: T? = null, val message: String? = null) {
-    class Success<T>(data: T?) : NetworkResult<T>(data)
-    class Error<T>(message: String, data: T? = null) : NetworkResult<T>(data, message)
-    class Loading<Nothing>() : NetworkResult<Nothing>(null)
+sealed class NetworkResult<out T> {
+    data object Loading : NetworkResult<Nothing>()
+    data object Empty : NetworkResult<Nothing>()
+
+    data class Success<T>(val data: T) : NetworkResult<T>()
+    data class Error(val exception: Throwable) : NetworkResult<Nothing>()
 }

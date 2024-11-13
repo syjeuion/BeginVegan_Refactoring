@@ -2,9 +2,9 @@ package com.beginvegan.presentation.view.notification.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.beginvegan.domain.model.alarms.AlarmLists
 import com.beginvegan.domain.useCase.alarms.UnreadAlarmUseCase
 import com.beginvegan.presentation.network.NetworkResult
-import com.beginvegan.presentation.view.notification.viewModel.state.NotificationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,8 +18,8 @@ class NotificationViewModel @Inject constructor(
     private val unreadAlarmUseCase: UnreadAlarmUseCase
 ):ViewModel(){
 
-    private val _alarmLists = MutableStateFlow<NetworkResult<NotificationState>>(NetworkResult.Loading())
-    val alarmLists: StateFlow<NetworkResult<NotificationState>> = _alarmLists
+    private val _alarmLists = MutableStateFlow<NetworkResult<AlarmLists>>(NetworkResult.Loading)
+    val alarmLists: StateFlow<NetworkResult<AlarmLists>> = _alarmLists
 
     init {
         viewModelScope.launch {
@@ -29,15 +29,12 @@ class NotificationViewModel @Inject constructor(
 
     private suspend fun getAlarmList(){
         unreadAlarmUseCase.invoke().catch {
-            _alarmLists.value = NetworkResult.Loading()
+            _alarmLists.value = NetworkResult.Loading
         }.collectLatest {result ->
             result.onSuccess {lists ->
-                _alarmLists.value = NetworkResult.Success(NotificationState(
-                    response = lists,
-                    isLoading = false
-                ))
-            }.onFailure {
-                _alarmLists.value = NetworkResult.Error("GetAlarms Failed")
+                _alarmLists.value = NetworkResult.Success(lists)
+            }.onFailure {e ->
+                _alarmLists.value = NetworkResult.Error(e)
             }
 
 //            result ->

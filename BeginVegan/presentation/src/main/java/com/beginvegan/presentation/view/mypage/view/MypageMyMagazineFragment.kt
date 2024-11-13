@@ -30,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -50,7 +51,6 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(F
     private var myMagazineList = mutableListOf<MypageMyMagazineItem>()
     private var currentPage = 0
     private var totalCount = 0
-    private var collectJob: Job? = null
 
     private var typeface: Typeface?=null
 
@@ -62,7 +62,6 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(F
         setBackUp()
         setFabButton()
 
-        reset()
         setRvAdapter()
     }
     private fun setToolbar(){
@@ -72,8 +71,12 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(F
             getString(R.string.mypage_my_magazine)
         )
     }
+
+    override fun onStart() {
+        super.onStart()
+        reset()
+    }
     private fun reset(){
-        collectJob?.cancel()
         myMagazineList = mutableListOf()
         currentPage = 0
         totalCount = 0
@@ -113,7 +116,7 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(F
         })
 
         setListener()
-        myMagazineViewModel.setMyMagazineList(myMagazineList)
+//        myMagazineViewModel.setMyMagazineList(myMagazineList)
         getMyMagazineList()
     }
     private fun getMyMagazineList(){
@@ -133,21 +136,21 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(F
             }
         })
 
-        collectJob = lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             myMagazineViewModel.myMagazineState.collectLatest{state->
                 when(state){
                     is NetworkResult.Loading -> {
                         if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
                     }
                     is NetworkResult.Success -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+                        Timber.e("Success: state.data: ${state.data.size}")
+                        dismiss()
 
-                        myMagazineList.addAll(state.data?.response!!)
-                        myMagazineRvAdapter.notifyItemRangeInserted(totalCount,state.data.response.size)
+                        myMagazineList.addAll(state.data)
+                        myMagazineRvAdapter.notifyItemRangeInserted(totalCount,state.data.size)
                     }
-                    is NetworkResult.Error -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
-                    }
+                    is NetworkResult.Error -> dismiss()
+                    is NetworkResult.Empty -> dismiss()
                 }
             }
         }
@@ -157,6 +160,11 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(F
         }
 
     }
+
+    private fun dismiss() {
+        if (loadingDialog.isAdded) loadingDialog.dismiss()
+    }
+
     private fun setBackUp(){
         binding.includedToolbar.ibBackUp.setOnClickListener {
 //            mainNavigationHandler.popBackStack()

@@ -126,23 +126,25 @@ class MainMypageFragment :
     }
 
     private fun moveFuns() {
-        binding.llEditProfile.setOnClickListener {
-            mainNavigationHandler.navigateMypageToEditProfile()
-        }
-        binding.llMyReview.setOnClickListener {
-            mainNavigationHandler.navigateMypageToMyReview()
-        }
-        binding.llMyRestaurant.setOnClickListener {
-            mainNavigationHandler.navigateMypageToMyRestaurant()
-        }
-        binding.llMyMagazine.setOnClickListener {
-            mainNavigationHandler.navigateMypageToMyMagazine()
-        }
-        binding.llMyRecipe.setOnClickListener {
-            mainNavigationHandler.navigateMypageToMyRecipe()
-        }
-        binding.llSetting.setOnClickListener {
-            mainNavigationHandler.navigateMypageToMySetting()
+        with(binding){
+            llEditProfile.setOnClickListener {
+                mainNavigationHandler.navigateMypageToEditProfile()
+            }
+            llMyReview.setOnClickListener {
+                mainNavigationHandler.navigateMypageToMyReview()
+            }
+            llMyRestaurant.setOnClickListener {
+                mainNavigationHandler.navigateMypageToMyRestaurant()
+            }
+            llMyMagazine.setOnClickListener {
+                mainNavigationHandler.navigateMypageToMyMagazine()
+            }
+            llMyRecipe.setOnClickListener {
+                mainNavigationHandler.navigateMypageToMyRecipe()
+            }
+            llSetting.setOnClickListener {
+                mainNavigationHandler.navigateMypageToMySetting()
+            }
         }
     }
 
