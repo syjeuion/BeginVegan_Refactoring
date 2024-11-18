@@ -32,6 +32,8 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.util.Timer
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -50,8 +52,6 @@ class MypageMyRecipeFragment :
     private lateinit var loadingDialog: LoadingDialog
 
     private lateinit var myRecipeRvAdapter: MyRecipeRvAdapter
-    private var currentPage = 0
-    private var totalCount = 0
 
     private var typeface: Typeface? = null
 
@@ -62,9 +62,7 @@ class MypageMyRecipeFragment :
         setToolbar()
         setBackUp()
         setFabButton()
-
-        reset()
-        setRvAdapter()
+        getMyRecipeList()
     }
     private fun setToolbar(){
         setContentToolbar(
@@ -73,13 +71,15 @@ class MypageMyRecipeFragment :
             getString(R.string.mypage_my_recipe)
         )
     }
-    private fun reset() {
-        myRecipeViewModel.resetViewModel()
-        currentPage = 0
-        totalCount = 0
+
+    override fun onStart() {
+        super.onStart()
+        setRvAdapter()
     }
 
     private fun setRvAdapter() {
+        myRecipeViewModel.resetViewModel()
+
         myRecipeRvAdapter = MyRecipeRvAdapter(requireContext())
         with(binding.rvMyRecipe){
             adapter = myRecipeRvAdapter
@@ -112,29 +112,17 @@ class MypageMyRecipeFragment :
         })
 
         setListener()
-        getMyRecipeList()
     }
 
     private fun getMyRecipeList() {
-        myRecipeViewModel.getMyRecipe(currentPage)
-        currentPage++
+        viewLifecycleOwner.lifecycleScope.launch {
+            myRecipeViewModel.currentPage.collectLatest {
+                myRecipeViewModel.getMyRecipe()
+            }
+        }
     }
 
     private fun setListener() {
-        //page
-        binding.rvMyRecipe.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val rvPosition =
-                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                totalCount = recyclerView.adapter?.itemCount?.minus(1)!!
-                if (rvPosition == totalCount && myRecipeViewModel.isContinueGetList.value!!) {
-                    getMyRecipeList()
-                }
-            }
-        })
-
-
         viewLifecycleOwner.lifecycleScope.launch {
             myRecipeViewModel.myRecipesState.collectLatest { state ->
                 when (state) {
@@ -146,7 +134,10 @@ class MypageMyRecipeFragment :
                         myRecipeRvAdapter.submitList(state.data)
                     }
                     is NetworkResult.Error -> dismiss()
-                    is NetworkResult.Empty -> dismiss()
+                    is NetworkResult.Empty -> {
+                        dismiss()
+                        myRecipeRvAdapter.submitList(emptyList())
+                    }
                 }
             }
         }
