@@ -144,7 +144,6 @@ class MypageMyMagazineFragment :
                 show()
             }
     }
-
     private fun setEmptyState(emptyState: Boolean) {
         binding.llEmptyArea.isVisible = emptyState
         binding.btnMoveToMagazine.setOnClickListener {
