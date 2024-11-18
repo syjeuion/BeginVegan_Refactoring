@@ -6,36 +6,55 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.beginvegan.domain.model.mypage.MyReview
+import com.beginvegan.domain.model.mypage.MypageMyRestaurantItem
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.databinding.ItemReviewBinding
+import kotlinx.coroutines.Job
 
 class MyReviewRvAdapter(
-    private val context: Context, private val list:List<MyReview>
-) : RecyclerView.Adapter<MyReviewRvAdapter.RecyclerViewHolder>(){
-    private var listener: OnItemClickListener? = null
+    private val context: Context,
+    private val onItemClick:(reviewId:Int)->Unit,
+    private val setToggleButton:(reviewId: Int)->Job
+) : ListAdapter<MyReview, MyReviewRvAdapter.RecyclerViewHolder>(diffUtil){
+    // DiffUtil
+    companion object {
+        val diffUtil = object : DiffUtil.ItemCallback<MyReview>() {
+            override fun areItemsTheSame(oldItem: MyReview, newItem: MyReview): Boolean {
+                return oldItem.reviewId == newItem.reviewId
+            }
+            override fun areContentsTheSame(oldItem: MyReview, newItem: MyReview): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 
     inner class RecyclerViewHolder(private val binding: ItemReviewBinding):
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) {
-            val item = list[position]
-            binding.ivUserProfileImg.visibility = View.GONE
-            binding.tvUserName.text = item.restaurantName
-            binding.brbRating.rating = item.rate
-            binding.tvDate.text = item.date
-            binding.tvReviewContent.text = item.content
-            binding.tvRecommend.text = context.resources.getString(R.string.btn_review_recommend,item.countRecommendation)
+            val item = currentList[position]
+            with(binding){
+                ivUserProfileImg.visibility = View.GONE
+                tvUserName.text = item.restaurantName
+                brbRating.rating = item.rate
+                tvDate.text = item.date
+                tvReviewContent.text = item.content
+                tvRecommend.text = context.resources.getString(R.string.btn_review_recommend,item.countRecommendation)
 
-            for(url in item.images){
-                createImageView(url, binding.llImages)
-            }
-
-            binding.tbRecommend.setOnCheckedChangeListener(null)
-            binding.tbRecommend.isChecked = item.recommendation
-            binding.tbRecommend.setOnCheckedChangeListener { _, isChecked ->
-                listener?.setToggleButton(isChecked, item.reviewId)
+                for(url in item.images){
+                    createImageView(url,llImages)
+                }
+                with(tbRecommend){
+                    setOnCheckedChangeListener(null)
+                    isChecked = item.recommendation
+                    setOnCheckedChangeListener { _, isChecked ->
+                        setToggleButton(item.reviewId)
+                    }
+                }
             }
         }
     }
@@ -45,23 +64,13 @@ class MyReviewRvAdapter(
         return RecyclerViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = list.size
-
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         holder.bind(position)
-//        if(position != RecyclerView.NO_POSITION){
-//            holder.itemView.setOnClickListener {
-//                listener?.onItemClick(list[position].reviewId)
-//            }
-//        }
-    }
-
-    interface OnItemClickListener{
-//        fun onItemClick(reviewId:Int)
-        fun setToggleButton(isChecked:Boolean, reviewId: Int)
-    }
-    fun setOnItemClickListener(listener: OnItemClickListener){
-        this.listener = listener
+        if(position != RecyclerView.NO_POSITION){
+            holder.itemView.setOnClickListener {
+                onItemClick(currentList[position].reviewId)
+            }
+        }
     }
 
     private fun createImageView(url:String, layout:LinearLayout){

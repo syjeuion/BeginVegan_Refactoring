@@ -108,10 +108,14 @@ class MypageMyRestaurantFragment :
     }
 
     private fun getMyRestaurantList() {
-        myRestaurantViewModel.getMyRestaurant(
-            currentLocation.latitude.toString(),
-            currentLocation.longitude.toString()
-        )
+        viewLifecycleOwner.lifecycleScope.launch {
+            myRestaurantViewModel.currentPage.collectLatest {
+                myRestaurantViewModel.getMyRestaurant(
+                    currentLocation.latitude.toString(),
+                    currentLocation.longitude.toString()
+                )
+            }
+        }
     }
 
     private fun setListener() {
