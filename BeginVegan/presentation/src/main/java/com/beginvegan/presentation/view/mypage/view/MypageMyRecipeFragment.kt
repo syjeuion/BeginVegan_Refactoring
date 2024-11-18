@@ -14,13 +14,14 @@ import com.beginvegan.domain.model.tips.RecipeDetailPosition
 import com.beginvegan.domain.model.tips.TipsRecipeListItem
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseFragment
+import com.beginvegan.presentation.config.enumclass.Bookmarks
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentMypageMyRecipeBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.BookmarkController
 import com.beginvegan.presentation.util.LOADING
 import com.beginvegan.presentation.util.LoadingDialog
-import com.beginvegan.presentation.util.MainPages
+import com.beginvegan.presentation.config.enumclass.MainPages
 import com.beginvegan.presentation.util.setContentToolbar
 import com.beginvegan.presentation.view.main.viewModel.MainViewModel
 import com.beginvegan.presentation.view.mypage.adapter.MyRecipeRvAdapter
@@ -32,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.Timer
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -50,8 +52,6 @@ class MypageMyRecipeFragment :
     private lateinit var loadingDialog: LoadingDialog
 
     private lateinit var myRecipeRvAdapter: MyRecipeRvAdapter
-    private var currentPage = 0
-    private var totalCount = 0
 
     private var typeface: Typeface? = null
 
@@ -62,9 +62,7 @@ class MypageMyRecipeFragment :
         setToolbar()
         setBackUp()
         setFabButton()
-
-        reset()
-        setRvAdapter()
+        getMyRecipeList()
     }
     private fun setToolbar(){
         setContentToolbar(
@@ -73,13 +71,15 @@ class MypageMyRecipeFragment :
             getString(R.string.mypage_my_recipe)
         )
     }
-    private fun reset() {
-        myRecipeViewModel.resetViewModel()
-        currentPage = 0
-        totalCount = 0
+
+    override fun onStart() {
+        super.onStart()
+        setRvAdapter()
     }
 
     private fun setRvAdapter() {
+        myRecipeViewModel.resetViewModel()
+
         myRecipeRvAdapter = MyRecipeRvAdapter(requireContext())
         with(binding.rvMyRecipe){
             adapter = myRecipeRvAdapter
@@ -99,11 +99,11 @@ class MypageMyRecipeFragment :
                 updateBookmark(isBookmarked, data, position)
                 lifecycleScope.launch {
                     if (isBookmarked) {
-                        if (bookmarkController.postBookmark(data.id, "RECIPE")) {
+                        if (bookmarkController.postBookmark(data.id, Bookmarks.RECIPE)) {
                             setSnackBar(getString(R.string.toast_scrap_done))
                         }
                     } else {
-                        if (bookmarkController.deleteBookmark(data.id, "RECIPE")) {
+                        if (bookmarkController.deleteBookmark(data.id, Bookmarks.RECIPE)) {
                             setSnackBar(getString(R.string.toast_scrap_undo))
                         }
                     }
@@ -112,29 +112,17 @@ class MypageMyRecipeFragment :
         })
 
         setListener()
-        getMyRecipeList()
     }
 
     private fun getMyRecipeList() {
-        myRecipeViewModel.getMyRecipe(currentPage)
-        currentPage++
+        viewLifecycleOwner.lifecycleScope.launch {
+            myRecipeViewModel.currentPage.collectLatest {
+                myRecipeViewModel.getMyRecipe()
+            }
+        }
     }
 
     private fun setListener() {
-        //page
-        binding.rvMyRecipe.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val rvPosition =
-                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                totalCount = recyclerView.adapter?.itemCount?.minus(1)!!
-                if (rvPosition == totalCount && myRecipeViewModel.isContinueGetList.value!!) {
-                    getMyRecipeList()
-                }
-            }
-        })
-
-
         viewLifecycleOwner.lifecycleScope.launch {
             myRecipeViewModel.myRecipesState.collectLatest { state ->
                 when (state) {
@@ -146,7 +134,10 @@ class MypageMyRecipeFragment :
                         myRecipeRvAdapter.submitList(state.data)
                     }
                     is NetworkResult.Error -> dismiss()
-                    is NetworkResult.Empty -> dismiss()
+                    is NetworkResult.Empty -> {
+                        dismiss()
+                        myRecipeRvAdapter.submitList(emptyList())
+                    }
                 }
             }
         }
@@ -193,10 +184,11 @@ class MypageMyRecipeFragment :
 
     //SnackBar
     private fun setSnackBar(message: String) {
-        val snackbar = Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
-        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-            .setTypeface(typeface)
-        snackbar.show()
+        Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
+            .apply {
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+                show()
+            }
     }
 
     //update Bookmark

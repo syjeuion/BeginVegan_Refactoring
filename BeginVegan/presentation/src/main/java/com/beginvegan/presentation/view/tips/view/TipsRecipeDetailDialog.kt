@@ -14,10 +14,11 @@ import com.beginvegan.domain.model.tips.RecipeIngredient
 import com.beginvegan.domain.model.tips.TipsRecipeDetail
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseDialogFragment
+import com.beginvegan.presentation.config.enumclass.Bookmarks
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.DialogRecipeDetailBinding
 import com.beginvegan.presentation.util.BookmarkController
-import com.beginvegan.presentation.util.MainPages
+import com.beginvegan.presentation.config.enumclass.MainPages
 import com.beginvegan.presentation.view.home.viewModel.HomeTipsViewModel
 import com.beginvegan.presentation.view.mypage.viewModel.MyRecipeViewModel
 import com.beginvegan.presentation.view.tips.viewModel.RecipeViewModel
@@ -41,7 +42,7 @@ class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(Dialo
     private lateinit var veganTypesEng:Array<String>
 
     private var typeface: Typeface? = null
-    private lateinit var nowFragmet:MainPages
+    private lateinit var nowFragmet: MainPages
 
     override fun init() {
         isCancelable = false
@@ -109,11 +110,11 @@ class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(Dialo
                     }
                     viewLifecycleOwner.lifecycleScope.launch {
                         if(isChecked){
-                            if(bookmarkController.postBookmark(data.id, "RECIPE")){
+                            if(bookmarkController.postBookmark(data.id, Bookmarks.RECIPE)){
                                 setSnackBar(getString(R.string.toast_scrap_done))
                             }
                         }else{
-                            if(bookmarkController.deleteBookmark(data.id, "RECIPE")){
+                            if(bookmarkController.deleteBookmark(data.id, Bookmarks.RECIPE)){
                                 setSnackBar(getString(R.string.toast_scrap_undo))
                             }
                         }
@@ -178,7 +179,7 @@ class TipsRecipeDetailDialog:BaseDialogFragment<DialogRecipeDetailBinding>(Dialo
         }else{
             Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
                 .setAction(getString(R.string.toast_scrap_action)){
-                    if(recipeViewModel.nowFragment.value ==MainPages.HOME)
+                    if(recipeViewModel.nowFragment.value == MainPages.HOME)
                         mainNavigationHandler.navigateHomeToMyRecipe()
                     else
                         mainNavigationHandler.navigateTipsRecipeToMyRecipe()

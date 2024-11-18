@@ -11,20 +11,20 @@ import com.beginvegan.domain.model.tips.RecipeDetailPosition
 import com.beginvegan.domain.model.tips.TipsRecipeListItem
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseFragment
+import com.beginvegan.presentation.config.enumclass.Bookmarks
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentTipsRecipeBinding
 import com.beginvegan.presentation.network.NetworkResult
 import com.beginvegan.presentation.util.BookmarkController
 import com.beginvegan.presentation.util.LOADING
 import com.beginvegan.presentation.util.LoadingDialog
-import com.beginvegan.presentation.util.MainPages
+import com.beginvegan.presentation.config.enumclass.MainPages
 import com.beginvegan.presentation.view.tips.adapter.TipsRecipeRvAdapter
 import com.beginvegan.presentation.view.tips.viewModel.RecipeViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -108,11 +108,11 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
         updateBookmark(isBookmarked, data, position)
         viewLifecycleOwner.lifecycleScope.launch {
             if(isBookmarked){
-                if(bookmarkController.postBookmark(data.id, "RECIPE")){
+                if(bookmarkController.postBookmark(data.id, Bookmarks.RECIPE)){
                     setSnackBar(getString(R.string.toast_scrap_done))
                 }
             }else{
-                if(bookmarkController.deleteBookmark(data.id, "RECIPE")){
+                if(bookmarkController.deleteBookmark(data.id, Bookmarks.RECIPE)){
                     setSnackBar(getString(R.string.toast_scrap_undo))
                 }
             }
@@ -195,16 +195,16 @@ class TipsRecipeFragment : BaseFragment<FragmentTipsRecipeBinding>(FragmentTipsR
 
     //SnackBar
     private fun setSnackBar(message:String){
-        val snackbar = Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
+        Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
             .setAction(getString(R.string.toast_scrap_action)){
                 mainNavigationHandler.navigateTipsRecipeToMyRecipe()
             }
             .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-        with(snackbar){
-            view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-            view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-            show()
-        }
+            .apply {
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
+                show()
+            }
     }
 
     //change Bookmark
