@@ -10,10 +10,11 @@ import com.beginvegan.domain.model.tips.RecipeDetailPosition
 import com.beginvegan.domain.model.tips.TipsRecipeListItem
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseFragment
+import com.beginvegan.presentation.config.enumclass.Bookmarks
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentHomeTipsRecipeBinding
 import com.beginvegan.presentation.util.BookmarkController
-import com.beginvegan.presentation.util.MainPages
+import com.beginvegan.presentation.config.enumclass.MainPages
 import com.beginvegan.presentation.view.home.adapter.HomeRecipeVpAdapter
 import com.beginvegan.presentation.view.home.viewModel.HomeTipsViewModel
 import com.beginvegan.presentation.view.tips.view.TipsRecipeDetailDialog
@@ -66,10 +67,10 @@ class HomeTipsRecipeFragment: BaseFragment<FragmentHomeTipsRecipeBinding>(Fragme
             ) {
                 lifecycleScope.launch {
                     if(isBookmarked) {
-                        bookmarkController.postBookmark(data.id, "RECIPE")
+                        bookmarkController.postBookmark(data.id, Bookmarks.RECIPE)
                         setSnackBar(getString(R.string.toast_scrap_done))
                     } else {
-                        bookmarkController.deleteBookmark(data.id, "RECIPE")
+                        bookmarkController.deleteBookmark(data.id, Bookmarks.RECIPE)
                         setSnackBar(getString(R.string.toast_scrap_undo))
                     }
                 }
@@ -91,13 +92,15 @@ class HomeTipsRecipeFragment: BaseFragment<FragmentHomeTipsRecipeBinding>(Fragme
 
     //SnackBar
     private fun setSnackBar(message:String){
-        val snackbar = Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
+        Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
             .setAction(getString(R.string.toast_scrap_action)){
                 mainNavigationHandler.navigateHomeToMyRecipe()
             }
             .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-        snackbar.show()
+            .apply {
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
+                show()
+            }
     }
 }

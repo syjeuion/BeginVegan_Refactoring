@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.beginvegan.domain.model.mypage.MypageMyMagazineItem
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseFragment
+import com.beginvegan.presentation.config.enumclass.Bookmarks
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentMypageMyMagazineBinding
 import com.beginvegan.presentation.network.NetworkResult
@@ -99,16 +100,12 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(F
             override fun setToggleButton(isChecked: Boolean, magazineId: Int) {
                 lifecycleScope.launch {
                     if(isChecked) {
-                        if(bookmarkController.postBookmark(magazineId, "MAGAZINE")){
-                            val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_done), Snackbar.LENGTH_SHORT)
-                            snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                            snackbar.show()
+                        if(bookmarkController.postBookmark(magazineId, Bookmarks.MAGAZINE)){
+                            setSnackBar(getString(R.string.toast_scrap_done))
                         }
                     } else {
-                        if(bookmarkController.deleteBookmark(magazineId, "MAGAZINE")){
-                            val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_undo), Snackbar.LENGTH_SHORT)
-                            snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                            snackbar.show()
+                        if(bookmarkController.deleteBookmark(magazineId, Bookmarks.MAGAZINE)){
+                            setSnackBar(getString(R.string.toast_scrap_undo))
                         }
                     }
                 }
@@ -186,5 +183,13 @@ class MypageMyMagazineFragment : BaseFragment<FragmentMypageMyMagazineBinding>(F
     override fun onStop() {
         super.onStop()
         if(loadingDialog.isAdded) loadingDialog.onDestroy()
+    }
+
+    private fun setSnackBar(message:String ){
+        Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
+            .apply {
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+                show()
+            }
     }
 }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.beginvegan.domain.model.tips.TipsMagazineItem
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseFragment
+import com.beginvegan.presentation.config.enumclass.Bookmarks
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentTipsMagazineBinding
 import com.beginvegan.presentation.network.NetworkResult
@@ -77,33 +78,17 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(FragmentT
         magazineViewModel.setMagazineDetail(null)
         magazineViewModel.getMagazineDetail(magazineId)
     }
-    private val changeBookmark = {toggleButton: CompoundButton,isBookmarked: Boolean,data: TipsMagazineItem->
+    private val changeBookmark = {isBookmarked: Boolean,data: TipsMagazineItem->
         viewLifecycleOwner.lifecycleScope.launch{
             when(isBookmarked){
                 true -> {
-                    if(bookmarkController.postBookmark(data.id, "MAGAZINE")){
-                        val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_done), Snackbar.LENGTH_SHORT)
-                            .setAction(getString(R.string.toast_scrap_action)){
-                                mainNavigationHandler.navigateTipsMagazineToMyMagazine()
-                            }
-                            .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-                        snackbar.show()
+                    if(bookmarkController.postBookmark(data.id, Bookmarks.MAGAZINE)){
+                        setSnackBar(getString(R.string.toast_scrap_done))
                     }
                 }
                 false -> {
-                    if(bookmarkController.deleteBookmark(data.id, "MAGAZINE")){
-                        val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_undo), Snackbar.LENGTH_SHORT)
-                            .setAction(getString(R.string.toast_scrap_action)){
-                                mainNavigationHandler.navigateTipsMagazineDetailToMyMagazine()
-                            }
-                            .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-                        with(snackbar){
-                            view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                            view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-                            show()
-                        }
+                    if(bookmarkController.deleteBookmark(data.id, Bookmarks.MAGAZINE)){
+                        setSnackBar(getString(R.string.toast_scrap_undo))
                     }
                 }
             }
@@ -158,5 +143,17 @@ class TipsMagazineFragment : BaseFragment<FragmentTipsMagazineBinding>(FragmentT
         binding.ibFab.setOnClickListener {
             binding.rvMagazine.smoothScrollToPosition(0)
         }
+    }
+
+    private fun setSnackBar(message:String){
+        Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
+            .setAction(getString(R.string.toast_scrap_action)){
+                mainNavigationHandler.navigateTipsMagazineToMyMagazine()
+            }
+            .setActionTextColor(resources.getColor(R.color.color_primary_variant_02)).apply {
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
+                show()
+            }
     }
 }

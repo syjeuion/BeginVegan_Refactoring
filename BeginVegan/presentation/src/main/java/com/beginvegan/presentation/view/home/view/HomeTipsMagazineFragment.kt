@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.beginvegan.domain.model.tips.TipsMagazineItem
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.base.BaseFragment
+import com.beginvegan.presentation.config.enumclass.Bookmarks
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentHomeTipsMagazineBinding
 import com.beginvegan.presentation.util.BookmarkController
@@ -62,29 +63,29 @@ class HomeTipsMagazineFragment: BaseFragment<FragmentHomeTipsMagazineBinding>(Fr
             ) {
                 lifecycleScope.launch {
                     if(isBookmarked) {
-                        bookmarkController.postBookmark(data.id, "MAGAZINE")
-                        val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_done), Snackbar.LENGTH_SHORT)
-                            .setAction(getString(R.string.toast_scrap_action)){
-                                mainNavigationHandler.navigateHomeToMyMagazine()
-                            }
-                            .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-                        snackbar.show()
+                        bookmarkController.postBookmark(data.id, Bookmarks.MAGAZINE)
+                        setSnackBar(getString(R.string.toast_scrap_done))
                     } else {
-                        bookmarkController.deleteBookmark(data.id, "MAGAZINE")
-                        val snackbar = Snackbar.make(binding.clLayout, getString(R.string.toast_scrap_undo), Snackbar.LENGTH_SHORT)
-                            .setAction(getString(R.string.toast_scrap_action)){
-                                mainNavigationHandler.navigateHomeToMyMagazine()
-                            }
-                            .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
-                        snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
-                        snackbar.show()
+                        bookmarkController.deleteBookmark(data.id, Bookmarks.MAGAZINE)
+                        setSnackBar(getString(R.string.toast_scrap_undo))
                     }
                 }
             }
 
         })
+    }
+
+    //SnackBar
+    private fun setSnackBar(message:String){
+        Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
+            .setAction(getString(R.string.toast_scrap_action)){
+                mainNavigationHandler.navigateHomeToMyMagazine()
+            }
+            .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
+            .apply {
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
+                show()
+            }
     }
 }

@@ -17,10 +17,10 @@ import kotlinx.coroutines.Job
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class TipsMagazineRvAdapter(
+class  TipsMagazineRvAdapter(
     private val context:Context,
     private val onItemClick:(magazineId:Int)->Unit,
-    private val changeBookmark:(toggleButton: CompoundButton, isBookmarked: Boolean, data: TipsMagazineItem)->Job
+    private val changeBookmark:(isBookmarked: Boolean, data: TipsMagazineItem)->Job
 ):ListAdapter<TipsMagazineItem, TipsMagazineRvAdapter.RecyclerViewHolder>(diffUtil) {
     /**
      * diffUtill
@@ -53,8 +53,8 @@ class TipsMagazineRvAdapter(
                     with(tbInterest){
                         setOnCheckedChangeListener(null)
                         isChecked = item.isBookmarked
-                        setOnCheckedChangeListener { toggleButton, isChecked ->
-                            changeBookmark(toggleButton, isChecked, item)
+                        setOnCheckedChangeListener { _, isChecked ->
+                            changeBookmark(isChecked, item)
                         }
                     }
                 }

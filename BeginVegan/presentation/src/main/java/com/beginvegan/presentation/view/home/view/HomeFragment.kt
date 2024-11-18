@@ -25,6 +25,7 @@ import com.beginvegan.domain.model.map.VeganMapRestaurant
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.adapter.home.HomeRestaurantRVAdapter
 import com.beginvegan.presentation.base.BaseFragment
+import com.beginvegan.presentation.config.enumclass.Bookmarks
 import com.beginvegan.presentation.config.navigation.MainNavigationHandler
 import com.beginvegan.presentation.databinding.FragmentMainHomeBinding
 import com.beginvegan.presentation.util.BookmarkController
@@ -214,37 +215,11 @@ class HomeFragment : BaseFragment<FragmentMainHomeBinding>(FragmentMainHomeBindi
     private fun changeBookmark(isBookmarked: Boolean, restaurantId: Int) {
         lifecycleScope.launch {
             if (isBookmarked) {
-                bookmarkController.postBookmark(restaurantId, "RESTAURANT")
-                val snackbar = Snackbar.make(
-                    binding.clMain,
-                    getString(R.string.toast_scrap_done),
-                    Snackbar.LENGTH_SHORT
-                )
-                    .setAction(getString(R.string.toast_scrap_action)) {
-                        mainNavigationHandler.navigateMypageToMyRestaurant()
-                    }
-                    .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-                snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-                    .setTypeface(typeface)
-                snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
-                    .setTypeface(typeface)
-                snackbar.show()
+                bookmarkController.postBookmark(restaurantId, Bookmarks.RESTAURANT)
+                setSnackBar(getString(R.string.toast_scrap_done))
             } else {
-                bookmarkController.deleteBookmark(restaurantId, "RESTAURANT")
-                val snackbar = Snackbar.make(
-                    binding.clMain,
-                    getString(R.string.toast_scrap_undo),
-                    Snackbar.LENGTH_SHORT
-                )
-                    .setAction(getString(R.string.toast_scrap_action)) {
-                        mainNavigationHandler.navigateMypageToMyRestaurant()
-                    }
-                    .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
-                snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-                    .setTypeface(typeface)
-                snackbar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
-                    .setTypeface(typeface)
-                snackbar.show()
+                bookmarkController.deleteBookmark(restaurantId, Bookmarks.RESTAURANT)
+                setSnackBar(getString(R.string.toast_scrap_undo))
             }
         }
     }
@@ -593,5 +568,19 @@ class HomeFragment : BaseFragment<FragmentMainHomeBinding>(FragmentMainHomeBindi
                     "RefusePushDialog"
                 )
             }.show(childFragmentManager, "RefusePushDialog")
+    }
+
+    //snackBar
+    private fun setSnackBar(message:String){
+        Snackbar.make(binding.clMain, message, Snackbar.LENGTH_SHORT)
+            .setAction(getString(R.string.toast_scrap_action)) {
+                mainNavigationHandler.navigateMypageToMyRestaurant()
+            }
+            .setActionTextColor(resources.getColor(R.color.color_primary_variant_02))
+            .apply {
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).setTypeface(typeface)
+                show()
+            }
     }
 }

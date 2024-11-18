@@ -9,7 +9,7 @@ import com.beginvegan.domain.model.tips.TipsRecipeDetail
 import com.beginvegan.domain.model.tips.TipsRecipeListItem
 import com.beginvegan.domain.useCase.tips.TipsRecipeUseCase
 import com.beginvegan.presentation.network.NetworkResult
-import com.beginvegan.presentation.util.MainPages
+import com.beginvegan.presentation.config.enumclass.MainPages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -108,7 +108,7 @@ class RecipeViewModel @Inject constructor(
     // 레시피 snackBar 클릭 시 이동 경로 탐색
     private val _nowFragment = MutableLiveData<MainPages>()
     val nowFragment:LiveData<MainPages> = _nowFragment
-    fun setNowFragment(fragment:MainPages){
+    fun setNowFragment(fragment: MainPages){
         _nowFragment.value = fragment
     }
 
