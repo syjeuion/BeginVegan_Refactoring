@@ -35,6 +35,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -50,9 +51,6 @@ class MypageMyRestaurantFragment :
     private lateinit var currentLocation: LatLng
 
     private lateinit var myRestaurantRvAdapter: MyRestaurantRvAdapter
-    private var myRestaurantList = mutableListOf<MypageMyRestaurantItem>()
-    private var currentPage = 0
-    private var totalCount = 0
 
     override fun init() {
         loadingDialog = LoadingDialog.newInstance()
@@ -61,20 +59,14 @@ class MypageMyRestaurantFragment :
         setToolbar()
         setBackUp()
         setFabButton()
-        reset()
     }
+
     private fun setToolbar(){
         setContentToolbar(
             requireContext(),
             binding.includedToolbar,
             getString(R.string.mypage_my_restaurant)
         )
-    }
-    private fun reset() {
-        myRestaurantList = mutableListOf()
-        currentPage = 0
-        totalCount = 0
-        myRestaurantViewModel.reSetVieModel()
     }
 
     private var isLocationUpdateRequested: Boolean = false
@@ -99,45 +91,30 @@ class MypageMyRestaurantFragment :
     }
 
     private fun setRvAdapter() {
-        myRestaurantRvAdapter = MyRestaurantRvAdapter(requireContext(), myRestaurantList)
+        myRestaurantViewModel.reSetVieModel()
+
+        myRestaurantRvAdapter = MyRestaurantRvAdapter(
+            requireContext(),
+            onItemClick
+        )
         binding.rvMyRestaurant.adapter = myRestaurantRvAdapter
         binding.rvMyRestaurant.layoutManager = LinearLayoutManager(this.context)
 
-        myRestaurantRvAdapter.setOnItemClickListener(object :
-            MyRestaurantRvAdapter.OnItemClickListener {
-            override fun onItemClick(id: Int) {
-
-            }
-        })
-
         setListener()
-        myRestaurantViewModel.setMyRestaurantList(myRestaurantList)
         getMyRestaurantList()
+    }
+    private val onItemClick = {id:Int ->
+        Timber.d("onItemClick: id:$id")
     }
 
     private fun getMyRestaurantList() {
         myRestaurantViewModel.getMyRestaurant(
-            currentPage,
             currentLocation.latitude.toString(),
             currentLocation.longitude.toString()
         )
-        currentPage++
     }
 
     private fun setListener() {
-        //page
-        binding.rvMyRestaurant.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val rvPosition =
-                    (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                totalCount = recyclerView.adapter?.itemCount?.minus(1)!!
-                if (rvPosition == totalCount && myRestaurantViewModel.isContinueGetList.value!!) {
-                    getMyRestaurantList()
-                }
-            }
-        })
-
         viewLifecycleOwner.lifecycleScope.launch {
             myRestaurantViewModel.myRestaurantState.collectLatest { state ->
                 when (state) {
@@ -146,15 +123,13 @@ class MypageMyRestaurantFragment :
                     }
                     is NetworkResult.Success -> {
                         dismiss()
-
-                        myRestaurantList.addAll(state.data)
-                        myRestaurantRvAdapter.notifyItemRangeInserted(
-                            totalCount,
-                            state.data.size
-                        )
+                        myRestaurantRvAdapter.submitList(state.data)
                     }
                     is NetworkResult.Error -> dismiss()
-                    is NetworkResult.Empty -> dismiss()
+                    is NetworkResult.Empty -> {
+                        dismiss()
+                        myRestaurantRvAdapter.submitList(emptyList())
+                    }
                 }
             }
         }
@@ -162,13 +137,11 @@ class MypageMyRestaurantFragment :
         myRestaurantViewModel.isRestaurantEmpty.observe(this) {
             setEmptyState(it)
         }
-
     }
 
     private fun dismiss() {
         if (loadingDialog.isAdded) loadingDialog.dismiss()
     }
-
 
     private fun checkAndRequestPermissions() {
         when {
@@ -273,7 +246,7 @@ class MypageMyRestaurantFragment :
                     val latitude = it.latitude
                     val longitude = it.longitude
                     currentLocation = LatLng.from(latitude, longitude)
-
+                    setRvAdapter()
                 } ?: run {
                     requestLocationUpdates()
                 }
@@ -308,7 +281,7 @@ class MypageMyRestaurantFragment :
     }
 
     private fun showFineLocationDialog() {
-        val dialog = DefaultDialog.Builder()
+        DefaultDialog.Builder()
             .setTitle("정확한 위치 권한 요청 안내")
             .setBody(
                 "Map 메뉴는 '정확한 위치' 권한으로만 사용 가능합니다.\n" +
@@ -325,7 +298,6 @@ class MypageMyRestaurantFragment :
 
     private fun setBackUp() {
         binding.includedToolbar.ibBackUp.setOnClickListener {
-//            mainNavigationHandler.popBackStack()
             findNavController().popBackStack()
         }
     }
