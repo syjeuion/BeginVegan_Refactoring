@@ -20,6 +20,16 @@ class MyMagazineViewModel @Inject constructor(
     private val myScrapUseCase: MypageMyScrapUseCase
 ):ViewModel() {
 
+    fun reSetVieModel(){
+        Timber.e("reSetVieModel")
+        _isContinueGetList.value = true
+        _isMagazineEmpty.value = false
+        _currentPage.value = 0
+    }
+
+    private val _currentPage = MutableStateFlow(0)
+    val currentPage:StateFlow<Int> get() = _currentPage
+
     private val _myMagazinesState = MutableStateFlow<NetworkResult<MutableList<MypageMyMagazineItem>>>(NetworkResult.Loading)
     val myMagazineState: StateFlow<NetworkResult<MutableList<MypageMyMagazineItem>>> = _myMagazinesState
     private fun setMyMagazineList(newList:MutableList<MypageMyMagazineItem>){
@@ -33,21 +43,19 @@ class MyMagazineViewModel @Inject constructor(
 
     private val _isContinueGetList = MutableLiveData(true)
     val isContinueGetList: LiveData<Boolean> = _isContinueGetList
-    fun reSetVieModel(){
-        _isContinueGetList.value = true
-        _isMagazineEmpty.value = false
-    }
 
     private val _isMagazineEmpty = MutableLiveData(false)
     val isMagazineEmpty:LiveData<Boolean> = _isMagazineEmpty
 
-    fun getMyMagazine(page:Int){
+    fun getMyMagazine(){
+        if(!isContinueGetList.value!!) return
+
         viewModelScope.launch {
-            if(page == 0) _myMagazinesState.value = NetworkResult.Loading
-            myScrapUseCase.getMyMagazineList(page).collectLatest {
+            if(currentPage.value == 0) _myMagazinesState.value = NetworkResult.Loading
+            myScrapUseCase.getMyMagazineList(currentPage.value).collectLatest {
                 it.onSuccess {list->
                     if(list.isEmpty()) {
-                        if(page==0){
+                        if(currentPage.value==0){
                             _isMagazineEmpty.value = true
                             _myMagazinesState.value = NetworkResult.Empty
                         }
@@ -57,6 +65,7 @@ class MyMagazineViewModel @Inject constructor(
                 }.onFailure {e ->
                     _myMagazinesState.value = NetworkResult.Error(e)
                 }
+                _currentPage.value++
             }
         }
     }
