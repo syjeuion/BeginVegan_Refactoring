@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.beginvegan.domain.model.alarms.Alarm
 import com.beginvegan.presentation.databinding.ItemNotificationBinding
@@ -12,18 +14,32 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-class NotificationUnreadRvAdapter(private val list:List<Alarm>, private val context: Context):
-    RecyclerView.Adapter<NotificationUnreadRvAdapter.RecyclerViewHolder>(){
-        private var listener: OnItemClickListener? = null
+class NotificationUnreadRvAdapter(
+    private val context: Context,
+    private val onItemClick:(v: View, data:Alarm, position: Int)->Unit
+): ListAdapter<Alarm, NotificationUnreadRvAdapter.RecyclerViewHolder>(diffUtil){
+    // DiffUtil
+    companion object {
+        val diffUtil = object : DiffUtil.ItemCallback<Alarm>() {
+            override fun areItemsTheSame(oldItem: Alarm, newItem: Alarm): Boolean {
+                return oldItem.alarmId == newItem.alarmId
+            }
+            override fun areContentsTheSame(oldItem: Alarm, newItem: Alarm): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 
     inner class RecyclerViewHolder(private val binding: ItemNotificationBinding):
     RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
-            val item = list[position]
-            binding.tvBadgeType.text = item.alarmType
-            binding.ivBadgeNew.isVisible = true
-            binding.tvDate.text = transferDate(item.createdDate)
-            binding.tvContent.text = item.content
+            val item = currentList[position]
+            with(binding){
+                tvBadgeType.text = item.alarmType
+                ivBadgeNew.isVisible = true
+                tvDate.text = transferDate(item.createdDate)
+                tvContent.text = item.content
+            }
         }
     }
 
@@ -34,22 +50,13 @@ class NotificationUnreadRvAdapter(private val list:List<Alarm>, private val cont
         return RecyclerViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = list.size
-
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         holder.bind(position)
         if(position!=RecyclerView.NO_POSITION){
             holder.itemView.setOnClickListener {
-                listener?.onItemClick(it, list[position], position)
+                onItemClick(it, currentList[position], position)
             }
         }
-    }
-
-    interface OnItemClickListener{
-        fun onItemClick(v: View, data:Alarm, position: Int)
-    }
-    fun setOnItemClickListener(listener: OnItemClickListener){
-        this.listener = listener
     }
 
     private fun transferDate(date:String):String{

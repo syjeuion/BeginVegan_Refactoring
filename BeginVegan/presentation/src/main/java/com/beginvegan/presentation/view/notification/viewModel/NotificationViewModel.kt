@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,40 +23,19 @@ class NotificationViewModel @Inject constructor(
     val alarmLists: StateFlow<NetworkResult<AlarmLists>> = _alarmLists
 
     init {
-        viewModelScope.launch {
-            getAlarmList()
-        }
+        getAlarmList()
     }
 
-    private suspend fun getAlarmList(){
-        unreadAlarmUseCase.invoke().catch {
+    private fun getAlarmList(){
+        viewModelScope.launch {
             _alarmLists.value = NetworkResult.Loading
-        }.collectLatest {result ->
-            result.onSuccess {lists ->
-                _alarmLists.value = NetworkResult.Success(lists)
-            }.onFailure {e ->
-                _alarmLists.value = NetworkResult.Error(e)
+            unreadAlarmUseCase.invoke().collectLatest {
+                it.onSuccess { list ->
+                    _alarmLists.value = NetworkResult.Success(list)
+                }.onFailure { e ->
+                    _alarmLists.value = NetworkResult.Error(e)
+                }
             }
-
-//            result ->
-//            when(result){
-//                -> {
-//                    Timber.d("NetworkResult.Success")
-//                    _alarmLists.value = NetworkResult.Success(NotificationState(
-//                        response = result.data,
-//                        isLoading = false
-//                    )
-//                    )
-//                }
-//                is NetworkResult.Error ->{
-//                    Timber.e("NetworkResult.Error")
-//                    _alarmLists.value = NetworkResult.Error(result.message!!)
-//                }
-//                is NetworkResult.Loading ->{
-//                    Timber.e("NetworkResult.Loading")
-//                    _alarmLists.value = NetworkResult.Loading(true)
-//                }
-//            }
         }
     }
 }
