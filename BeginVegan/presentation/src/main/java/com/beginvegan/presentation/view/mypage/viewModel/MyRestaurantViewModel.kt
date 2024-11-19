@@ -19,6 +19,9 @@ import javax.inject.Inject
 class MyRestaurantViewModel @Inject constructor(
     private val myScrapUseCase: MypageMyScrapUseCase
 ) : ViewModel() {
+    private val _currentPage = MutableStateFlow(0)
+    val currentPage:StateFlow<Int> get() = _currentPage
+
     private val _myRestaurantState =
         MutableStateFlow<NetworkResult<MutableList<MypageMyRestaurantItem>>>(NetworkResult.Loading)
     val myRestaurantState: StateFlow<NetworkResult<MutableList<MypageMyRestaurantItem>>> = _myRestaurantState
@@ -42,16 +45,18 @@ class MyRestaurantViewModel @Inject constructor(
         _isContinueGetList.value = true
         setMyRestaurantList(mutableListOf())
         _isRestaurantEmpty.value = false
+        _currentPage.value = 0
     }
 
-    fun getMyRestaurant(page: Int, latitude: String, longitude: String) {
+    fun getMyRestaurant(latitude: String, longitude: String) {
+        if(!isContinueGetList.value!!) return
+
         viewModelScope.launch {
-            if(page == 0) _myRestaurantState.value = NetworkResult.Loading
-            myScrapUseCase.getMyRestaurantList(page, latitude, longitude).collectLatest {
+            if(currentPage.value == 0) _myRestaurantState.value = NetworkResult.Loading
+            myScrapUseCase.getMyRestaurantList(currentPage.value, latitude, longitude).collectLatest {
                 it.onSuccess { list ->
-                    Timber.e("list.size: ${list.size}")
                     if (list.isEmpty()) {
-                        if (page == 0) {
+                        if (currentPage.value == 0) {
                             _isRestaurantEmpty.value = true
                             _myRestaurantState.value = NetworkResult.Empty
                         }
@@ -61,6 +66,7 @@ class MyRestaurantViewModel @Inject constructor(
                 }.onFailure {e ->
                     _myRestaurantState.value = NetworkResult.Error(e)
                 }
+                _currentPage.value++
             }
         }
     }

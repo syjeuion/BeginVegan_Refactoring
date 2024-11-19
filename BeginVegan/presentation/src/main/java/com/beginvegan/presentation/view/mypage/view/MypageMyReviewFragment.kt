@@ -34,9 +34,6 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(Fragm
     private lateinit var loadingDialog: LoadingDialog
 
     private lateinit var myReviewRvAdapter: MyReviewRvAdapter
-    private var myReviewList = mutableListOf<MyReview>()
-    private var currentPage = 0
-    private var totalCount = 0
 
     override fun init() {
         loadingDialog = LoadingDialog.newInstance()
@@ -44,7 +41,10 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(Fragm
         setBackUp()
         setFabButton()
         setToolbar()
-        reset()
+    }
+
+    override fun onStart() {
+        super.onStart()
         setRvAdapter()
     }
     private fun setToolbar(){
@@ -54,50 +54,37 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(Fragm
             getString(R.string.mypage_my_review)
         )
     }
-    private fun reset(){
-        myReviewList = mutableListOf()
-        currentPage = 0
-        totalCount = 0
-        myReviewViewModel.reSetVieModel()
-    }
     private fun setRvAdapter(){
-        myReviewRvAdapter = MyReviewRvAdapter(requireContext(), myReviewList)
+        myReviewViewModel.reSetVieModel()
+
+        myReviewRvAdapter = MyReviewRvAdapter(
+            requireContext(),
+            onItemClick,
+            setToggleButton
+        )
         binding.rvMyReview.adapter = myReviewRvAdapter
         binding.rvMyReview.layoutManager = LinearLayoutManager(this.context)
 
-        myReviewRvAdapter.setOnItemClickListener(object : MyReviewRvAdapter.OnItemClickListener{
-//            override fun onItemClick(id: Int) {
-//                //리뷰는 이동이 없나여,,?
-//            }
-
-            override fun setToggleButton(isChecked: Boolean, reviewId: Int) {
-                lifecycleScope.launch {
-                    reviewRecommendController.updateReviewRecommend(reviewId)
-                }
-            }
-        })
-
         setListener()
-        myReviewViewModel.setMyReviewList(myReviewList)
         getMyReviewList()
     }
+    private val onItemClick = { id:Int ->
+        mainNavigationHandler.navigateMyReviewToMap()
+        //해당하는 리뷰로 이동
+    }
+    private val setToggleButton = { reviewId: Int ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            reviewRecommendController.updateReviewRecommend(reviewId)
+        }
+    }
     private fun getMyReviewList(){
-        myReviewViewModel.getMyReview(currentPage)
-        currentPage++
+        viewLifecycleOwner.lifecycleScope.launch {
+            myReviewViewModel.currentPage.collectLatest {
+                myReviewViewModel.getMyReview()
+            }
+        }
     }
     private fun setListener(){
-        //page
-        binding.rvMyReview.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val rvPosition = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                totalCount = recyclerView.adapter?.itemCount?.minus(1)!!
-                if(rvPosition == totalCount && myReviewViewModel.isContinueGetList.value!!){
-                    getMyReviewList()
-                }
-            }
-        })
-
         viewLifecycleOwner.lifecycleScope.launch {
             myReviewViewModel.myReviewState.collectLatest{state->
                 when(state){
@@ -106,12 +93,13 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(Fragm
                     }
                     is NetworkResult.Success -> {
                         dismiss()
-
-                        myReviewList.addAll(state.data)
-                        myReviewRvAdapter.notifyItemRangeInserted(totalCount,state.data.size)
+                        myReviewRvAdapter.submitList(state.data)
                     }
                     is NetworkResult.Error -> dismiss()
-                    is NetworkResult.Empty -> dismiss()
+                    is NetworkResult.Empty -> {
+                        dismiss()
+                        myReviewRvAdapter.submitList(emptyList())
+                    }
                 }
             }
         }
@@ -127,7 +115,6 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(Fragm
 
     private fun setBackUp(){
         binding.includedToolbar.ibBackUp.setOnClickListener {
-//            mainNavigationHandler.popBackStack()
             findNavController().popBackStack()
         }
     }
@@ -138,10 +125,6 @@ class MypageMyReviewFragment : BaseFragment<FragmentMypageMyReviewBinding>(Fragm
     }
     private fun setEmptyState(emptyState:Boolean){
         binding.llEmptyArea.isVisible = emptyState
-        //리뷰는 이동 없음, 추가될 가능성 고려해 주석처리
-//        binding.btnMoveToMap.setOnClickListener {
-//            mainNavigationHandler.navigateMyRestaurantToMainHome(true)
-//        }
     }
 
     override fun onStop() {

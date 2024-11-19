@@ -10,11 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.beginvegan.domain.model.tips.TipsRecipeListItem
 import com.beginvegan.presentation.R
 import com.beginvegan.presentation.databinding.ItemRecipeBinding
+import kotlinx.coroutines.Job
 
-class MyRecipeRvAdapter(private val context: Context) :
-    ListAdapter<TipsRecipeListItem, MyRecipeRvAdapter.RecyclerViewHolder>(diffUtil)
+class MyRecipeRvAdapter(
+    private val context: Context,
+    private val onItemClick:(item: TipsRecipeListItem, position: Int)->Unit,
+    private val setToggleButton:(isBookmarked: Boolean, data: TipsRecipeListItem, position: Int)->Job,
+) : ListAdapter<TipsRecipeListItem, MyRecipeRvAdapter.RecyclerViewHolder>(diffUtil)
 {
-    private var listener: OnItemClickListener? = null
     private lateinit var veganTypesKr:Array<String>
     private lateinit var veganTypesEng:Array<String>
 
@@ -34,22 +37,26 @@ class MyRecipeRvAdapter(private val context: Context) :
     inner class RecyclerViewHolder(private val binding: ItemRecipeBinding):
         RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int) {
-            val levels = listOf(
-                binding.tbVeganLevelMilk,
-                binding.tbVeganLevelEgg,
-                binding.tbVeganLevelFish,
-                binding.tbVeganLevelChicken,
-                binding.tbVeganLevelMeat
-            )
+            with(binding){
+                val levels = listOf(
+                    tbVeganLevelMilk,
+                    tbVeganLevelEgg,
+                    tbVeganLevelFish,
+                    tbVeganLevelChicken,
+                    tbVeganLevelMeat
+                )
 
-            val item = currentList[position]
-            binding.tvRecipeName.text = item.name
-            binding.tvVeganType.text = setVeganType(item.veganType, levels)
+                val item = currentList[position]
+                tvRecipeName.text = item.name
+                tvVeganType.text = setVeganType(item.veganType, levels)
 
-            binding.tbInterest.setOnCheckedChangeListener(null)
-            binding.tbInterest.isChecked = item.isBookmarked
-            binding.tbInterest.setOnCheckedChangeListener { _, isChecked ->
-                listener?.setToggleButton(isChecked, item, position)
+                with(tbInterest){
+                    setOnCheckedChangeListener(null)
+                    isChecked = item.isBookmarked
+                    setOnCheckedChangeListener { _, isChecked ->
+                        setToggleButton(isChecked, item, position)
+                    }
+                }
             }
         }
     }
@@ -59,24 +66,13 @@ class MyRecipeRvAdapter(private val context: Context) :
         return RecyclerViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = currentList.size
-
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         holder.bind(position)
         if(position != RecyclerView.NO_POSITION){
             holder.itemView.setOnClickListener {
-                listener?.onItemClick(currentList[position], position)
+                onItemClick(currentList[position], position)
             }
         }
-    }
-
-    //Listener
-    interface OnItemClickListener{
-        fun onItemClick(item: TipsRecipeListItem, position: Int)
-        fun setToggleButton(isBookmarked: Boolean, data: TipsRecipeListItem, position: Int)
-    }
-    fun setOnItemClickListener(listener: OnItemClickListener){
-        this.listener = listener
     }
 
     //Transfer Type

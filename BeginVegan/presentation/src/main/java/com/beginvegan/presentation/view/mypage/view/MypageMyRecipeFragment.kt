@@ -50,68 +50,56 @@ class MypageMyRecipeFragment :
 
     //로딩
     private lateinit var loadingDialog: LoadingDialog
-
+    //ListAdapter
     private lateinit var myRecipeRvAdapter: MyRecipeRvAdapter
 
-    private var typeface: Typeface? = null
-
     override fun init() {
-        typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular)
         loadingDialog = LoadingDialog.newInstance()
 
         setToolbar()
         setBackUp()
         setFabButton()
-        getMyRecipeList()
-    }
-    private fun setToolbar(){
-        setContentToolbar(
-            requireContext(),
-            binding.includedToolbar,
-            getString(R.string.mypage_my_recipe)
-        )
     }
 
     override fun onStart() {
         super.onStart()
         setRvAdapter()
     }
-
     private fun setRvAdapter() {
         myRecipeViewModel.resetViewModel()
 
-        myRecipeRvAdapter = MyRecipeRvAdapter(requireContext())
+        myRecipeRvAdapter = MyRecipeRvAdapter(
+            requireContext(),
+            onItemClick,
+            setToggleButton
+        )
         with(binding.rvMyRecipe){
             adapter = myRecipeRvAdapter
             layoutManager = LinearLayoutManager(this.context)
         }
 
-        myRecipeRvAdapter.setOnItemClickListener(object : MyRecipeRvAdapter.OnItemClickListener {
-            override fun onItemClick(item: TipsRecipeListItem, position: Int) {
-                openDialogRecipeDetail(item, position)
-            }
-
-            override fun setToggleButton(
-                isBookmarked: Boolean,
-                data: TipsRecipeListItem,
-                position: Int
-            ) {
-                updateBookmark(isBookmarked, data, position)
-                lifecycleScope.launch {
-                    if (isBookmarked) {
-                        if (bookmarkController.postBookmark(data.id, Bookmarks.RECIPE)) {
-                            setSnackBar(getString(R.string.toast_scrap_done))
-                        }
-                    } else {
-                        if (bookmarkController.deleteBookmark(data.id, Bookmarks.RECIPE)) {
-                            setSnackBar(getString(R.string.toast_scrap_undo))
-                        }
-                    }
+        setListener()
+        getMyRecipeList()
+    }
+    /**
+     * ListAdapter Lambda 함수
+     */
+    private val onItemClick= {item: TipsRecipeListItem, position: Int->
+        openDialogRecipeDetail(item, position)
+    }
+    private val setToggleButton = { isBookmarked: Boolean, data: TipsRecipeListItem, position: Int ->
+        updateBookmark(isBookmarked, data, position)
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (isBookmarked) {
+                if (bookmarkController.postBookmark(data.id, Bookmarks.RECIPE)) {
+                    setSnackBar(getString(R.string.toast_scrap_done))
+                }
+            } else {
+                if (bookmarkController.deleteBookmark(data.id, Bookmarks.RECIPE)) {
+                    setSnackBar(getString(R.string.toast_scrap_undo))
                 }
             }
-        })
-
-        setListener()
+        }
     }
 
     private fun getMyRecipeList() {
@@ -150,26 +138,16 @@ class MypageMyRecipeFragment :
         if (loadingDialog.isAdded) loadingDialog.dismiss()
     }
 
-    //BackUp
-    private fun setBackUp() {
-        binding.includedToolbar.ibBackUp.setOnClickListener {
-            findNavController().popBackStack()
-        }
-    }
-
-    private fun setFabButton() {
-        binding.ibFab.setOnClickListener {
-            binding.rvMyRecipe.smoothScrollToPosition(0)
-        }
-    }
-
     private fun setEmptyState(emptyState: Boolean) {
         binding.llEmptyArea.isVisible = emptyState
         binding.btnMoveToRecipe.setOnClickListener {
-            //Recipe로 이동
             mainViewModel.setTipsMoveToRecipe(true)
             mainNavigationHandler.navigateMyRecipeToTips()
         }
+    }
+    override fun onStop() {
+        super.onStop()
+        if(loadingDialog.isAdded) loadingDialog.onDestroy()
     }
 
     //Dialog
@@ -186,7 +164,8 @@ class MypageMyRecipeFragment :
     private fun setSnackBar(message: String) {
         Snackbar.make(binding.clLayout, message, Snackbar.LENGTH_SHORT)
             .apply {
-                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTypeface(typeface)
+                view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                    .setTypeface(ResourcesCompat.getFont(requireContext(), R.font.pretendard_regular))
                 show()
             }
     }
@@ -194,15 +173,27 @@ class MypageMyRecipeFragment :
     //update Bookmark
     private fun updateBookmark(isChecked: Boolean, oldItem: TipsRecipeListItem, position: Int) {
         val newData = oldItem.copy(isBookmarked = isChecked)
-        val oldList = (myRecipeViewModel.myRecipesState.value as? NetworkResult.Success)?.data
-        oldList?.let {
-            it[position] = newData
-            myRecipeViewModel.setMyRecipeList(it)
-        }
+        myRecipeViewModel.updateRecipeListItem(position, newData)
     }
 
-    override fun onStop() {
-        super.onStop()
-        if(loadingDialog.isAdded) loadingDialog.onDestroy()
+    /**
+     * 기본 화면 설정
+     */
+    private fun setToolbar(){
+        setContentToolbar(
+            requireContext(),
+            binding.includedToolbar,
+            getString(R.string.mypage_my_recipe)
+        )
+    }
+    private fun setBackUp() {
+        binding.includedToolbar.ibBackUp.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+    private fun setFabButton() {
+        binding.ibFab.setOnClickListener {
+            binding.rvMyRecipe.smoothScrollToPosition(0)
+        }
     }
 }

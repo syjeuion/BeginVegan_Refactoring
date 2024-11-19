@@ -19,17 +19,14 @@ class AlarmRepositoryImpl @Inject constructor(
         when(response) {
             is ApiResponse.Success -> {
                 val newAlarmList = alarmMapper.mapToAlarmLists(response.data.information)
-//                emit(NetworkResult.Success(newAlarmList))
                 emit(Result.success(newAlarmList))
             }
             is ApiResponse.Failure.Error -> {
                 Timber.e("GetAlarms error: ${response.errorBody}")
-//                emit(NetworkResult.Error(response.errorBody.toString()))
                 emit(Result.failure(Exception("GetAlarms Failed")))
             }
             is ApiResponse.Failure.Exception -> {
                 Timber.e("GetAlarms exception: ${response.message}")
-//                emit(NetworkResult.Error(response.message!!))
                 emit(Result.failure(response.throwable))
             }
         }

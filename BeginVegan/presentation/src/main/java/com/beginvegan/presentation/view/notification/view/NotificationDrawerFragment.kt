@@ -1,5 +1,6 @@
 package com.beginvegan.presentation.view.notification.view
 
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,13 +27,46 @@ class NotificationDrawerFragment :
     lateinit var drawerController: DrawerController
     private val notificationViewModel: NotificationViewModel by viewModels()
 
+    private lateinit var oldRvAdapter:NotificationReadRvAdapter
+    private lateinit var newRvAdapter: NotificationUnreadRvAdapter
+
     private lateinit var loadingDialog: LoadingDialog
 
     override fun init() {
         loadingDialog = LoadingDialog.newInstance()
+
+        setReadAlarmList()
+        setUnreadAlarmList()
         setDrawerRv()
     }
+    private fun setReadAlarmList() {
+        val readRecyclerView = binding.rvReadNotification
 
+        oldRvAdapter = NotificationReadRvAdapter(
+            requireContext(),
+            onItemClick
+        )
+        readRecyclerView.adapter = oldRvAdapter
+        readRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun setUnreadAlarmList() {
+        val unreadRecyclerView = binding.rvUnreadNotification
+
+        newRvAdapter = NotificationUnreadRvAdapter(
+            requireContext(),
+            onItemClick
+        )
+        unreadRecyclerView.adapter = newRvAdapter
+        unreadRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+    }
+    private val onItemClick = { v: View, data:Alarm, position: Int ->
+        //아이템 클릭 시 이동
+        when(data.alarmType){
+
+        }
+    }
     private fun setDrawerRv() {
         binding.ibBackUp.setOnClickListener {
             drawerController.closeDrawer()
@@ -45,40 +79,33 @@ class NotificationDrawerFragment :
                         if(!loadingDialog.isAdded) loadingDialog.show(childFragmentManager, LOADING)
                     }
                     is NetworkResult.Success -> {
-                        if(loadingDialog.isAdded) loadingDialog.dismiss()
+                        dismiss()
 
                         val unreadList = state.data.unreadAlarmList
-                        setUnreadAlarmList(unreadList)
+                        if(unreadList.isEmpty()){
+                            binding.tvUnreadTitle.isVisible = false
+                            binding.rvUnreadNotification.isVisible = false
+                            binding.vDivider.isVisible = false
+                        }else{
+                            newRvAdapter.submitList(unreadList)
+                        }
                         val readlist = state.data.readAlarmList
-                        setReadAlarmList(readlist)
+                        oldRvAdapter.submitList(readlist)
                     }
-                    is NetworkResult.Error -> if(loadingDialog.isAdded) loadingDialog.dismiss()
-                    is NetworkResult.Empty -> if(loadingDialog.isAdded) loadingDialog.dismiss()
+                    is NetworkResult.Error -> dismiss()
+                    is NetworkResult.Empty -> {
+                        dismiss()
+                        newRvAdapter.submitList(emptyList())
+                        oldRvAdapter.submitList(emptyList())
+                    }
                 }
             }
         }
 
     }
 
-    private fun setUnreadAlarmList(list: List<Alarm>) {
-        val unreadRecyclerView = binding.rvUnreadNotification
-
-        if (list.isEmpty()) {
-            binding.tvUnreadTitle.isVisible = false
-            unreadRecyclerView.isVisible = false
-            binding.vDivider.isVisible = false
-        } else {
-            val newRvAdapter = NotificationUnreadRvAdapter(list, requireContext())
-            unreadRecyclerView.adapter = newRvAdapter
-            unreadRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        }
+    private fun dismiss() {
+        if (loadingDialog.isAdded) loadingDialog.dismiss()
     }
 
-    private fun setReadAlarmList(list: List<Alarm>) {
-        val readRecyclerView = binding.rvReadNotification
-
-        val oldRvAdapter = NotificationReadRvAdapter(list, requireContext())
-        readRecyclerView.adapter = oldRvAdapter
-        readRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-    }
 }

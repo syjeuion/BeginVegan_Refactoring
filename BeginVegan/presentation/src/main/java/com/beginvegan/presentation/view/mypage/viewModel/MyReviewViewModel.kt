@@ -18,6 +18,9 @@ import javax.inject.Inject
 class MyReviewViewModel @Inject constructor(
     private val myScrapUseCase: MypageMyScrapUseCase
 ):ViewModel() {
+    private val _currentPage = MutableStateFlow(0)
+    val currentPage:StateFlow<Int> get() = _currentPage
+
     private val _myReviewState = MutableStateFlow<NetworkResult<MutableList<MyReview>>>(NetworkResult.Loading)
     val myReviewState: StateFlow<NetworkResult<MutableList<MyReview>>> = _myReviewState
     fun setMyReviewList(newList:MutableList<MyReview>){
@@ -41,13 +44,15 @@ class MyReviewViewModel @Inject constructor(
         _isReviewEmpty.value = false
     }
 
-    fun getMyReview(page:Int){
+    fun getMyReview(){
+        if(!isContinueGetList.value!!) return
+
         viewModelScope.launch {
-            if(page == 0) _myReviewState.value = NetworkResult.Loading
-            myScrapUseCase.getMyReviewList(page).collectLatest {
+            if(currentPage.value == 0) _myReviewState.value = NetworkResult.Loading
+            myScrapUseCase.getMyReviewList(currentPage.value).collectLatest {
                 it.onSuccess {list->
                     if(list.isEmpty()) {
-                        if(page==0) {
+                        if(currentPage.value==0) {
                             _isReviewEmpty.value = true
                             _myReviewState.value = NetworkResult.Empty
                         }
@@ -57,6 +62,7 @@ class MyReviewViewModel @Inject constructor(
                 }.onFailure {e ->
                     _myReviewState.value = NetworkResult.Error(e)
                 }
+                _currentPage.value++
             }
         }
     }

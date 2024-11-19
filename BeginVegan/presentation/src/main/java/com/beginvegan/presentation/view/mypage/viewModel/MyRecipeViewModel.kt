@@ -41,9 +41,6 @@ class MyRecipeViewModel @Inject constructor(
 
         _myRecipesState.value = NetworkResult.Success(addedList)
     }
-    fun setMyRecipeList(newList:MutableList<TipsRecipeListItem>){
-        _myRecipesState.value = NetworkResult.Success(newList)
-    }
 
     //Dialog Bookmark 클릭 시 update
     fun updateRecipeListItem(position:Int, item: TipsRecipeListItem){
